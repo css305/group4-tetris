@@ -14,7 +14,7 @@ public class TetrisGUI extends JFrame implements ActionListener {
     private static final double VERSION = 0.1;
 
     /** Logger for GUI */
-    private final Logger logger = Logger.getLogger("GUI");
+    private final Logger logger = Logger.getLogger(getClass().getName());
 
     /** Toolkit! */
     private static final Toolkit KIT = Toolkit.getDefaultToolkit();
