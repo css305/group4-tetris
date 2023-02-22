@@ -2,30 +2,40 @@ package frontend;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.logging.Logger;
 
-public class TetrisGUI extends JFrame implements ActionListener {
+public class TetrisGUI extends JFrame {
 
     //Constants---------------------------------------------------------------------------------------------------------
 
-    /** Version Information */
+    /**
+     * Version Information
+     */
     private static final double VERSION = 0.1;
 
-    /** Logger for GUI */
+    /**
+     * Logger for GUI
+     */
     private final Logger logger = Logger.getLogger(getClass().getName());
 
-    /** Toolkit! */
+    /**
+     * Toolkit!
+     */
     private static final Toolkit KIT = Toolkit.getDefaultToolkit();
 
-    /** Screen dimensions */
+    /**
+     * Screen dimensions
+     */
     private static final Dimension SCREEN_SIZE = KIT.getScreenSize();
 
-    /** Transparent color */
+    /**
+     * Transparent color.
+     */
     private static final Color TRANSPARENT = new Color(0, 0, 0, 0);
 
-    /** Frosted color */
+    /**
+     * Frosted color
+     */
     private static final Color FROSTED = new Color(242, 242, 242, 50);
 
     //Instance vars-----------------------------------------------------------------------------------------------------
@@ -33,89 +43,73 @@ public class TetrisGUI extends JFrame implements ActionListener {
     /**
      * Constructs a new Tetris GUI
      */
-    public TetrisGUI(){
+    public TetrisGUI() {
         super("G4Tetris ALPHA v" + VERSION);
 
         initGUI();
 
+        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setVisible(true);
     }
 
     /**
      * Initializes GUI configuration
      */
-    private void initGUI(){
+    private void initGUI() {
+
         //Set application to System default look and feel.
         try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
         } catch (Exception e) {
+            //This can throw several exceptions, but we will always respond by not caring.
             logger.fine("Failed to get System LaF, using default");
         }
 
-
-        //TODO: Add rest of GUI initialization above master panel
-
-        final Container mainPanel = new JPanel(new BorderLayout());
-
-        // creating new panels for the layout
-       // final Container menuPanel = new JPanel();
         final Container tetrisPanel = new TetrisPanel();
-        final Container secondaryPanel = new JPanel(new BorderLayout());
-        final Container tetrominoPanel = new TetrominoPanel();
         final Container statPanel = new StatPanel();
+        final Container tetrominoPanel = new TetrominoPanel();
 
-        // Unused buttons, could be used to put something in the panel
-//        final JButton menuB = new JButton("Menu");
-//        final JButton tetrisB = new JButton("Tetris");
-//        final JButton tetrominoB = new JButton("Tetromino");
-//        final JButton statB = new JButton("Stats");
-//        menuPanel.add(menuB);
-//        tetrisPanel.add(tetrisB);
-//        tetrominoPanel.add(tetrominoB);
-//        statPanel.add(statB);
+        final Container mainPanel = new JPanel(new GridBagLayout());
+        GridBagConstraints c = new GridBagConstraints();
+        c.fill = GridBagConstraints.BOTH;
+        c.anchor = GridBagConstraints.NORTHWEST;
+        /*
+        Weird gridBag note: If you make a component span more than one column then you need to add a dummy
+        component into the "empty" column otherwise it will set the column width to 0.
+         */
 
-        //setting dimentions
-//        tetrominoPanel.setPreferredSize(new Dimension(120, 120));
+        c.weighty = 1.0;
+        c.weightx = 0.75;
+        c.gridx = 0;
+        c.gridy = 0;
+        c.gridheight = 4;
+        mainPanel.add(tetrisPanel, c);
 
-        //setting colors
-  //      menuPanel.setBackground(FROSTED);
+        c.weightx = 0.25;
+        c.weighty = 0.3;
+        c.gridx = 1;
+        c.gridy = 0;
+        c.gridheight = 1;
+        mainPanel.add(tetrominoPanel, c);
+        //TODO: Make this panel square, consider:
+        //https://stackoverflow.com/questions/27544569/java-how-to-control-jpanel-aspect-ratio
 
-        tetrominoPanel.setBackground(Color.BLUE);
-        statPanel.setBackground(Color.GREEN);
+        c.weightx = 0.25;
+        c.weighty = 0.6;
+        c.gridx = 1;
+        c.gridy = 1;
+        c.gridheight = 3;
+        mainPanel.add(statPanel, c);
 
-        mainPanel.setBackground(TRANSPARENT);
-
-        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        Dimension panelDimention =  new Dimension((int) (SCREEN_SIZE.getWidth()/3), (int) (SCREEN_SIZE.getHeight()/2));
-        setPreferredSize(panelDimention);
-        System.out.println(panelDimention);
-        tetrominoPanel.setPreferredSize(new Dimension((int) panelDimention.getWidth()/3,
-                (int) panelDimention.getHeight()/3));
-
+        setPreferredSize(new Dimension((int) (SCREEN_SIZE.getWidth() / 3), (int) (SCREEN_SIZE.getHeight() / 2)));
+        setMinimumSize(new Dimension(360, 480));
         setResizable(true);
-
-
-
-        // adding components to the main panel
-        //mainPanel.add(menuPanel, BorderLayout.NORTH);
-        mainPanel.add(tetrisPanel, BorderLayout.CENTER);
-        secondaryPanel.add(statPanel, BorderLayout.CENTER);
-        secondaryPanel.add(tetrominoPanel, BorderLayout.NORTH);
-        mainPanel.add(secondaryPanel, BorderLayout.EAST);
 
         add(mainPanel);
         pack();
 
-
-
         setLocation(SCREEN_SIZE.width / 2 - getWidth() / 2, SCREEN_SIZE.height / 2 - getHeight() / 2);
 
 
-
-    }
-
-    @Override
-    public void actionPerformed(ActionEvent e) {
-        //TODO: Implement listeners for keystrokes and mouse input
     }
 }

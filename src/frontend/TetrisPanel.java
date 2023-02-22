@@ -16,7 +16,7 @@ public class TetrisPanel extends JPanel {
     private final Logger logger = Logger.getLogger(getClass().getName());
 
     //TODO: Implement Tetris game panel
-    public TetrisPanel(){
+    public TetrisPanel() {
 
         setBackground(Color.RED);
     }

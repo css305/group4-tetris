@@ -16,7 +16,7 @@ public class TetrominoPanel extends JPanel {
     private final Logger logger = Logger.getLogger(getClass().getName());
 
     //TODO: Implement the tetromino preview pane
-    public TetrominoPanel(){
+    public TetrominoPanel() {
 
         setBackground(Color.BLUE);
     }

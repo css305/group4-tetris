@@ -16,7 +16,7 @@ public class StatPanel extends JPanel {
     private final Logger logger = Logger.getLogger(getClass().getName());
 
     //TODO: Implement stats area
-    public StatPanel(){
+    public StatPanel() {
 
         setBackground(Color.GREEN);
     }
