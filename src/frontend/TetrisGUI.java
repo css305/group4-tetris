@@ -1,22 +1,17 @@
 package frontend;
 
-import javax.swing.*;
 import java.awt.*;
 import java.util.logging.Logger;
+import javax.swing.*;
 
 public class TetrisGUI extends JFrame {
 
-    //Constants---------------------------------------------------------------------------------------------------------
+    //Constants
 
     /**
-     * Version Information
+     * Version Information.
      */
     private static final double VERSION = 0.1;
-
-    /**
-     * Logger for GUI
-     */
-    private final Logger logger = Logger.getLogger(getClass().getName());
 
     /**
      * Toolkit!
@@ -24,7 +19,7 @@ public class TetrisGUI extends JFrame {
     private static final Toolkit KIT = Toolkit.getDefaultToolkit();
 
     /**
-     * Screen dimensions
+     * Screen dimensions.
      */
     private static final Dimension SCREEN_SIZE = KIT.getScreenSize();
 
@@ -34,14 +29,19 @@ public class TetrisGUI extends JFrame {
     private static final Color TRANSPARENT = new Color(0, 0, 0, 0);
 
     /**
-     * Frosted color
+     * Frosted color.
      */
     private static final Color FROSTED = new Color(242, 242, 242, 50);
 
-    //Instance vars-----------------------------------------------------------------------------------------------------
+    /**
+     * Logger for GUI.
+     */
+    private final Logger myLogger = Logger.getLogger(getClass().getName());
+
+    //Instance vars
 
     /**
-     * Constructs a new Tetris GUI
+     * Constructs a new Tetris GUI.
      */
     public TetrisGUI() {
         super("G4Tetris ALPHA v" + VERSION);
@@ -53,16 +53,16 @@ public class TetrisGUI extends JFrame {
     }
 
     /**
-     * Initializes GUI configuration
+     * Initializes GUI configuration.
      */
     private void initGUI() {
 
         //Set application to System default look and feel.
         try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-        } catch (Exception e) {
+        } catch (final Exception e) {
             //This can throw several exceptions, but we will always respond by not caring.
-            logger.fine("Failed to get System LaF, using default");
+            myLogger.fine("Failed to get System LaF, using default");
         }
 
         final Container tetrisPanel = new TetrisPanel();
@@ -70,12 +70,13 @@ public class TetrisGUI extends JFrame {
         final Container tetrominoPanel = new TetrominoPanel();
 
         final Container mainPanel = new JPanel(new GridBagLayout());
-        GridBagConstraints c = new GridBagConstraints();
+        final GridBagConstraints c = new GridBagConstraints();
         c.fill = GridBagConstraints.BOTH;
         c.anchor = GridBagConstraints.NORTHWEST;
         /*
-        Weird gridBag note: If you make a component span more than one column then you need to add a dummy
-        component into the "empty" column otherwise it will set the column width to 0.
+        Weird gridBag note: If you make a component span more than one
+        column then you need to add a dummy component into the "empty"
+        column otherwise it will set the column width to 0.
          */
 
         c.weighty = 1.0;
@@ -101,14 +102,16 @@ public class TetrisGUI extends JFrame {
         c.gridheight = 3;
         mainPanel.add(statPanel, c);
 
-        setPreferredSize(new Dimension((int) (SCREEN_SIZE.getWidth() / 3), (int) (SCREEN_SIZE.getHeight() / 2)));
+        setPreferredSize(new Dimension((int) (SCREEN_SIZE.getWidth() / 3),
+                (int) (SCREEN_SIZE.getHeight() / 2)));
         setMinimumSize(new Dimension(360, 480));
         setResizable(true);
 
         add(mainPanel);
         pack();
 
-        setLocation(SCREEN_SIZE.width / 2 - getWidth() / 2, SCREEN_SIZE.height / 2 - getHeight() / 2);
+        setLocation(SCREEN_SIZE.width / 2 - getWidth() / 2,
+                SCREEN_SIZE.height / 2 - getHeight() / 2);
 
 
     }
