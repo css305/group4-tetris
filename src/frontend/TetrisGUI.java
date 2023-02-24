@@ -1,5 +1,7 @@
 package frontend;
 
+import com.formdev.flatlaf.themes.FlatMacDarkLaf;
+import com.formdev.flatlaf.themes.FlatMacLightLaf;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.util.logging.Logger;
@@ -14,7 +16,7 @@ public class TetrisGUI extends JFrame {
     // ----------------------------------------------------------------------------------------
 
     /**
-     * Version Information
+     * Version Information.
      */
     private static final double VERSION = 0.1;
 
@@ -24,7 +26,7 @@ public class TetrisGUI extends JFrame {
     private static final Toolkit KIT = Toolkit.getDefaultToolkit();
 
     /**
-     * Screen dimensions
+     * Screen dimensions.
      */
     private static final Dimension SCREEN_SIZE = KIT.getScreenSize();
 
@@ -34,7 +36,7 @@ public class TetrisGUI extends JFrame {
     private static final Color TRANSPARENT = new Color(0, 0, 0, 0);
 
     /**
-     * Frosted color
+     * Frosted color.
      */
     private static final Color FROSTED = new Color(242, 242, 242, 50);
 
@@ -54,7 +56,7 @@ public class TetrisGUI extends JFrame {
 
         initGUI();
 
-        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         setJMenuBar(createFrameMenu());
         setVisible(true);
     }
@@ -72,7 +74,7 @@ public class TetrisGUI extends JFrame {
         final Container tetrominoPanel = new TetrominoPanel();
 
         final Container mainPanel = new JPanel(new GridBagLayout());
-        GridBagConstraints c = new GridBagConstraints();
+        final GridBagConstraints c = new GridBagConstraints();
         c.fill = GridBagConstraints.BOTH;
         c.anchor = GridBagConstraints.NORTHWEST;
         /*
@@ -118,15 +120,31 @@ public class TetrisGUI extends JFrame {
 
     }
 
+    /**
+     * Updates look and feel.
+     * @param theLaF LaF to change to.
+     */
     private void setLaF(final LookAndFeel theLaF) {
         //Set application to System default look and feel.
-        switch (theLaF) {
-            case DARK -> FlatMacDarkLaf.setup();
-            case LIGHT -> FlatMacLightLaf.setup();
+        try {
+            switch (theLaF) {
+                case DARK -> UIManager.setLookAndFeel(new FlatMacDarkLaf());
+                case LIGHT -> UIManager.setLookAndFeel(new FlatMacLightLaf());
+                default -> myLogger.info("Unknown LaF provided");
+            }
+            SwingUtilities.updateComponentTreeUI(this);
+        } catch (final UnsupportedLookAndFeelException e) {
+            myLogger.info("Failed to use requested LaF.");
         }
+
+
     }
 
-    private JMenu createFileMenu(){
+    /**
+     * Creates the File menu.
+     * @return JMenu for File.
+     */
+    private JMenu createFileMenu() {
         final JMenu fileMenu = new JMenu("File");
         fileMenu.add(new JMenuItem(new AbstractAction("New") {
             @Override
@@ -173,13 +191,17 @@ public class TetrisGUI extends JFrame {
         return fileMenu;
     }
 
+    /**
+     * Creates the View menu.
+     * @return JMenu View.
+     */
     private JMenu createViewMenu() {
         final JMenu viewMenu = new JMenu("View");
 
 
         viewMenu.add(new JMenuItem(new AbstractAction("Light mode") {
             @Override
-            public void actionPerformed(ActionEvent e) {
+            public void actionPerformed(final ActionEvent e0) {
                 setLaF(LookAndFeel.LIGHT);
 
             }
@@ -187,7 +209,7 @@ public class TetrisGUI extends JFrame {
 
         viewMenu.add(new JMenuItem(new AbstractAction("Dark mode") {
             @Override
-            public void actionPerformed(ActionEvent e) {
+            public void actionPerformed(final ActionEvent e0) {
                 setLaF(LookAndFeel.DARK);
 
             }
@@ -196,6 +218,10 @@ public class TetrisGUI extends JFrame {
         return viewMenu;
     }
 
+    /**
+     * Creates the header menu bar.
+     * @return JMenuBar for top of main frame.
+     */
     private JMenuBar createFrameMenu() {
         final JMenuBar menuBar = new JMenuBar();
         menuBar.add(createFileMenu());
