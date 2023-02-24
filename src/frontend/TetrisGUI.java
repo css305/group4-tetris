@@ -5,9 +5,6 @@ import com.formdev.flatlaf.themes.FlatMacLightLaf;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.util.logging.Logger;
-import com.formdev.flatlaf.themes.FlatMacLightLaf;
-import com.formdev.flatlaf.themes.FlatMacDarkLaf;
-
 import javax.swing.*;
 
 public class TetrisGUI extends JFrame {
@@ -66,8 +63,8 @@ public class TetrisGUI extends JFrame {
      */
     private void initGUI() {
 
-        //setLaF(LookAndFeel.DARK);
-        System.setProperty("flatlaf.menuBarEmbedded", "false" );
+        setLaF(LookAndFeel.DARK);
+        System.setProperty("flatlaf.menuBarEmbedded", "true");
 
         final Container tetrisPanel = new TetrisPanel();
         final Container statPanel = new StatPanel();
@@ -148,7 +145,7 @@ public class TetrisGUI extends JFrame {
         final JMenu fileMenu = new JMenu("File");
         fileMenu.add(new JMenuItem(new AbstractAction("New") {
             @Override
-            public void actionPerformed(ActionEvent e) {
+            public void actionPerformed(final ActionEvent e0) {
                 myLogger.fine("New file pressed");
                 JOptionPane.showMessageDialog(fileMenu, "This will open a new file");
             }
@@ -156,7 +153,7 @@ public class TetrisGUI extends JFrame {
 
         fileMenu.add(new JMenuItem(new AbstractAction("Save") {
             @Override
-            public void actionPerformed(ActionEvent e) {
+            public void actionPerformed(final ActionEvent e0) {
                 myLogger.fine("Save pressed");
                 JOptionPane.showMessageDialog(fileMenu, "This will save the game");
             }
@@ -164,7 +161,7 @@ public class TetrisGUI extends JFrame {
 
         fileMenu.add(new JMenuItem(new AbstractAction("Save As") {
             @Override
-            public void actionPerformed(ActionEvent e) {
+            public void actionPerformed(final ActionEvent e0) {
                 myLogger.fine("Save as pressed");
                 JOptionPane.showMessageDialog(fileMenu, "This will save somewhere");
             }
@@ -172,7 +169,7 @@ public class TetrisGUI extends JFrame {
 
         fileMenu.add(new JMenuItem(new AbstractAction("Load") {
             @Override
-            public void actionPerformed(ActionEvent e) {
+            public void actionPerformed(final ActionEvent e0) {
                 myLogger.fine("Load pressed");
                 JOptionPane.showMessageDialog(fileMenu, "this will load a game");
             }
@@ -180,8 +177,8 @@ public class TetrisGUI extends JFrame {
 
         fileMenu.add(new JMenuItem(new AbstractAction("Exit") {
             @Override
-            public void actionPerformed(ActionEvent e) {
-                int opt = JOptionPane.showConfirmDialog(fileMenu, "Really Exit?");
+            public void actionPerformed(final ActionEvent e0) {
+                final int opt = JOptionPane.showConfirmDialog(fileMenu, "Really Exit?");
                 if (opt == JOptionPane.YES_OPTION) {
                     System.exit(0);
                 }
