@@ -1,15 +1,20 @@
 package frontend;
 
 import java.awt.*;
+import java.awt.event.ActionEvent;
 import java.util.logging.Logger;
+import com.formdev.flatlaf.themes.FlatMacLightLaf;
+import com.formdev.flatlaf.themes.FlatMacDarkLaf;
+
 import javax.swing.*;
 
 public class TetrisGUI extends JFrame {
 
     //Constants
+    // ----------------------------------------------------------------------------------------
 
     /**
-     * Version Information.
+     * Version Information
      */
     private static final double VERSION = 0.1;
 
@@ -19,7 +24,7 @@ public class TetrisGUI extends JFrame {
     private static final Toolkit KIT = Toolkit.getDefaultToolkit();
 
     /**
-     * Screen dimensions.
+     * Screen dimensions
      */
     private static final Dimension SCREEN_SIZE = KIT.getScreenSize();
 
@@ -29,7 +34,7 @@ public class TetrisGUI extends JFrame {
     private static final Color TRANSPARENT = new Color(0, 0, 0, 0);
 
     /**
-     * Frosted color.
+     * Frosted color
      */
     private static final Color FROSTED = new Color(242, 242, 242, 50);
 
@@ -39,6 +44,7 @@ public class TetrisGUI extends JFrame {
     private final Logger myLogger = Logger.getLogger(getClass().getName());
 
     //Instance vars
+    // ----------------------------------------------------------------------------------------
 
     /**
      * Constructs a new Tetris GUI.
@@ -49,6 +55,7 @@ public class TetrisGUI extends JFrame {
         initGUI();
 
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        setJMenuBar(createFrameMenu());
         setVisible(true);
     }
 
@@ -57,26 +64,21 @@ public class TetrisGUI extends JFrame {
      */
     private void initGUI() {
 
-        //Set application to System default look and feel.
-        try {
-            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-        } catch (final Exception e) {
-            //This can throw several exceptions, but we will always respond by not caring.
-            myLogger.fine("Failed to get System LaF, using default");
-        }
+        //setLaF(LookAndFeel.DARK);
+        System.setProperty("flatlaf.menuBarEmbedded", "false" );
 
         final Container tetrisPanel = new TetrisPanel();
         final Container statPanel = new StatPanel();
         final Container tetrominoPanel = new TetrominoPanel();
 
         final Container mainPanel = new JPanel(new GridBagLayout());
-        final GridBagConstraints c = new GridBagConstraints();
+        GridBagConstraints c = new GridBagConstraints();
         c.fill = GridBagConstraints.BOTH;
         c.anchor = GridBagConstraints.NORTHWEST;
         /*
-        Weird gridBag note: If you make a component span more than one
-        column then you need to add a dummy component into the "empty"
-        column otherwise it will set the column width to 0.
+        Weird gridBag note: If you make a component span more than one column then you need
+        to add a dummy component into the "empty" column otherwise it will set the column
+        width to 0.
          */
 
         c.weighty = 1.0;
@@ -113,6 +115,104 @@ public class TetrisGUI extends JFrame {
         setLocation(SCREEN_SIZE.width / 2 - getWidth() / 2,
                 SCREEN_SIZE.height / 2 - getHeight() / 2);
 
+
+    }
+
+    private void setLaF(final LookAndFeel theLaF) {
+        //Set application to System default look and feel.
+        switch (theLaF) {
+            case DARK -> FlatMacDarkLaf.setup();
+            case LIGHT -> FlatMacLightLaf.setup();
+        }
+    }
+
+    private JMenu createFileMenu(){
+        final JMenu fileMenu = new JMenu("File");
+        fileMenu.add(new JMenuItem(new AbstractAction("New") {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                myLogger.fine("New file pressed");
+                JOptionPane.showMessageDialog(fileMenu, "This will open a new file");
+            }
+        }));
+
+        fileMenu.add(new JMenuItem(new AbstractAction("Save") {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                myLogger.fine("Save pressed");
+                JOptionPane.showMessageDialog(fileMenu, "This will save the game");
+            }
+        }));
+
+        fileMenu.add(new JMenuItem(new AbstractAction("Save As") {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                myLogger.fine("Save as pressed");
+                JOptionPane.showMessageDialog(fileMenu, "This will save somewhere");
+            }
+        }));
+
+        fileMenu.add(new JMenuItem(new AbstractAction("Load") {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                myLogger.fine("Load pressed");
+                JOptionPane.showMessageDialog(fileMenu, "this will load a game");
+            }
+        }));
+
+        fileMenu.add(new JMenuItem(new AbstractAction("Exit") {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int opt = JOptionPane.showConfirmDialog(fileMenu, "Really Exit?");
+                if (opt == JOptionPane.YES_OPTION) {
+                    System.exit(0);
+                }
+            }
+        }));
+
+        return fileMenu;
+    }
+
+    private JMenu createViewMenu() {
+        final JMenu viewMenu = new JMenu("View");
+
+
+        viewMenu.add(new JMenuItem(new AbstractAction("Light mode") {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                setLaF(LookAndFeel.LIGHT);
+
+            }
+        }));
+
+        viewMenu.add(new JMenuItem(new AbstractAction("Dark mode") {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                setLaF(LookAndFeel.DARK);
+
+            }
+        }));
+
+        return viewMenu;
+    }
+
+    private JMenuBar createFrameMenu() {
+        final JMenuBar menuBar = new JMenuBar();
+        menuBar.add(createFileMenu());
+        menuBar.add(createViewMenu());
+
+        return menuBar;
+
+    }
+
+    /**
+     * Look and Feel options for application.
+     */
+    private enum LookAndFeel {
+        /** Light mode. */
+        LIGHT,
+        /** Dark mode. */
+        DARK
 
     }
 }
