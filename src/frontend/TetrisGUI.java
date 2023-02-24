@@ -3,7 +3,6 @@ package frontend;
 import com.formdev.flatlaf.themes.FlatMacDarkLaf;
 import com.formdev.flatlaf.themes.FlatMacLightLaf;
 import java.awt.*;
-import java.awt.event.ActionEvent;
 import java.util.logging.Logger;
 import javax.swing.*;
 
@@ -51,10 +50,11 @@ public class TetrisGUI extends JFrame {
     public TetrisGUI() {
         super("G4Tetris ALPHA v" + VERSION);
 
+        myLogger.warning("Good Morning!");
         initGUI();
 
         setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-        setJMenuBar(createFrameMenu());
+        setJMenuBar(new TetrisFrameMenu(this));
         setVisible(true);
     }
 
@@ -121,7 +121,7 @@ public class TetrisGUI extends JFrame {
      * Updates look and feel.
      * @param theLaF LaF to change to.
      */
-    private void setLaF(final LookAndFeel theLaF) {
+    public void setLaF(final LookAndFeel theLaF) {
         //Set application to System default look and feel.
         try {
             switch (theLaF) {
@@ -138,100 +138,9 @@ public class TetrisGUI extends JFrame {
     }
 
     /**
-     * Creates the File menu.
-     * @return JMenu for File.
-     */
-    private JMenu createFileMenu() {
-        final JMenu fileMenu = new JMenu("File");
-        fileMenu.add(new JMenuItem(new AbstractAction("New") {
-            @Override
-            public void actionPerformed(final ActionEvent e0) {
-                myLogger.fine("New file pressed");
-                JOptionPane.showMessageDialog(fileMenu, "This will open a new file");
-            }
-        }));
-
-        fileMenu.add(new JMenuItem(new AbstractAction("Save") {
-            @Override
-            public void actionPerformed(final ActionEvent e0) {
-                myLogger.fine("Save pressed");
-                JOptionPane.showMessageDialog(fileMenu, "This will save the game");
-            }
-        }));
-
-        fileMenu.add(new JMenuItem(new AbstractAction("Save As") {
-            @Override
-            public void actionPerformed(final ActionEvent e0) {
-                myLogger.fine("Save as pressed");
-                JOptionPane.showMessageDialog(fileMenu, "This will save somewhere");
-            }
-        }));
-
-        fileMenu.add(new JMenuItem(new AbstractAction("Load") {
-            @Override
-            public void actionPerformed(final ActionEvent e0) {
-                myLogger.fine("Load pressed");
-                JOptionPane.showMessageDialog(fileMenu, "this will load a game");
-            }
-        }));
-
-        fileMenu.add(new JMenuItem(new AbstractAction("Exit") {
-            @Override
-            public void actionPerformed(final ActionEvent e0) {
-                final int opt = JOptionPane.showConfirmDialog(fileMenu, "Really Exit?");
-                if (opt == JOptionPane.YES_OPTION) {
-                    System.exit(0);
-                }
-            }
-        }));
-
-        return fileMenu;
-    }
-
-    /**
-     * Creates the View menu.
-     * @return JMenu View.
-     */
-    private JMenu createViewMenu() {
-        final JMenu viewMenu = new JMenu("View");
-
-
-        viewMenu.add(new JMenuItem(new AbstractAction("Light mode") {
-            @Override
-            public void actionPerformed(final ActionEvent e0) {
-                setLaF(LookAndFeel.LIGHT);
-
-            }
-        }));
-
-        viewMenu.add(new JMenuItem(new AbstractAction("Dark mode") {
-            @Override
-            public void actionPerformed(final ActionEvent e0) {
-                setLaF(LookAndFeel.DARK);
-
-            }
-        }));
-
-        return viewMenu;
-    }
-
-    /**
-     * Creates the header menu bar.
-     * @return JMenuBar for top of main frame.
-     */
-    private JMenuBar createFrameMenu() {
-        final JMenuBar menuBar = new JMenuBar();
-        menuBar.add(createFileMenu());
-        menuBar.add(createViewMenu());
-
-        return menuBar;
-
-    }
-
-    /**
      * Look and Feel options for application.
      */
-    private enum LookAndFeel {
+    public enum LookAndFeel {
         /** Light mode. */
         LIGHT,
         /** Dark mode. */
