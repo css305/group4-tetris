@@ -80,14 +80,14 @@ public class TetrisGUI extends JFrame {
         width to 0.
          */
 
-        c.weightx = GridConstraints.TETRIS_PANEL_WEIGHT_X;
-        c.weighty = GridConstraints.TETRIS_PANEL_WEIGHT_Y;
+        c.weightx = GridConstraints.COL1_WEIGHT_X;
+        c.weighty = GridConstraints.COL1_WEIGHT_Y;
         c.gridx = GridConstraints.TETRIS_PANEL_GRID_X;
         c.gridy = GridConstraints.TETRIS_PANEL_GRID_Y;
         c.gridheight = GridConstraints.TETRIS_PANEL_GRID_HEIGHT;
         mainPanel.add(tetrisPanel, c);
 
-        c.weightx = GridConstraints.TETROMINO_PANEL_WEIGHT_X;
+        c.weightx = GridConstraints.COL2_WEIGHT_X;
         c.weighty = GridConstraints.TETROMINO_PANEL_WEIGHT_Y;
         c.gridx = GridConstraints.TETROMINO_PANEL_GRID_X;
         c.gridy = GridConstraints.TETROMINO_PANEL_GRID_Y;
@@ -96,7 +96,7 @@ public class TetrisGUI extends JFrame {
         //TODO: Make this panel square, consider:
         //https://stackoverflow.com/questions/27544569/java-how-to-control-jpanel-aspect-ratio
 
-        c.weightx = GridConstraints.STAT_PANEL_WEIGHT_X;
+        c.weightx = GridConstraints.COL2_WEIGHT_X;
         c.weighty = GridConstraints.STAT_PANEL_WEIGHT_Y;
         c.gridx = GridConstraints.STAT_PANEL_GRID_X;
         c.gridy = GridConstraints.STAT_PANEL_GRID_Y;
@@ -104,8 +104,8 @@ public class TetrisGUI extends JFrame {
         mainPanel.add(statPanel, c);
 
         setPreferredSize(new Dimension(
-                (int) (SCREEN_SIZE.getWidth() / GridConstraints.VALUE_THREE),
-                (int) (SCREEN_SIZE.getHeight() / GridConstraints.VALUE_TWO)));
+                (int) (SCREEN_SIZE.getWidth() / GridConstraints.PREF_SIZE_W_MOD),
+                (int) (SCREEN_SIZE.getHeight() / GridConstraints.PREF_SIZE_H_MOD)));
         setMinimumSize(new Dimension(GridConstraints.MINIMUM_SIZE_WIDTH,
                 GridConstraints.MINIMUM_SIZE_HEIGHT));
         setResizable(true);
@@ -113,10 +113,9 @@ public class TetrisGUI extends JFrame {
         add(mainPanel);
         pack();
 
-        setLocation(SCREEN_SIZE.width / GridConstraints.VALUE_TWO
-                        - getWidth() / GridConstraints.VALUE_TWO,
-                SCREEN_SIZE.height / GridConstraints.VALUE_TWO
-                        - getHeight() / GridConstraints.VALUE_TWO);
+        //center window on screen
+        setLocation(SCREEN_SIZE.width / 2 - getWidth() / 2,
+                SCREEN_SIZE.height / 2 - getHeight() / 2);
 
 
     }

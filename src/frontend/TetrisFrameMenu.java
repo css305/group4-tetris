@@ -5,13 +5,13 @@ import java.util.logging.Logger;
 import javax.swing.*;
 
 /**
- * The top level menu bar for the G4Tetris GUI
+ * The top level menu bar for the G4Tetris GUI.
  * @author Zac Andersen (anderzb@uw.edu)
  * @version 0.1
  */
 public final class TetrisFrameMenu extends JMenuBar {
 
-    /** TetrisGUI associated with this menu bar */
+    /** TetrisGUI associated with this menu bar. */
     private final TetrisGUI myTetrisGUI;
 
     /**

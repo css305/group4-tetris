@@ -12,11 +12,11 @@ public final class GridConstraints {
     /**
      * Tetris panel weight x.
      */
-    static final double TETRIS_PANEL_WEIGHT_X = 0.75;
+    static final double COL1_WEIGHT_X = 0.75;
     /**
      * Tetris panel weight y.
      */
-    static final double TETRIS_PANEL_WEIGHT_Y = 1.0;
+    static final double COL1_WEIGHT_Y = 1.0;
     /**
      * Tetris panel grid x.
      */
@@ -35,7 +35,7 @@ public final class GridConstraints {
     /**
      * Tetromino panel weight x.
      */
-    static final double TETROMINO_PANEL_WEIGHT_X = 0.25;
+    static final double COL2_WEIGHT_X = 0.25;
     /**
      * Tetromino panel weight y.
      */
@@ -55,10 +55,6 @@ public final class GridConstraints {
 
     // Stat panel instance variables.
     // ----------------------------------------------------------------------------------------
-    /**
-     * Stat panel weight x.
-     */
-    static final double STAT_PANEL_WEIGHT_X = 0.25;
     /**
      * Stat panel weight y.
      */
@@ -87,15 +83,20 @@ public final class GridConstraints {
      */
     static final int MINIMUM_SIZE_HEIGHT = 480;
 
-    // Number values.
+    // Screen Dimension Modifiers
     // ----------------------------------------------------------------------------------------
     /**
-     * Value 3.
+     * Window to screen width ratio.
      */
-    static final int VALUE_THREE = 3;
+    static final int PREF_SIZE_W_MOD = 3;
     /**
-     * Value 2.
+     * Window to screen height ratio.
      */
-    static final int VALUE_TWO = 2;
+    static final int PREF_SIZE_H_MOD = 2;
+
+    private GridConstraints() {
+        //no
+    }
+
 
 }
