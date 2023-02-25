@@ -56,13 +56,57 @@ public class TetrisGUI extends JFrame implements ActionListener {
         //TODO: Add rest of GUI initialization above master panel
 
         final Container mainPanel = new JPanel(new BorderLayout());
+
+        // creating new panels for the layout
+       // final Container menuPanel = new JPanel();
+        final Container tetrisPanel = new TetrisPanel();
+        final Container secondaryPanel = new JPanel(new BorderLayout());
+        final Container tetrominoPanel = new TetrominoPanel();
+        final Container statPanel = new StatPanel();
+
+        // Unused buttons, could be used to put something in the panel
+//        final JButton menuB = new JButton("Menu");
+//        final JButton tetrisB = new JButton("Tetris");
+//        final JButton tetrominoB = new JButton("Tetromino");
+//        final JButton statB = new JButton("Stats");
+//        menuPanel.add(menuB);
+//        tetrisPanel.add(tetrisB);
+//        tetrominoPanel.add(tetrominoB);
+//        statPanel.add(statB);
+
+        //setting dimentions
+//        tetrominoPanel.setPreferredSize(new Dimension(120, 120));
+
+        //setting colors
+  //      menuPanel.setBackground(FROSTED);
+
+        tetrominoPanel.setBackground(Color.BLUE);
+        statPanel.setBackground(Color.GREEN);
+
         mainPanel.setBackground(TRANSPARENT);
 
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        setPreferredSize(new Dimension((int) (SCREEN_SIZE.getWidth()/4), (int) (SCREEN_SIZE.getHeight()/2)));
+        Dimension panelDimention =  new Dimension((int) (SCREEN_SIZE.getWidth()/3), (int) (SCREEN_SIZE.getHeight()/2));
+        setPreferredSize(panelDimention);
+        System.out.println(panelDimention);
+        tetrominoPanel.setPreferredSize(new Dimension((int) panelDimention.getWidth()/3,
+                (int) panelDimention.getHeight()/3));
+
         setResizable(true);
+
+
+
+        // adding components to the main panel
+        //mainPanel.add(menuPanel, BorderLayout.NORTH);
+        mainPanel.add(tetrisPanel, BorderLayout.CENTER);
+        secondaryPanel.add(statPanel, BorderLayout.CENTER);
+        secondaryPanel.add(tetrominoPanel, BorderLayout.NORTH);
+        mainPanel.add(secondaryPanel, BorderLayout.EAST);
+
         add(mainPanel);
         pack();
+
+
 
         setLocation(SCREEN_SIZE.width / 2 - getWidth() / 2, SCREEN_SIZE.height / 2 - getHeight() / 2);
 

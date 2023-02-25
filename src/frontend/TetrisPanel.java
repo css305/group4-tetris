@@ -1,6 +1,7 @@
 package frontend;
 
 import javax.swing.*;
+import java.awt.*;
 import java.util.logging.Logger;
 
 /**
@@ -15,4 +16,8 @@ public class TetrisPanel extends JPanel {
     private final Logger logger = Logger.getLogger(getClass().getName());
 
     //TODO: Implement Tetris game panel
+    public TetrisPanel(){
+
+        setBackground(Color.RED);
+    }
 }
