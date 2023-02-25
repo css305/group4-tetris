@@ -1,22 +1,24 @@
 package frontend;
 
-import javax.swing.*;
 import java.awt.*;
 import java.util.logging.Logger;
+import javax.swing.*;
 
 /**
- * Displays stats related to the currently running game of Tetris
+ * Displays stats related to the currently running game of Tetris.
+ * @version 0.1
+ * @author Zac Andersen (anderzb@uw.edu)
  */
 public class StatPanel extends JPanel {
     //Constants
 
     /**
-     * Logger for this class
+     * Logger for this class.
      */
-    private final Logger logger = Logger.getLogger(getClass().getName());
+    private final Logger myLogger = Logger.getLogger(getClass().getName());
 
     //TODO: Implement stats area
-    public StatPanel(){
+    public StatPanel() {
 
         setBackground(Color.GREEN);
     }

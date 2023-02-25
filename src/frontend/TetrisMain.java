@@ -1,5 +1,6 @@
 package frontend;
 
+import com.formdev.flatlaf.themes.FlatMacDarkLaf;
 import javax.swing.*;
 
 /**
@@ -10,7 +11,12 @@ import javax.swing.*;
  */
 public final class TetrisMain {
 
-    public static void main(String[] args) {
+    private TetrisMain() {
+        //No
+    }
+
+    public static void main(final String[] theArgs) {
+        FlatMacDarkLaf.setup();
         SwingUtilities.invokeLater(TetrisGUI::new);
     }
 
