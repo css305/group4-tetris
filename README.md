@@ -10,10 +10,10 @@
 - Zachary C Anderson
 - Zac Andersen
 - Sviatoslav Ruthovskyi
-- Ariroop Singh
+- Hariroop Singh
 
 ###### *sprint1 Contributions:*
-- 1st Paired Group | Sviatoslav Ruthovskyi, Ariroop Singh | Main GUI region layout.
+- 1st Paired Group | Sviatoslav Ruthovskyi, Hariroop Singh | Main GUI region layout.
 
 - 2nd Paired Group | Zachary C Anderson, Zac Andersen | Menu Structure and Zachary C Anderson created readme.
 
