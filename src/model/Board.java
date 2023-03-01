@@ -32,7 +32,7 @@ import model.wallkicks.WallKick;
  * @author Alan Fowler
  * @version 1.3
  */
-public class Board {
+public class Board implements TetrisBoard {
 
     // Class constants
     
@@ -134,6 +134,7 @@ public class Board {
      * 
      * @return Width of the board.
      */
+    @Override
     public int getWidth() {
         return myWidth;
     }
@@ -143,6 +144,7 @@ public class Board {
      * 
      * @return Height of the board.
      */
+    @Override
     public int getHeight() {
         return myHeight;
     }
@@ -154,6 +156,7 @@ public class Board {
      * This method must be called before the first game
      * and before each new game.
      */
+    @Override
     public void newGame() {
         
         mySequenceIndex = 0;
@@ -174,12 +177,13 @@ public class Board {
      * 
      * @param thePieces the List of non random TetrisPieces.
      */
+    @Override
     public void setPieceSequence(final List<TetrisPiece> thePieces) {
         myNonRandomPieces = new ArrayList<TetrisPiece>(thePieces);
         mySequenceIndex = 0;
         myCurrentPiece = nextMovablePiece(true);
     }
-    
+
     /**
      * Advances the board by one 'step'.
      * 
@@ -188,6 +192,7 @@ public class Board {
      * - freezing the current piece if appropriate
      * - clearing full lines as needed
      */
+    @Override
     public void step() {
         /*
          * Calling the down() method from here should be sufficient
@@ -203,6 +208,7 @@ public class Board {
      * Freeze the Piece in position if down tries to move into an illegal state.
      * Clear full lines.
      */
+    @Override
     public void down() {
         if (!move(myCurrentPiece.down())) {
             // the piece froze, so clear lines and update current piece
@@ -218,6 +224,7 @@ public class Board {
     /**
      * Try to move the movable piece left.
      */
+    @Override
     public void left() {
         if (myCurrentPiece != null) {
             move(myCurrentPiece.left());
@@ -227,6 +234,7 @@ public class Board {
     /**
      * Try to move the movable piece right.
      */
+    @Override
     public void right() {
         if (myCurrentPiece != null) {
             move(myCurrentPiece.right());
@@ -236,6 +244,7 @@ public class Board {
     /**
      * Try to rotate the movable piece in the clockwise direction.
      */
+    @Override
     public void rotateCW() {
         if (myCurrentPiece != null) {
             if (myCurrentPiece.getTetrisPiece() == TetrisPiece.O) {
@@ -259,6 +268,7 @@ public class Board {
     /**
      * Try to rotate the movable piece in the counter-clockwise direction.
      */
+    @Override
     public void rotateCCW() {
         if (myCurrentPiece != null) {
             if (myCurrentPiece.getTetrisPiece() == TetrisPiece.O) {
@@ -282,6 +292,7 @@ public class Board {
     /**
      * Drop the piece until piece is set.
      */
+    @Override
     public void drop() {
         if (!myGameOver) {
             myDrop = true;
