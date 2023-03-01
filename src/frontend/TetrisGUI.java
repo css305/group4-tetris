@@ -2,6 +2,8 @@ package frontend;
 
 import com.formdev.flatlaf.themes.FlatMacDarkLaf;
 import com.formdev.flatlaf.themes.FlatMacLightLaf;
+import resources.G4Logging;
+
 import java.awt.*;
 import java.util.logging.Logger;
 import javax.swing.*;
@@ -39,7 +41,7 @@ public class TetrisGUI extends JFrame {
     /**
      * Logger for GUI.
      */
-    private final Logger myLogger = Logger.getLogger(getClass().getName());
+    private final Logger myLogger = G4Logging.getLogger(getClass());
 
     //Instance vars
     // ----------------------------------------------------------------------------------------

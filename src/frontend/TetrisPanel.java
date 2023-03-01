@@ -1,5 +1,7 @@
 package frontend;
 
+import resources.G4Logging;
+
 import java.awt.*;
 import java.util.logging.Logger;
 import javax.swing.*;
@@ -15,7 +17,7 @@ public class TetrisPanel extends JPanel {
     /**
      * Logger for this class.
      */
-    private final Logger myLogger = Logger.getLogger(getClass().getName());
+    private final Logger myLogger = G4Logging.getLogger(getClass());
 
     //TODO: Implement Tetris game panel
     public TetrisPanel() {

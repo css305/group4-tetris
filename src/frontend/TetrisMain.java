@@ -1,6 +1,8 @@
 package frontend;
 
 import com.formdev.flatlaf.themes.FlatMacDarkLaf;
+import resources.G4Logging;
+
 import javax.swing.*;
 
 /**
@@ -16,6 +18,7 @@ public final class TetrisMain {
     }
 
     public static void main(final String[] theArgs) {
+        G4Logging.initLogging();
         FlatMacDarkLaf.setup();
         SwingUtilities.invokeLater(TetrisGUI::new);
     }

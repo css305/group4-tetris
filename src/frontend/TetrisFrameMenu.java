@@ -1,5 +1,7 @@
 package frontend;
 
+import resources.G4Logging;
+
 import java.awt.event.ActionEvent;
 import java.util.logging.Logger;
 import javax.swing.*;
@@ -17,7 +19,7 @@ public final class TetrisFrameMenu extends JMenuBar {
     /**
      * Logger.
      */
-    private final Logger myLogger = Logger.getLogger(getClass().getName());
+    private final Logger myLogger = G4Logging.getLogger(getClass());
 
     public TetrisFrameMenu(final TetrisGUI theTetrisGUI) {
         myTetrisGUI = theTetrisGUI;
