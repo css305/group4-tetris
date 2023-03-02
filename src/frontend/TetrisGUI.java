@@ -2,9 +2,12 @@ package frontend;
 
 import com.formdev.flatlaf.themes.FlatMacDarkLaf;
 import com.formdev.flatlaf.themes.FlatMacLightLaf;
+import model.TetrisBoard;
 import resources.G4Logging;
 
 import java.awt.*;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.util.logging.Logger;
 import javax.swing.*;
 
@@ -38,13 +41,26 @@ public class TetrisGUI extends JFrame {
      */
     private static final Color FROSTED = new Color(242, 242, 242, 50);
 
+    /** Millisecond delay between ticks, 20 ticks per second. */
+    private static final int TICK_DELAY = 50;
+
+    //Instance vars
+    // ----------------------------------------------------------------------------------------
+
     /**
      * Logger for GUI.
      */
     private final Logger myLogger = G4Logging.getLogger(getClass());
 
-    //Instance vars
-    // ----------------------------------------------------------------------------------------
+    /**
+     * Board instance for the game.
+     */
+    private TetrisBoard myBoard;
+
+    /**
+     * Timer for game ticking.
+     */
+    private Timer myTickTimer = new Timer(TICK_DELAY, null);
 
     /**
      * Constructs a new Tetris GUI.
@@ -72,7 +88,7 @@ public class TetrisGUI extends JFrame {
         final Container statPanel = new StatPanel();
         final Container tetrominoPanel = new TetrominoPanel();
 
-        final Container mainPanel = new JPanel(new GridBagLayout());
+        final Container mainPanel = initListenerPane();
         final GridBagConstraints c = new GridBagConstraints();
         c.fill = GridBagConstraints.BOTH;
         c.anchor = GridBagConstraints.NORTHWEST;
@@ -120,6 +136,31 @@ public class TetrisGUI extends JFrame {
                 SCREEN_SIZE.height / 2 - getHeight() / 2);
 
 
+    }
+
+    /** Configures the main GUI listener panel.
+     * @return JPanel with KeyListener
+     */
+    JPanel initListenerPane() {
+        final JPanel panel = new JPanel(new GridBagLayout());
+        panel.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyTyped(final KeyEvent e0) {
+                if (myTickTimer.isRunning()) {
+                    final int keyCode = e0.getKeyCode();
+                    switch (keyCode) {
+                        case KeyEvent.VK_A, KeyEvent.VK_LEFT -> myBoard.left();
+                        case KeyEvent.VK_S, KeyEvent.VK_DOWN -> myBoard.down();
+                        case KeyEvent.VK_D, KeyEvent.VK_RIGHT -> myBoard.right();
+                        case KeyEvent.VK_W, KeyEvent.VK_UP -> myBoard.rotateCW();
+                        case KeyEvent.VK_SPACE -> myBoard.drop();
+                        default -> { }
+                    }
+                }
+            }
+        });
+
+        return panel;
     }
 
     /**
