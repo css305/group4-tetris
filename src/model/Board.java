@@ -6,6 +6,8 @@
 
 package model;
 
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -35,6 +37,22 @@ import model.wallkicks.WallKick;
 public class Board implements TetrisBoard {
 
     // Class constants
+    /**
+     * Name for move property.
+     */
+    public static final String PROPERTY_MOVED_PIECE = "piece is successfully moved";
+    /**
+     * Name for move property.
+     */
+    public static final String PROPERTY_NEW_GAME = "new game is started";
+    /**
+     * Name for move property.
+     */
+    public static final String PROPERTY_NEXT_PIECE_UPDATED = "new piece is given";
+    /**
+     * Name for move property.
+     */
+    public static final String PROPERTY_BOARD_CHANGED = "the board has been changed";
     
     /**
      * Default width of a Tetris game board.
@@ -69,6 +87,8 @@ public class Board implements TetrisBoard {
      */
     private boolean myGameOver;
 
+    private BoardData myBoardData;
+
     /**
      * Contains a non random sequence of TetrisPieces to loop through.
      */
@@ -95,6 +115,11 @@ public class Board implements TetrisBoard {
      * down movement in the drop.
      */
     private boolean myDrop;
+
+    /**
+     * A property change support object that is used to add and remove Listeners.
+     */
+    private final PropertyChangeSupport myPcs;
     
     // Constructors
 
@@ -124,6 +149,9 @@ public class Board implements TetrisBoard {
         /*  myNextPiece and myCurrentPiece
          *  are initialized by the newGame() method.
          */
+
+        myPcs = new PropertyChangeSupport(this);
+        myBoardData = new BoardData();
     }
     
 
@@ -169,7 +197,9 @@ public class Board implements TetrisBoard {
         myCurrentPiece = nextMovablePiece(true);
         myDrop = false;
         
-        // TODO Publish Update!
+        //TODO Publish Update!
+        myPcs.firePropertyChange(PROPERTY_NEW_GAME, null, myBoardData.getBoardData());
+
     }
 
     /**
@@ -217,7 +247,8 @@ public class Board implements TetrisBoard {
             if (!myGameOver) {
                 myCurrentPiece = nextMovablePiece(false);
             }
-            // TODO Publish Update!
+            //TODO Publish Update!
+            myPcs.firePropertyChange(PROPERTY_NEXT_PIECE_UPDATED, null, myBoardData.getBoardData());
         }
     }
 
@@ -303,8 +334,6 @@ public class Board implements TetrisBoard {
             down();  // move down one more time to freeze in place
         }
     }
-    
-
 
     @Override
     public String toString() {
@@ -344,7 +373,7 @@ public class Board implements TetrisBoard {
         return sb.toString();
     }
 
-    
+
     // private helper methods
     
     /**
@@ -360,7 +389,8 @@ public class Board implements TetrisBoard {
             myCurrentPiece = theMovedPiece;
             result = true;
             if (!myDrop) {
-                // TODO Publish Update!
+                //TODO Publish Update!
+                myPcs.firePropertyChange(PROPERTY_MOVED_PIECE, null, myBoardData.getBoardData());
             }
         }
         return result;
@@ -421,7 +451,8 @@ public class Board implements TetrisBoard {
             }
             if (complete) {
                 completeRows.add(myFrozenBlocks.indexOf(row));
-             // TODO Publish Update!
+             //TODO Publish Update!
+                myPcs.firePropertyChange(PROPERTY_BOARD_CHANGED, null, myBoardData.getBoardData());
             }
         }
         // loop through list backwards removing items by index
@@ -475,7 +506,9 @@ public class Board implements TetrisBoard {
             row[thePoint.x()] = theBlock;
         } else if (!myGameOver) {
             myGameOver = true;
-            // TODO Publish Update!
+            //TODO Publish Update!
+            myPcs.firePropertyChange(PROPERTY_MOVED_PIECE, null, myCurrentPiece);
+
         }
     }
 
@@ -549,9 +582,32 @@ public class Board implements TetrisBoard {
             myNextPiece = myNonRandomPieces.get(mySequenceIndex++);
         }
         if (share && !myGameOver) {
-            // TODO Publish Update!
+            //TODO Publish Update!
+            myPcs.firePropertyChange(PROPERTY_NEXT_PIECE_UPDATED, myCurrentPiece, myNextPiece);
         }
-    }    
+    }
+
+    public void addPropertyChangeListener(final PropertyChangeListener theListener) {
+        myPcs.addPropertyChangeListener(theListener);
+    }
+
+
+    public void addPropertyChangeListener(final String thePropertyName,
+                                          final PropertyChangeListener theListener) {
+        myPcs.addPropertyChangeListener(thePropertyName, theListener);
+    }
+
+
+    public void removePropertyChangeListener(final PropertyChangeListener theListener) {
+        myPcs.removePropertyChangeListener(theListener);
+    }
+
+
+    public void removePropertyChangeListener(final String thePropertyName,
+                                             final PropertyChangeListener theListener) {
+        myPcs.removePropertyChangeListener(thePropertyName, theListener);
+    }
+
 
     
     // Inner classes

@@ -25,9 +25,9 @@ public interface TetrisBoard {
     void newGame();
 
     /**
-     * Sets a non random sequence of pieces to loop through.
+     * Sets a non-random sequence of pieces to loop through.
      *
-     * @param thePieces the List of non random TetrisPieces.
+     * @param thePieces the List of non-random TetrisPieces.
      */
     void setPieceSequence(List<TetrisPiece> thePieces);
 

@@ -3,15 +3,19 @@ package frontend;
 import com.formdev.flatlaf.themes.FlatMacDarkLaf;
 import com.formdev.flatlaf.themes.FlatMacLightLaf;
 import model.TetrisBoard;
+import model.Board;
 import resources.G4Logging;
 
 import java.awt.*;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+import java.util.logging.Level;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.util.logging.Logger;
 import javax.swing.*;
 
-public class TetrisGUI extends JFrame {
+public class TetrisGUI extends JFrame implements PropertyChangeListener {
 
     //Constants
     // ----------------------------------------------------------------------------------------
@@ -69,6 +73,9 @@ public class TetrisGUI extends JFrame {
         super("G4Tetris ALPHA v" + VERSION);
 
         myLogger.warning("Good Morning!");
+        myBoard = new Board();
+        myBoard.addPropertyChangeListener(this);
+        myBoard.newGame();
         initGUI();
 
         setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
@@ -89,6 +96,10 @@ public class TetrisGUI extends JFrame {
         final Container tetrominoPanel = new TetrominoPanel();
 
         final Container mainPanel = initListenerPane();
+        myBoard.addPropertyChangeListener((PropertyChangeListener) tetrisPanel);
+        myBoard.addPropertyChangeListener((PropertyChangeListener) statPanel);
+        myBoard.addPropertyChangeListener((PropertyChangeListener) tetrominoPanel);
+
         final GridBagConstraints c = new GridBagConstraints();
         c.fill = GridBagConstraints.BOTH;
         c.anchor = GridBagConstraints.NORTHWEST;
@@ -180,6 +191,15 @@ public class TetrisGUI extends JFrame {
             myLogger.info("Failed to use requested LaF.");
         }
 
+
+    }
+
+    @Override
+    public void propertyChange(final PropertyChangeEvent theEvt) {
+        //TODO: Add functionality based on received property
+        if (Board.PROPERTY_NEW_GAME.equals(theEvt.getPropertyName())) {
+            myLogger.log(Level.WARNING, "Property received, PROPERTY_MOVED_PIECE, TetrisGUI");
+        }
 
     }
 
