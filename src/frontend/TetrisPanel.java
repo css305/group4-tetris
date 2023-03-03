@@ -9,10 +9,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.*;
 
-import static model.Board.PROPERTY_MOVED_PIECE;
-import static model.Board.PROPERTY_NEXT_PIECE_UPDATED;
-import static model.Board.PROPERTY_BOARD_CHANGED;
-import static model.Board.PROPERTY_NEW_GAME;
+import model.Board.BoardProp;
 
 /**
  * Displays the tetris game board.
@@ -38,10 +35,10 @@ public class TetrisPanel extends JPanel implements PropertyChangeListener {
     @Override
     public void propertyChange(final PropertyChangeEvent theEvt) {
         //TODO: Add functionality based on received property
-        if (theEvt.getPropertyName().equals(PROPERTY_MOVED_PIECE)) {
+        if (theEvt.getPropertyName().equals(BoardProp.MOVED_PIECE.name())) {
             setBackground(Color.RED);
             myLogger.log(Level.WARNING, "Property received, PROPERTY_MOVED_PIECE, TetrisPanel");
-        } else if (theEvt.getPropertyName().equals(PROPERTY_BOARD_CHANGED)) {
+        } else if (theEvt.getPropertyName().equals(BoardProp.GEN_BOARD_UPDATE.name())) {
 
         }
     }

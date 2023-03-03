@@ -9,10 +9,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.*;
 
-import static model.Board.PROPERTY_MOVED_PIECE;
-import static model.Board.PROPERTY_NEXT_PIECE_UPDATED;
-import static model.Board.PROPERTY_BOARD_CHANGED;
-import static model.Board.PROPERTY_NEW_GAME;
+import model.Board.BoardProp;
 /**
  * Displays a single tetromino.
  * @version 0.1
@@ -35,7 +32,7 @@ public class TetrominoPanel extends JPanel implements PropertyChangeListener {
     @Override
     public void propertyChange(final PropertyChangeEvent theEvt) {
         //TODO: Add functionality based on received property
-        if (theEvt.getPropertyName().equals(PROPERTY_NEXT_PIECE_UPDATED)) {
+        if (theEvt.getPropertyName().equals(BoardProp.NEW_TETROMINO.name())) {
             myLogger.log(Level.WARNING, "Property received, PROPERTY_NEXT_PIECE_UPDATED, TetrominoPanel");
         }
     }

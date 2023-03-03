@@ -197,9 +197,6 @@ public class TetrisGUI extends JFrame implements PropertyChangeListener {
     @Override
     public void propertyChange(final PropertyChangeEvent theEvt) {
         //TODO: Add functionality based on received property
-        if (Board.PROPERTY_NEW_GAME.equals(theEvt.getPropertyName())) {
-            myLogger.log(Level.WARNING, "Property received, PROPERTY_MOVED_PIECE, TetrisGUI");
-        }
 
     }
 
