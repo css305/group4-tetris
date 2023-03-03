@@ -1,5 +1,6 @@
 package model;
 
+import java.beans.PropertyChangeListener;
 import java.util.List;
 
 public interface TetrisBoard {
@@ -72,6 +73,8 @@ public interface TetrisBoard {
      * Drop the piece until piece is set.
      */
     void drop();
+
+    void addPropertyChangeListener(PropertyChangeListener theListener);
 
     @Override
     String toString();
