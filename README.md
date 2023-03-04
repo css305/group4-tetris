@@ -23,6 +23,22 @@ Sprint 1
 - Group 1 | Sviatoslav Ruthovskyi, Hariroop Singh | Main GUI region layout.
 - Group 2 | Zachary C Anderson, Zac Andersen | Menu structure & project scaffolding.
 
-###### *Comments*
+###### *Comments:*
 - We've chosen to use the `gridBagLayout` and implement a resizable window. This has presented some unique and interesting challenges. The gridBag is more complicated than the other layouts but seems more powerful and flexible in the long term. We will likely need to implement a component listener for `TetrominoPanel` to keep it square under free form resizing, in time we may choose to have resolution options for the game to ease the complexity of scaling the GUI components.
 - Java's internal logging has not been working well for us, and we've had problems getting it to respect a defined logging.properties file, we will likely switch to Log4J at the top of sprint 2.
+-----------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Sprint 2
+=======
+###### *Contributions:*
+- Group 1 | Sviatoslav Ruthovskyi, Hariroop Singh | Board API, board PCS, and integrate TetrisGUI with model update methods.
+- Group 2 | Zachary C Anderson, Zac Andersen | TetrisPanel draw game board, listen for keyboard events, window resizing, and 2D sprite drawing.
+
+###### *Meetings:*
+- Link to meeting minutes:
+https://docs.google.com/document/d/1G6BOdyywWmPLVqbj0jY5JbFcdA2nuRqWD1WLyxQZb8o/edit
+- Alternate communication:
+We tend to communicate through discord text channel, also the discord voice channel if we are really stuck, and in person when we are all at campus. When we communicate its about issues we are having with the project, going over code and functions of said code, giving each other advice on coding and how to work together as a team and resolving issues with in the group in a respectful and positive manner.
+
+###### *Comments:*
+- None at the moment.
