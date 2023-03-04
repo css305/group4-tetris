@@ -72,7 +72,10 @@ public class Board implements TetrisBoard {
      */
     private boolean myGameOver;
 
-    private BoardData myBoardData;
+    /**
+     * The board data.
+     */
+    private final BoardData myBoardData;
 
     /**
      * Contains a non random sequence of TetrisPieces to loop through.
@@ -183,7 +186,8 @@ public class Board implements TetrisBoard {
         myDrop = false;
 
         //TODO Publish Update!
-        myPcs.firePropertyChange(BoardProp.GAME_OVER.toString(), null, myBoardData.getBoardData());
+        myPcs.firePropertyChange(BoardProp.GAME_OVER.toString(),
+                null, myBoardData.getBoardData());
 
     }
 
@@ -233,7 +237,8 @@ public class Board implements TetrisBoard {
                 myCurrentPiece = nextMovablePiece(false);
             }
             //TODO Publish Update!
-            myPcs.firePropertyChange(BoardProp.NEW_TETROMINO.name(), null, myBoardData.getBoardData());
+            myPcs.firePropertyChange(BoardProp.NEW_TETROMINO.name(),
+                    null, myBoardData.getBoardData());
         }
     }
 
@@ -375,14 +380,15 @@ public class Board implements TetrisBoard {
             result = true;
             if (!myDrop) {
                 //TODO Publish Update!
-                myPcs.firePropertyChange(BoardProp.MOVED_PIECE.name(), null, myBoardData.getBoardData());
+                myPcs.firePropertyChange(BoardProp.MOVED_PIECE.name(),
+                        null, myBoardData.getBoardData());
             }
         }
         return result;
     }
 
     /**
-     * Helper function to test if the piece is in a legal state.*
+     * Helper function to test if the piece is in a legal state.
      * Illegal states:
      * - points of the piece exceed the bounds of the board
      * - points of the piece collide with frozen blocks on the board
@@ -435,7 +441,8 @@ public class Board implements TetrisBoard {
             if (complete) {
                 completeRows.add(myFrozenBlocks.indexOf(row));
              //TODO Publish Update!
-                myPcs.firePropertyChange(BoardProp.GEN_BOARD_UPDATE.name(), null, myBoardData.getBoardData());
+                myPcs.firePropertyChange(BoardProp.GEN_BOARD_UPDATE.name(),
+                        null, myBoardData.getBoardData());
             }
         }
         // loop through list backwards removing items by index
@@ -566,7 +573,8 @@ public class Board implements TetrisBoard {
         }
         if (share && !myGameOver) {
             //TODO Publish Update!
-            myPcs.firePropertyChange(BoardProp.NEW_TETROMINO.name(), myCurrentPiece, myNextPiece);
+            myPcs.firePropertyChange(BoardProp.NEW_TETROMINO.name(),
+                    myCurrentPiece, myNextPiece);
         }
     }
 

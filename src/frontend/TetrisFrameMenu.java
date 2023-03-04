@@ -1,10 +1,9 @@
 package frontend;
 
-import resources.G4Logging;
-
 import java.awt.event.ActionEvent;
 import java.util.logging.Logger;
 import javax.swing.*;
+import resources.G4Logging;
 
 /**
  * The top level menu bar for the G4Tetris GUI.

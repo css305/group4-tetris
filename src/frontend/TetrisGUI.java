@@ -2,18 +2,17 @@ package frontend;
 
 import com.formdev.flatlaf.themes.FlatMacDarkLaf;
 import com.formdev.flatlaf.themes.FlatMacLightLaf;
-import model.TetrisBoard;
-import model.Board;
-import resources.G4Logging;
-
 import java.awt.*;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.logging.Level;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
 import java.util.logging.Logger;
 import javax.swing.*;
+import model.Board;
+import model.TetrisBoard;
+import resources.G4Logging;
 
 public class TetrisGUI extends JFrame implements PropertyChangeListener {
 
@@ -59,12 +58,12 @@ public class TetrisGUI extends JFrame implements PropertyChangeListener {
     /**
      * Board instance for the game.
      */
-    private TetrisBoard myBoard;
+    private final TetrisBoard myBoard;
 
     /**
      * Timer for game ticking.
      */
-    private Timer myTickTimer = new Timer(TICK_DELAY, null);
+    private final Timer myTickTimer = new Timer(TICK_DELAY, null);
 
     /**
      * Constructs a new Tetris GUI.

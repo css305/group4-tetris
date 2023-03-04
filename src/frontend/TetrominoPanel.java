@@ -1,15 +1,14 @@
 package frontend;
 
-import resources.G4Logging;
-
 import java.awt.*;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.*;
-
 import model.Board.BoardProp;
+import resources.G4Logging;
+
 /**
  * Displays a single tetromino.
  * @version 0.1
@@ -33,7 +32,8 @@ public class TetrominoPanel extends JPanel implements PropertyChangeListener {
     public void propertyChange(final PropertyChangeEvent theEvt) {
         //TODO: Add functionality based on received property
         if (theEvt.getPropertyName().equals(BoardProp.NEW_TETROMINO.name())) {
-            myLogger.log(Level.WARNING, "Property received, PROPERTY_NEXT_PIECE_UPDATED, TetrominoPanel");
+            myLogger.log(Level.WARNING,
+                    "Property received, PROPERTY_NEXT_PIECE_UPDATED, TetrominoPanel");
         }
     }
 }

@@ -1,9 +1,8 @@
 package frontend;
 
 import com.formdev.flatlaf.themes.FlatMacDarkLaf;
-import resources.G4Logging;
-
 import javax.swing.*;
+import resources.G4Logging;
 
 /**
  * Runs the G4Tetris program.

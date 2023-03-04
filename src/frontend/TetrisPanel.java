@@ -1,15 +1,13 @@
 package frontend;
 
-import resources.G4Logging;
-
 import java.awt.*;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.*;
-
 import model.Board.BoardProp;
+import resources.G4Logging;
 
 /**
  * Displays the tetris game board.
@@ -27,19 +25,15 @@ public class TetrisPanel extends JPanel implements PropertyChangeListener {
     //TODO: Implement Tetris game panel
     public TetrisPanel() {
 
-        setBackground(Color.BLACK);
-
-
+        setBackground(Color.RED);
     }
 
     @Override
     public void propertyChange(final PropertyChangeEvent theEvt) {
         //TODO: Add functionality based on received property
         if (theEvt.getPropertyName().equals(BoardProp.MOVED_PIECE.name())) {
-            setBackground(Color.RED);
-            myLogger.log(Level.WARNING, "Property received, PROPERTY_MOVED_PIECE, TetrisPanel");
-        } else if (theEvt.getPropertyName().equals(BoardProp.GEN_BOARD_UPDATE.name())) {
-
+            myLogger.log(Level.WARNING,
+                    "Property received, PROPERTY_MOVED_PIECE, TetrisPanel");
         }
     }
 }
