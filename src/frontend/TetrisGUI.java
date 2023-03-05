@@ -83,6 +83,14 @@ public class TetrisGUI extends JFrame implements PropertyChangeListener {
     }
 
     /**
+     * Starts a new game of Tetris
+     */
+    public void newGame() {
+        myBoard.newGame();
+        myTickTimer.start();
+    }
+
+    /**
      * Initializes GUI configuration.
      */
     private void initGUI() {
