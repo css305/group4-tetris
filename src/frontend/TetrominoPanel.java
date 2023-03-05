@@ -38,6 +38,11 @@ public class TetrominoPanel extends JPanel implements PropertyChangeListener {
         setBackground(Color.BLUE);
     }
 
+    /**
+     * Displays an image to the Tetromino Panel.
+     *
+     * @param theGraphics the <code>Graphics</code> object to protect
+     */
     @Override
     public void paintComponent(final Graphics theGraphics) {
         super.paintComponent(theGraphics);
