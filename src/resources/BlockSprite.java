@@ -48,7 +48,7 @@ public class BlockSprite {
      * @param theTargetSize Desired square pixel size of sprite, minimum 16px.
      * @throws IOException If texture file can not be found.
      */
-    public BlockSprite(final int theTargetSize) throws IOException {
+    public BlockSprite(final int theTargetSize) {
         loadImageFile(TEXTURE_PATH);
         mySprite = myBaseSprite;
         resize(theTargetSize);
@@ -58,7 +58,7 @@ public class BlockSprite {
     /**
      * Creates a new sprite object at default 16px resolution.
      */
-    public BlockSprite() throws IOException {
+    public BlockSprite() {
         loadImageFile(TEXTURE_PATH);
         mySprite = myBaseSprite;
     }
