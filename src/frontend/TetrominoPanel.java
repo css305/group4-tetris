@@ -39,7 +39,7 @@ public class TetrominoPanel extends JPanel implements PropertyChangeListener {
     }
 
     /**
-     * Displays an image to the Tetromino Panel.
+     * Displays an image to the Tetromino Panel using paint component.
      *
      * @param theGraphics the <code>Graphics</code> object to protect
      */
