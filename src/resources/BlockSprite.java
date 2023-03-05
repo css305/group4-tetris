@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 
 /**
@@ -33,6 +34,9 @@ public class BlockSprite {
      */
     private static BufferedImage myBaseSprite;
 
+    /** Logger for this class */
+    private final Logger myLogger = G4Logging.getLogger(this.getClass());
+
     /**
      * Image of sprite texture.
      */
@@ -45,9 +49,7 @@ public class BlockSprite {
      * @throws IOException If texture file can not be found.
      */
     public BlockSprite(final int theTargetSize) throws IOException {
-        if (myBaseSprite == null) {
-            ImageIO.read(new File(TEXTURE_PATH));
-        }
+        loadImageFile(TEXTURE_PATH);
         mySprite = myBaseSprite;
         resize(theTargetSize);
 
@@ -57,10 +59,30 @@ public class BlockSprite {
      * Creates a new sprite object at default 16px resolution.
      */
     public BlockSprite() throws IOException {
-        if (myBaseSprite == null) {
-            ImageIO.read(new File(TEXTURE_PATH));
-        }
+        loadImageFile(TEXTURE_PATH);
         mySprite = myBaseSprite;
+    }
+
+    /**
+     * Gets the pixel square size of the sprite.
+     * @return Square Height/Width of sprite.
+     */
+    public int getSize() {
+        return mySprite.getWidth();
+    }
+
+    /**
+     * Wrapper to load image file and crash if file not found.
+     * @param thePath Path to load file from.
+     */
+    private void loadImageFile(final String thePath) {
+        try {
+            ImageIO.read(new File(thePath));
+        } catch (final IOException e) {
+            myLogger.severe("Failed to load texture image, crashing");
+            e.printStackTrace();
+            System.exit(1);
+        }
     }
 
     /**
