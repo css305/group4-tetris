@@ -1,6 +1,7 @@
 package frontend;
 
 import java.awt.*;
+import java.awt.geom.Rectangle2D;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.logging.Level;
@@ -17,6 +18,15 @@ import resources.G4Logging;
 public class TetrominoPanel extends JPanel implements PropertyChangeListener {
     //Constants
 
+    /** The stroke width in pixels. */
+    private static final int STROKE_WIDTH = 10;
+
+    /** The width for the rectangle. */
+    private static final int RECTANGLE_WIDTH = 50;
+
+    /** The height for the rectangle. */
+    private static final int RECTANGLE_HEIGHT = 50;
+
     /**
      * Logger for this class.
      */
@@ -26,6 +36,26 @@ public class TetrominoPanel extends JPanel implements PropertyChangeListener {
     public TetrominoPanel() {
 
         setBackground(Color.BLUE);
+    }
+
+    @Override
+    public void paintComponent(final Graphics theGraphics) {
+        super.paintComponent(theGraphics);
+        final Graphics2D g2d = (Graphics2D) theGraphics;
+
+        // for better graphics display
+        g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
+                RenderingHints.VALUE_ANTIALIAS_ON);
+
+        final Shape rectangle = new Rectangle2D.Double((getWidth() - RECTANGLE_WIDTH) / 2.0,
+                (getHeight() - RECTANGLE_HEIGHT) / 2.0, RECTANGLE_WIDTH, RECTANGLE_HEIGHT);
+
+        g2d.setStroke(new BasicStroke(STROKE_WIDTH));
+        g2d.setPaint(Color.RED);
+        g2d.fill(rectangle);
+        g2d.setPaint(Color.WHITE);
+        g2d.draw(rectangle);
+
     }
 
     @Override
