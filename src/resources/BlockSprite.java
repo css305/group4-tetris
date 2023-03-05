@@ -76,12 +76,14 @@ public class BlockSprite {
      * @param thePath Path to load file from.
      */
     private void loadImageFile(final String thePath) {
-        try {
-            ImageIO.read(new File(thePath));
-        } catch (final IOException e) {
-            myLogger.severe("Failed to load texture image, crashing");
-            e.printStackTrace();
-            System.exit(1);
+        if (myBaseSprite == null) {
+            try {
+                myBaseSprite = ImageIO.read(new File(thePath));
+            } catch (final IOException e) {
+                myLogger.severe("Failed to load texture image, crashing");
+                e.printStackTrace();
+                System.exit(1);
+            }
         }
     }
 
@@ -90,7 +92,7 @@ public class BlockSprite {
      *
      * @param theTargetSize The desires square size of the sprite.
      */
-    private void resize(final int theTargetSize) {
+    public void resize(final int theTargetSize) {
 
         if (theTargetSize < MIN_TEXTURE_SIZE) {
             throw new IllegalArgumentException("Minimum sprite texture support is 16px");
