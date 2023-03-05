@@ -56,7 +56,9 @@ public class TetrisGUI extends JFrame implements PropertyChangeListener {
      */
     private static final Color FROSTED = new Color(242, 242, 242, 50);
 
-    /** Millisecond delay between ticks, 20 ticks per second. */
+    /**
+     * Millisecond delay between ticks, 20 ticks per second.
+     */
     private static final int TICK_DELAY = 50;
 
     //Instance vars
@@ -75,7 +77,12 @@ public class TetrisGUI extends JFrame implements PropertyChangeListener {
     /**
      * Timer for game ticking.
      */
-    private final Timer myTickTimer = new Timer(TICK_DELAY, new TickListener());
+    private final Timer myTickTimer = new Timer(TICK_DELAY, new ActionListener() {
+        @Override
+        public void actionPerformed(final ActionEvent theE) {
+            myBoard.step();
+        }
+    });
 
     /**
      * Constructs a new Tetris GUI.
@@ -160,7 +167,9 @@ public class TetrisGUI extends JFrame implements PropertyChangeListener {
 
     }
 
-    /** Configures the main GUI listener panel.
+    /**
+     * Configures the main GUI listener panel.
+     *
      * @return JPanel with KeyListener
      */
     JPanel initListenerPane() {
@@ -176,7 +185,8 @@ public class TetrisGUI extends JFrame implements PropertyChangeListener {
                         case KeyEvent.VK_D, KeyEvent.VK_RIGHT -> myBoard.right();
                         case KeyEvent.VK_W, KeyEvent.VK_UP -> myBoard.rotateCW();
                         case KeyEvent.VK_SPACE -> myBoard.drop();
-                        default -> { }
+                        default -> {
+                        }
                     }
                 }
             }
@@ -187,6 +197,7 @@ public class TetrisGUI extends JFrame implements PropertyChangeListener {
 
     /**
      * Updates look and feel.
+     *
      * @param theLaF LaF to change to.
      */
     public void setLaF(final LookAndFeel theLaF) {
@@ -216,22 +227,15 @@ public class TetrisGUI extends JFrame implements PropertyChangeListener {
      * Look and Feel options for application.
      */
     public enum LookAndFeel {
-        /** Light mode. */
+        /**
+         * Light mode.
+         */
         LIGHT,
-        /** Dark mode. */
+        /**
+         * Dark mode.
+         */
         DARK
 
     }
 
-    /**
-     * Private helper class which is used in Timer.
-     * @author Hariroop Singh
-     * @version 3/5/23
-     */
-    private class TickListener implements ActionListener {
-        @Override
-        public void actionPerformed(final ActionEvent theE) {
-            myBoard.step();
-        }
-    }
 }
