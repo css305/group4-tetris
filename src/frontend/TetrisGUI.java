@@ -2,14 +2,26 @@ package frontend;
 
 import com.formdev.flatlaf.themes.FlatMacDarkLaf;
 import com.formdev.flatlaf.themes.FlatMacLightLaf;
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Container;
+import java.awt.Dimension;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.*;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
+import javax.swing.Timer;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
+import javax.swing.WindowConstants;
 import model.Board;
 import model.TetrisBoard;
 import resources.G4Logging;
@@ -63,7 +75,7 @@ public class TetrisGUI extends JFrame implements PropertyChangeListener {
     /**
      * Timer for game ticking.
      */
-    private final Timer myTickTimer = new Timer(TICK_DELAY, null);
+    private final Timer myTickTimer = new Timer(TICK_DELAY, new TickListener());
 
     /**
      * Constructs a new Tetris GUI.
@@ -197,6 +209,7 @@ public class TetrisGUI extends JFrame implements PropertyChangeListener {
     public void propertyChange(final PropertyChangeEvent theEvt) {
         //TODO: Add functionality based on received property
 
+
     }
 
     /**
@@ -208,5 +221,17 @@ public class TetrisGUI extends JFrame implements PropertyChangeListener {
         /** Dark mode. */
         DARK
 
+    }
+
+    /**
+     * Private helper class which is used in Timer.
+     * @author Hariroop Singh
+     * @version 3/5/23
+     */
+    private class TickListener implements ActionListener {
+        @Override
+        public void actionPerformed(final ActionEvent theE) {
+            myBoard.step();
+        }
     }
 }
