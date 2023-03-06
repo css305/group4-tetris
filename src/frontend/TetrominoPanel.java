@@ -18,53 +18,57 @@ import resources.G4Logging;
 public class TetrominoPanel extends JPanel implements PropertyChangeListener {
     //Constants
 
-    /** The stroke width in pixels. */
-    private static final int STROKE_WIDTH = 10;
-
-    /** The width for the rectangle. */
-    private static final int RECTANGLE_WIDTH = 50;
-
-    /** The height for the rectangle. */
-    private static final int RECTANGLE_HEIGHT = 50;
-
     /**
      * Logger for this class.
      */
     private final Logger myLogger = G4Logging.getLogger(getClass());
 
+    //Instance vars
+
+    /** PCL counter. */
+    private int myPCLCalls;
+
+    /** Some colors for now. */
+    private final Color[] myColors = {Color.RED, Color.BLUE, Color.GREEN};
+
+    /** Rectangle information. */
+    private final Rectangle2D myRect = new Rectangle2D.Double(50.0, 50.0, 50.0, 50.0);
+
     //TODO: Implement the tetromino preview pane
     public TetrominoPanel() {
 
-        setBackground(Color.BLUE);
+        setBackground(Color.BLACK);
     }
 
     /**
-     * Displays an image to the Tetromino Panel using paint component.
+     * Displays image to Tetromino Panel.
      *
-     * @param theGraphics the <code>Graphics</code> object to protect
+     * @param g0 the <code>Graphics</code> object to protect
      */
     @Override
-    public void paintComponent(final Graphics theGraphics) {
-        super.paintComponent(theGraphics);
-        final Graphics2D g2d = (Graphics2D) theGraphics;
+    public void paintComponent(final Graphics g0) {
+        myLogger.info("PaintComponent is called");
+        final Graphics2D g2d = (Graphics2D) g0;
 
-        // for better graphics display
         g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
                 RenderingHints.VALUE_ANTIALIAS_ON);
 
-        final Shape rectangle = new Rectangle2D.Double((getWidth() - RECTANGLE_WIDTH) / 2.0,
-                (getHeight() - RECTANGLE_HEIGHT) / 2.0, RECTANGLE_WIDTH, RECTANGLE_HEIGHT);
+        if (myPCLCalls > 2) {
+            myPCLCalls = 0;
+        }
 
-        g2d.setStroke(new BasicStroke(STROKE_WIDTH));
-        g2d.setPaint(Color.RED);
-        g2d.fill(rectangle);
-        g2d.setPaint(Color.WHITE);
-        g2d.draw(rectangle);
+        g2d.setPaint(myColors[myPCLCalls]);
+        g2d.fill(myRect);
+        myPCLCalls++;
 
     }
 
     @Override
-    public void propertyChange(final PropertyChangeEvent theEvt) {
+    public void propertyChange(final PropertyChangeEvent e0) {
         //TODO: Add functionality based on received property
+        switch (BoardProp.valueOf(e0.getPropertyName())) {
+            case MOVED_PIECE -> repaint();
+        }
     }
+
 }
