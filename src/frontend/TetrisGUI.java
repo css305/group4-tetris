@@ -57,9 +57,9 @@ public class TetrisGUI extends JFrame implements PropertyChangeListener {
     private static final Color FROSTED = new Color(242, 242, 242, 50);
 
     /**
-     * Millisecond delay between ticks, 20 ticks per second.
+     * Millisecond delay between ticks, 1 ticks per second.
      */
-    private static final int TICK_DELAY = 50;
+    private static final int TICK_DELAY = 1000;
 
     //Instance vars
     // ----------------------------------------------------------------------------------------
@@ -96,7 +96,7 @@ public class TetrisGUI extends JFrame implements PropertyChangeListener {
         myBoard.newGame();
         initGUI();
 
-        setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setJMenuBar(new TetrisFrameMenu(this));
         setVisible(true);
     }

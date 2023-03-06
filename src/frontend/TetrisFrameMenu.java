@@ -32,11 +32,10 @@ public final class TetrisFrameMenu extends JMenuBar {
      */
     private JMenu createFileMenu() {
         final JMenu fileMenu = new JMenu("File");
-        fileMenu.add(new JMenuItem(new AbstractAction("New") {
+        fileMenu.add(new JMenuItem(new AbstractAction("New Game") {
             @Override
             public void actionPerformed(final ActionEvent e0) {
-                myLogger.fine("New file pressed");
-                JOptionPane.showMessageDialog(fileMenu, "This will open a new file");
+                myTetrisGUI.newGame();
             }
         }));
 
