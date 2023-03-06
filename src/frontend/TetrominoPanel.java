@@ -47,7 +47,7 @@ public class TetrominoPanel extends JPanel implements PropertyChangeListener {
      */
     @Override
     public void paintComponent(final Graphics g0) {
-        myLogger.info("PaintComponent is called");
+        super.paintComponent(g0);
         final Graphics2D g2d = (Graphics2D) g0;
 
         g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
