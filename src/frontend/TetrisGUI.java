@@ -95,6 +95,7 @@ public class TetrisGUI extends JFrame implements PropertyChangeListener {
         @Override
         public void actionPerformed(final ActionEvent theE) {
             myBoard.step();
+            System.out.println(myBoard.toString());
         }
     });
 
@@ -180,6 +181,8 @@ public class TetrisGUI extends JFrame implements PropertyChangeListener {
         setResizable(true);
 
         add(mainPanel);
+        mainPanel.setFocusable(true);
+        mainPanel.requestFocus();
         pack();
 
         //center window on screen
@@ -201,7 +204,7 @@ public class TetrisGUI extends JFrame implements PropertyChangeListener {
 
         panel.addKeyListener(new KeyAdapter() {
             @Override
-            public void keyTyped(final KeyEvent e0) {
+            public void keyPressed(final KeyEvent e0) {
                 if (myTickTimer.isRunning()) {
                     final int keyCode = e0.getKeyCode();
                     switch (keyCode) {

@@ -80,5 +80,6 @@ public class TetrisPanel extends JPanel implements PropertyChangeListener {
         switch (BoardProp.valueOf(e0.getPropertyName())) {
             case MOVED_PIECE -> repaint();
         }
+        transferFocus();
     }
 }
