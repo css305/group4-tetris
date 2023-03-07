@@ -237,7 +237,7 @@ public class Board implements TetrisBoard {
                 myCurrentPiece = nextMovablePiece(false);
             }
             //TODO Publish Update!
-            myPcs.firePropertyChange(BoardProp.NEW_TETROMINO.name(),
+            myPcs.firePropertyChange(BoardProp.GEN_BOARD_UPDATE.name(),
                     null, myBoardData.getBoardData());
         }
     }
