@@ -10,6 +10,8 @@ import java.awt.GridBagLayout;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.beans.PropertyChangeEvent;
@@ -24,6 +26,7 @@ import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.WindowConstants;
 import model.Board;
 import model.TetrisBoard;
+import resources.BlockSprite;
 import resources.G4Logging;
 
 public class TetrisGUI extends JFrame implements PropertyChangeListener {
@@ -45,6 +48,17 @@ public class TetrisGUI extends JFrame implements PropertyChangeListener {
      * Screen dimensions.
      */
     private static final Dimension SCREEN_SIZE = KIT.getScreenSize();
+
+    /**
+     * Number of columns for the grid layout.
+     */
+    private static final int GRID_COLS = 3;
+
+    /** Pixel increment by which to resize the application */
+    private static final int PIXEL_INCREMENT = 10;
+
+    /** Application aspect ratio for resizing. */
+    private static final double ASPECT_RATIO = 3.0 / 2.0;
 
     /**
      * Transparent color.
@@ -117,11 +131,11 @@ public class TetrisGUI extends JFrame implements PropertyChangeListener {
         setLaF(LookAndFeel.DARK);
         System.setProperty("flatlaf.menuBarEmbedded", "true");
 
-        final Container tetrisPanel = new TetrisPanel();
-        final Container statPanel = new StatPanel();
-        final Container tetrominoPanel = new TetrominoPanel();
+        final TetrisPanel tetrisPanel = new TetrisPanel();
+        final StatPanel statPanel = new StatPanel();
+        final TetrominoPanel tetrominoPanel = new TetrominoPanel();
 
-        final Container mainPanel = initListenerPane();
+        final Container mainPanel = initListenerPane(tetrisPanel, tetrominoPanel);
         myBoard.addPropertyChangeListener((PropertyChangeListener) tetrisPanel);
         myBoard.addPropertyChangeListener((PropertyChangeListener) statPanel);
         myBoard.addPropertyChangeListener((PropertyChangeListener) tetrominoPanel);
@@ -180,8 +194,11 @@ public class TetrisGUI extends JFrame implements PropertyChangeListener {
      *
      * @return JPanel with KeyListener
      */
-    JPanel initListenerPane() {
+    JPanel initListenerPane(final TetrisPanel theTetrisPanel,
+                            final TetrominoPanel theNextPanel) {
+
         final JPanel panel = new JPanel(new GridBagLayout());
+
         panel.addKeyListener(new KeyAdapter() {
             @Override
             public void keyTyped(final KeyEvent e0) {
@@ -197,6 +214,54 @@ public class TetrisGUI extends JFrame implements PropertyChangeListener {
                         }
                     }
                 }
+            }
+        });
+
+        panel.addComponentListener(new ComponentAdapter() {
+            @Override
+            public void componentResized(final ComponentEvent e0) {
+                Dimension pSize = e0.getComponent().getSize();
+                final int pWidth = pSize.width;
+                final int pHeight = pSize.height;
+                final int newPxSize = (pWidth / GRID_COLS) * 2 / myBoard.getWidth();
+
+                final BlockSprite sprite = theTetrisPanel.getSprite();
+
+                /*
+                Decide whether to resize:
+                Will resize the board if the square size will be 10px larger than current and
+                 aspect ratio can be maintained.
+                 Buffer size between/around panels = 3 squares.
+                 */
+                if (newPxSize < (sprite.getSize() + PIXEL_INCREMENT)
+                        || pHeight > (pWidth * ASPECT_RATIO)) {
+                    myLogger.fine("Conditions not met to resize \n"
+                    + "New Sprite: " + newPxSize + ", Old: " + sprite.getSize()
+                    + "\n Height: " + pHeight + " Width: " + pWidth);
+                    return;
+                }
+
+                final int newWidth = pWidth - (newPxSize * GRID_COLS);
+                myLogger.info("Resizing: \n"
+                        + "New Sprite: " + newPxSize + ", Old: " + sprite.getSize()
+                        + "\n new width: " + newWidth
+                        + ", height: " + newWidth * ASPECT_RATIO);
+
+                final Dimension newPanelSize = new Dimension(newWidth,
+                        (int) (newWidth * ASPECT_RATIO));
+                theTetrisPanel.setPreferredSize(new Dimension(
+                        newPxSize * myBoard.getWidth(),
+                        newPxSize * myBoard.getHeight()
+                ));
+
+                sprite.resize(newPxSize);
+
+                final int tetroSquare = theNextPanel.getWidth();
+                theNextPanel.setPreferredSize(new Dimension(
+                        tetroSquare, tetroSquare
+                ));
+
+
             }
         });
 

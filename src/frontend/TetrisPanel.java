@@ -7,6 +7,7 @@ import java.beans.PropertyChangeListener;
 import java.util.logging.Logger;
 import javax.swing.*;
 import model.Board.BoardProp;
+import resources.BlockSprite;
 import resources.G4Logging;
 
 /**
@@ -22,6 +23,9 @@ public class TetrisPanel extends JPanel implements PropertyChangeListener {
      */
     private final Logger myLogger = G4Logging.getLogger(getClass());
 
+    /** The current in use block sprite. */
+    private final BlockSprite mySprite = new BlockSprite();
+
     //Instance vars
 
     /** PCL counter. */
@@ -33,9 +37,23 @@ public class TetrisPanel extends JPanel implements PropertyChangeListener {
     private final Rectangle2D myRect = new Rectangle2D.Double(0.0, 0.0, 50.0, 50.0);
 
     //TODO: Implement Tetris game panel
+
+    /**
+     * Constructs a new panel to render the game board.
+     */
     public TetrisPanel() {
 
         setBackground(Color.WHITE);
+        setBackground(Color.RED);
+
+    }
+
+    /**
+     * Gets the sprite object used by this board.
+     * @return Reference to this board's sprite.
+     */
+    public BlockSprite getSprite() {
+        return mySprite;
     }
 
 
