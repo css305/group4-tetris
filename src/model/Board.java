@@ -441,8 +441,8 @@ public class Board implements TetrisBoard {
             if (complete) {
                 completeRows.add(myFrozenBlocks.indexOf(row));
              //TODO Publish Update!
-                myPcs.firePropertyChange(BoardProp.GEN_BOARD_UPDATE.name(),
-                        null, myBoardData.getBoardData());
+                myPcs.firePropertyChange(BoardProp.ROWS_CLEARED.name(),
+                        null, completeRows.size());
             }
         }
         // loop through list backwards removing items by index
@@ -662,7 +662,11 @@ public class Board implements TetrisBoard {
         /**
          * Name for move property.
          */
-        GEN_BOARD_UPDATE
+        GEN_BOARD_UPDATE,
+        /**
+         * Name for move property.
+         */
+        ROWS_CLEARED
     }
 
     
