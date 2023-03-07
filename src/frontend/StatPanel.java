@@ -18,24 +18,21 @@ import resources.Score;
 public class StatPanel extends JPanel implements PropertyChangeListener {
     //Constants
 
-    /**
-     * Logger for this class.
-     */
+    /** Logger for this class. */
     private final Logger myLogger = G4Logging.getLogger(getClass());
 
-    /**
-     * Panel that will display score.
-     */
+    /** Panel that will display score. */
     private final JLabel myScore;
-    /**
-     * Panel that will display the highest score.
-     */
+
+    /** Panel that will display the highest score. */
     private final JLabel myHighScore;
-    /**
-     * Panel that will display current level.
-     */
+
+    /** Panel that will display current level. */
     private final JLabel myLevel;
 
+    /**
+     * Stat panel displaying attributes to game.
+     */
     //TODO: Implement stats area
     public StatPanel() {
 
@@ -47,10 +44,16 @@ public class StatPanel extends JPanel implements PropertyChangeListener {
         add(myHighScore);
         add(myLevel);
 
-        //setBackground(Color.GREEN);
+        setBackground(Color.DARK_GRAY);
 
     }
 
+    /**
+     * Displays changes within stat panel.
+     *
+     * @param e0 A PropertyChangeEvent object describing the event source
+     *          and the property that has changed.
+     */
     @Override
     public void propertyChange(final PropertyChangeEvent e0) {
         //TODO: Add functionality based on received property
