@@ -3,19 +3,18 @@ package frontend;
 import com.formdev.flatlaf.themes.FlatMacDarkLaf;
 import com.formdev.flatlaf.themes.FlatMacLightLaf;
 import java.awt.Color;
-import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
-import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.logging.Logger;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -26,7 +25,6 @@ import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.WindowConstants;
 import model.Board;
 import model.TetrisBoard;
-import resources.BlockSprite;
 import resources.G4Logging;
 
 public class TetrisGUI extends JFrame implements PropertyChangeListener {
@@ -56,9 +54,6 @@ public class TetrisGUI extends JFrame implements PropertyChangeListener {
 
     /** Pixel increment by which to resize the application */
     private static final int PIXEL_INCREMENT = 10;
-
-    /** Application aspect ratio for resizing. */
-    private static final double ASPECT_RATIO = 3.0 / 2.0;
 
     /**
      * Transparent color.
@@ -135,8 +130,7 @@ public class TetrisGUI extends JFrame implements PropertyChangeListener {
         final TetrisPanel tetrisPanel = new TetrisPanel();
         final StatPanel statPanel = new StatPanel();
         final TetrominoPanel tetrominoPanel = new TetrominoPanel();
-
-        final Container mainPanel = initListenerPane(tetrisPanel, tetrominoPanel);
+        final RootPanel root = new RootPanel();
         myBoard.addPropertyChangeListener((PropertyChangeListener) tetrisPanel);
         myBoard.addPropertyChangeListener((PropertyChangeListener) statPanel);
         myBoard.addPropertyChangeListener((PropertyChangeListener) tetrominoPanel);
@@ -150,39 +144,36 @@ public class TetrisGUI extends JFrame implements PropertyChangeListener {
         width to 0.
          */
 
-        c.weightx = GridConstraints.COL1_WEIGHT_X;
-        c.weighty = GridConstraints.COL1_WEIGHT_Y;
-        c.gridx = GridConstraints.TETRIS_PANEL_GRID_X;
-        c.gridy = GridConstraints.TETRIS_PANEL_GRID_Y;
-        c.gridheight = GridConstraints.TETRIS_PANEL_GRID_HEIGHT;
-        mainPanel.add(tetrisPanel, c);
+        c.weightx = GuiConstants.COL1_WEIGHT_X;
+        c.weighty = GuiConstants.COL1_WEIGHT_Y;
+        c.gridx = GuiConstants.TETRIS_PANEL_GRID_X;
+        c.gridy = GuiConstants.TETRIS_PANEL_GRID_Y;
+        c.gridheight = GuiConstants.TETRIS_PANEL_GRID_HEIGHT;
+        root.add(tetrisPanel, c);
 
-        c.weightx = GridConstraints.COL2_WEIGHT_X;
-        c.weighty = GridConstraints.TETROMINO_PANEL_WEIGHT_Y;
-        c.gridx = GridConstraints.TETROMINO_PANEL_GRID_X;
-        c.gridy = GridConstraints.TETROMINO_PANEL_GRID_Y;
-        c.gridheight = GridConstraints.TETROMINO_PANEL_GRID_HEIGHT;
-        mainPanel.add(tetrominoPanel, c);
+        c.weightx = GuiConstants.COL2_WEIGHT_X;
+        c.weighty = GuiConstants.TETROMINO_PANEL_WEIGHT_Y;
+        c.gridx = GuiConstants.TETROMINO_PANEL_GRID_X;
+        c.gridy = GuiConstants.TETROMINO_PANEL_GRID_Y;
+        c.gridheight = GuiConstants.TETROMINO_PANEL_GRID_HEIGHT;
+        root.add(tetrominoPanel, c);
         //TODO: Make this panel square, consider:
         //https://stackoverflow.com/questions/27544569/java-how-to-control-jpanel-aspect-ratio
 
-        c.weightx = GridConstraints.COL2_WEIGHT_X;
-        c.weighty = GridConstraints.STAT_PANEL_WEIGHT_Y;
-        c.gridx = GridConstraints.STAT_PANEL_GRID_X;
-        c.gridy = GridConstraints.STAT_PANEL_GRID_Y;
-        c.gridheight = GridConstraints.STAT_PANEL_GRID_HEIGHT;
-        mainPanel.add(statPanel, c);
+        c.weightx = GuiConstants.COL2_WEIGHT_X;
+        c.weighty = GuiConstants.STAT_PANEL_WEIGHT_Y;
+        c.gridx = GuiConstants.STAT_PANEL_GRID_X;
+        c.gridy = GuiConstants.STAT_PANEL_GRID_Y;
+        c.gridheight = GuiConstants.STAT_PANEL_GRID_HEIGHT;
+        root.add(statPanel, c);
 
-        setPreferredSize(new Dimension(
-                (int) (SCREEN_SIZE.getWidth() / GridConstraints.PREF_SIZE_W_MOD),
-                (int) (SCREEN_SIZE.getHeight() / GridConstraints.PREF_SIZE_H_MOD)));
-        setMinimumSize(new Dimension(GridConstraints.MINIMUM_SIZE_WIDTH,
-                GridConstraints.MINIMUM_SIZE_HEIGHT));
         setResizable(true);
 
-        add(mainPanel);
-        mainPanel.setFocusable(true);
-        mainPanel.requestFocus();
+        setMinimumSize(root.getMinimumSize());
+
+        setContentPane(root);
+        root.setFocusable(true);
+        root.requestFocus();
         pack();
 
         //center window on screen
@@ -190,85 +181,6 @@ public class TetrisGUI extends JFrame implements PropertyChangeListener {
                 SCREEN_SIZE.height / 2 - getHeight() / 2);
 
 
-    }
-
-    /**
-     * Configures the main GUI listener panel.
-     *
-     * @return JPanel with KeyListener
-     */
-    JPanel initListenerPane(final TetrisPanel theTetrisPanel,
-                            final TetrominoPanel theNextPanel) {
-
-        final JPanel panel = new JPanel(new GridBagLayout());
-
-        panel.addKeyListener(new KeyAdapter() {
-            @Override
-            public void keyPressed(final KeyEvent e0) {
-                if (myTickTimer.isRunning()) {
-                    final int keyCode = e0.getKeyCode();
-                    switch (keyCode) {
-                        case KeyEvent.VK_A, KeyEvent.VK_LEFT -> myBoard.left();
-                        case KeyEvent.VK_S, KeyEvent.VK_DOWN -> myBoard.down();
-                        case KeyEvent.VK_D, KeyEvent.VK_RIGHT -> myBoard.right();
-                        case KeyEvent.VK_W, KeyEvent.VK_UP -> myBoard.rotateCW();
-                        case KeyEvent.VK_SPACE -> myBoard.drop();
-                        default -> {
-                        }
-                    }
-                }
-            }
-        });
-
-        panel.addComponentListener(new ComponentAdapter() {
-            @Override
-            public void componentResized(final ComponentEvent e0) {
-                Dimension pSize = e0.getComponent().getSize();
-                final int pWidth = pSize.width;
-                final int pHeight = pSize.height;
-                final int newPxSize = (pWidth / GRID_COLS) * 2 / myBoard.getWidth();
-
-                final BlockSprite sprite = theTetrisPanel.getSprite();
-
-                /*
-                Decide whether to resize:
-                Will resize the board if the square size will be 10px larger than current and
-                 aspect ratio can be maintained.
-                 Buffer size between/around panels = 3 squares.
-                 */
-                if (newPxSize < (sprite.getSize() + PIXEL_INCREMENT)
-                        || pHeight > (pWidth * ASPECT_RATIO)) {
-                    myLogger.fine("Conditions not met to resize \n"
-                    + "New Sprite: " + newPxSize + ", Old: " + sprite.getSize()
-                    + "\n Height: " + pHeight + " Width: " + pWidth);
-                    return;
-                }
-
-                final int newWidth = pWidth - (newPxSize * GRID_COLS);
-                myLogger.info("Resizing: \n"
-                        + "New Sprite: " + newPxSize + ", Old: " + sprite.getSize()
-                        + "\n new width: " + newWidth
-                        + ", height: " + newWidth * ASPECT_RATIO);
-
-                final Dimension newPanelSize = new Dimension(newWidth,
-                        (int) (newWidth * ASPECT_RATIO));
-                theTetrisPanel.setPreferredSize(new Dimension(
-                        newPxSize * myBoard.getWidth(),
-                        newPxSize * myBoard.getHeight()
-                ));
-
-                sprite.resize(newPxSize);
-
-                final int tetroSquare = theNextPanel.getWidth();
-                theNextPanel.setPreferredSize(new Dimension(
-                        tetroSquare, tetroSquare
-                ));
-
-
-            }
-        });
-
-        return panel;
     }
 
     /**
@@ -293,10 +205,84 @@ public class TetrisGUI extends JFrame implements PropertyChangeListener {
     }
 
     @Override
+    public Dimension getMinimumSize() {
+        return getContentPane().getMinimumSize();
+    }
+
+    @Override
     public void propertyChange(final PropertyChangeEvent theEvt) {
         //TODO: Add functionality based on received property
 
 
+    }
+
+    //Nested Support Classes
+
+    /**
+     * The root GUI panel of the G4Tetris application.
+     * The root panel handles the key listening behavior and command passage from the GUI to
+     * backend board.
+     * @author Zac Andersen (anderzb@uw.edu)
+     * @version 0.1
+     */
+    private final class RootPanel extends JPanel implements KeyListener {
+
+
+        /**Minimum size of the root content pane. */
+        private static final Dimension MIN_SIZE = new Dimension(480,  640);
+
+        /** Map of keys - command pairs. */
+        private final Map<Integer, Runnable> myKeyMap = new HashMap<>();
+
+        /**
+         * Constructs to GUI root panel. Initializes code - command pairs.
+         */
+        private RootPanel() {
+            setLayout(new GridBagLayout());
+            initDefaultKeyCodes();
+
+            setFocusable(true);
+            requestFocus();
+        }
+
+        /**
+         * Places default code - command pairs into the key map.
+         */
+        private void initDefaultKeyCodes() {
+            myKeyMap.put(KeyEvent.VK_A, myBoard::left);
+            myKeyMap.put(KeyEvent.VK_LEFT, myBoard::left);
+            myKeyMap.put(KeyEvent.VK_S, myBoard::down);
+            myKeyMap.put(KeyEvent.VK_DOWN, myBoard::down);
+            myKeyMap.put(KeyEvent.VK_D, myBoard::right);
+            myKeyMap.put(KeyEvent.VK_RIGHT, myBoard::right);
+            myKeyMap.put(KeyEvent.VK_W, myBoard::rotateCW);
+            myKeyMap.put(KeyEvent.VK_E, myBoard::rotateCW);
+            myKeyMap.put(KeyEvent.VK_Z, myBoard::rotateCCW);
+            myKeyMap.put(KeyEvent.VK_Q, myBoard::rotateCCW);
+        }
+
+        @Override
+        public Dimension getMinimumSize() {
+            return MIN_SIZE;
+        }
+
+        @Override
+        public void keyTyped(final KeyEvent e0) {
+            //Unused, reports only character and code always returns 0.
+        }
+
+        @Override
+        public void keyPressed(final KeyEvent e0) {
+            final int code = e0.getKeyCode();
+            if (myKeyMap.containsKey(code)) {
+                myKeyMap.get(code).run();
+            }
+        }
+
+        @Override
+        public void keyReleased(final KeyEvent e0) {
+            //Currently unused, could use to repeat commands on tick clock.
+        }
     }
 
     /**
