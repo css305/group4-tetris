@@ -18,9 +18,7 @@ import resources.G4Logging;
 public class TetrominoPanel extends JPanel implements PropertyChangeListener {
     //Constants
 
-    /**
-     * Logger for this class.
-     */
+    /** Logger for this class. */
     private final Logger myLogger = G4Logging.getLogger(getClass());
 
     //Instance vars
@@ -31,58 +29,11 @@ public class TetrominoPanel extends JPanel implements PropertyChangeListener {
     /** Some colors for now. */
     private final Color[] myColors = {Color.RED, Color.BLUE, Color.GREEN};
 
+    /** Current tetromino. */
+    private Rectangle2D[] myCurrentTetromino = AllTetrisPieces.RECT_ARRAY_I;
 
-
-    /** I tetris piece. */
-    private final Rectangle2D[] myRectArrayI = new Rectangle2D[]{
-        new Rectangle2D.Double(50.0, 50.0, 20.0, 20.0),
-        new Rectangle2D.Double(70.0, 50.0, 20.0, 20.0),
-        new Rectangle2D.Double(90.0, 50.0, 20.0, 20.0),
-        new Rectangle2D.Double(110.0, 50.0, 20.0, 20.0)};
-    /** J tetris piece. */
-    private final Rectangle2D[] myRectArrayJ = new Rectangle2D[] {
-        new Rectangle2D.Double(70.0, 50.0, 20.0, 20.0),
-        new Rectangle2D.Double(70.0, 70.0, 20.0, 20.0),
-        new Rectangle2D.Double(70.0, 90.0, 20.0, 20.0),
-        new Rectangle2D.Double(50.0, 90.0, 20.0, 20.0)};
-    /** L tetris piece. */
-    private final Rectangle2D[] myRectArrayL = new Rectangle2D[] {
-        new Rectangle2D.Double(50.0, 50.0, 20.0, 20.0),
-        new Rectangle2D.Double(50.0, 70.0, 20.0, 20.0),
-        new Rectangle2D.Double(50.0, 90.0, 20.0, 20.0),
-        new Rectangle2D.Double(70.0, 90.0, 20.0, 20.0)};
-    /** O tetris piece. */
-
-    private final Rectangle2D[] myRectArrayO = new Rectangle2D[] {
-        new Rectangle2D.Double(50.0, 50.0, 20.0, 20.0),
-        new Rectangle2D.Double(70.0, 50.0, 20.0, 20.0),
-        new Rectangle2D.Double(50.0, 70.0, 20.0, 20.0),
-        new Rectangle2D.Double(70.0, 70.0, 20.0, 20.0)};
-    /** S tetris piece. */
-    private final Rectangle2D[] myRectArrayS = new Rectangle2D[] {
-        new Rectangle2D.Double(90.0, 50.0, 20.0, 20.0),
-        new Rectangle2D.Double(70.0, 50.0, 20.0, 20.0),
-        new Rectangle2D.Double(50.0, 70.0, 20.0, 20.0),
-        new Rectangle2D.Double(70.0, 70.0, 20.0, 20.0)};
-
-    /** T tetris piece. */
-    private final Rectangle2D[] myRectArrayT = new Rectangle2D[] {
-        new Rectangle2D.Double(50.0, 50.0, 20.0, 20.0),
-        new Rectangle2D.Double(70.0, 50.0, 20.0, 20.0),
-        new Rectangle2D.Double(90.0, 50.0, 20.0, 20.0),
-        new Rectangle2D.Double(70.0, 70.0, 20.0, 20.0)};
-    /** Z tetris piece. */
-    private final Rectangle2D[] myRectArrayZ = new Rectangle2D[] {
-        new Rectangle2D.Double(50.0, 50.0, 20.0, 20.0),
-        new Rectangle2D.Double(70.0, 50.0, 20.0, 20.0),
-        new Rectangle2D.Double(90.0, 70.0, 20.0, 20.0),
-        new Rectangle2D.Double(70.0, 70.0, 20.0, 20.0)};
-
-
-    /**
-     * Current tetromino.
-     */
-    private Rectangle2D[] myCurrentTetromino = myRectArrayI;
+    /** Array length for Tetris Pieces in PaintComponent. */
+    private final int myArrayLength = 4;
 
     //TODO: Implement the tetromino preview pane
     public TetrominoPanel() {
@@ -112,7 +63,7 @@ public class TetrominoPanel extends JPanel implements PropertyChangeListener {
         }
 
         // tetris piece
-        for (int i = 0; i < 4; i++) {
+        for (int i = 0; i < myArrayLength; i++) {
             g2d.setPaint(myColors[myPCLCalls]);
             g2d.fill(myCurrentTetromino[i]);
         }
@@ -126,13 +77,13 @@ public class TetrominoPanel extends JPanel implements PropertyChangeListener {
         if (BoardProp.valueOf(e0.getPropertyName()) == BoardProp.NEW_TETROMINO) {
             System.out.println("Printing the tetromino " + e0.getNewValue());
             switch ((TetrisPiece) e0.getNewValue()) {
-                case I -> paintPiece(myRectArrayI);
-                case J -> paintPiece(myRectArrayJ);
-                case O -> paintPiece(myRectArrayO);
-                case L -> paintPiece(myRectArrayL);
-                case T -> paintPiece(myRectArrayT);
-                case S -> paintPiece(myRectArrayS);
-                case Z -> paintPiece(myRectArrayZ);
+                case I -> paintPiece(AllTetrisPieces.RECT_ARRAY_I);
+                case J -> paintPiece(AllTetrisPieces.RECT_ARRAY_J);
+                case O -> paintPiece(AllTetrisPieces.RECT_ARRAY_O);
+                case L -> paintPiece(AllTetrisPieces.RECT_ARRAY_L);
+                case T -> paintPiece(AllTetrisPieces.RECT_ARRAY_T);
+                case S -> paintPiece(AllTetrisPieces.RECT_ARRAY_S);
+                case Z -> paintPiece(AllTetrisPieces.RECT_ARRAY_Z);
                 default -> { }
             }
         }
