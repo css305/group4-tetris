@@ -185,7 +185,7 @@ public class Board implements TetrisBoard {
         myCurrentPiece = nextMovablePiece(true);
         myDrop = false;
 
-        //TODO Publish Update!
+
         myPcs.firePropertyChange(BoardProp.GAME_OVER.toString(),
                 null, myBoardData.getBoardData());
 
@@ -236,8 +236,8 @@ public class Board implements TetrisBoard {
             if (!myGameOver) {
                 myCurrentPiece = nextMovablePiece(false);
             }
-            //TODO Publish Update!
-            myPcs.firePropertyChange(BoardProp.NEW_TETROMINO.name(),
+
+            myPcs.firePropertyChange(BoardProp.GEN_BOARD_UPDATE.name(),
                     null, myBoardData.getBoardData());
         }
     }

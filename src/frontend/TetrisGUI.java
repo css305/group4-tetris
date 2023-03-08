@@ -111,8 +111,9 @@ public class TetrisGUI extends JFrame implements PropertyChangeListener {
         setLaF(LookAndFeel.DARK);
         System.setProperty("flatlaf.menuBarEmbedded", "true");
 
-        //
-        final TetrisPanel tetrisPanel = new TetrisPanel();
+        final TetrisPanel tetrisPanel = new TetrisPanel(
+                new Dimension(myBoard.getWidth(), myBoard.getHeight())
+        );
         myBoard.addPropertyChangeListener(tetrisPanel);
         final JPanel tetrisStretch = createStretchPanel();
 
@@ -187,7 +188,7 @@ public class TetrisGUI extends JFrame implements PropertyChangeListener {
      */
     private JPanel createStretchPanel() {
         final JPanel panel = new JPanel(new GridBagLayout());
-        panel.setBackground(GuiConstants.FROST);
+        panel.setBackground(GuiConstants.TRANSPARENT);
         panel.setFocusable(false);
 
         return panel;
