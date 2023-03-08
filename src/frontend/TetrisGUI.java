@@ -87,7 +87,6 @@ public class TetrisGUI extends JFrame implements PropertyChangeListener {
         myLogger.warning("Good Morning!");
         myBoard = new Board();
         myBoard.addPropertyChangeListener(this);
-        myBoard.newGame();
         initGUI();
 
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
@@ -172,14 +171,11 @@ public class TetrisGUI extends JFrame implements PropertyChangeListener {
         setMinimumSize(root.getMinimumSize());
 
         setContentPane(root);
-        root.setFocusable(true);
-        root.requestFocus();
         pack();
 
         //center window on screen
         setLocation(SCREEN_SIZE.width / 2 - getWidth() / 2,
                 SCREEN_SIZE.height / 2 - getHeight() / 2);
-
 
     }
 
@@ -212,6 +208,15 @@ public class TetrisGUI extends JFrame implements PropertyChangeListener {
             myLogger.warning("Failed to use requested LaF.");
         }
 
+
+    }
+
+    private void toggleTimer() {
+        if (myTickTimer.isRunning()) {
+            myTickTimer.stop();
+        } else {
+            myTickTimer.start();
+        }
 
     }
 
@@ -258,7 +263,6 @@ public class TetrisGUI extends JFrame implements PropertyChangeListener {
             initDefaultKeyCodes();
 
             setFocusable(true);
-            requestFocus();
         }
 
         /**
@@ -275,6 +279,9 @@ public class TetrisGUI extends JFrame implements PropertyChangeListener {
             myKeyMap.put(KeyEvent.VK_E, myBoard::rotateCW);
             myKeyMap.put(KeyEvent.VK_Z, myBoard::rotateCCW);
             myKeyMap.put(KeyEvent.VK_Q, myBoard::rotateCCW);
+            myKeyMap.put(KeyEvent.VK_PAUSE, TetrisGUI.this::toggleTimer);
+            myKeyMap.put(KeyEvent.VK_N, TetrisGUI.this::newGame);
+            myKeyMap.put(KeyEvent.VK_PAGE_DOWN, myBoard::step);
         }
 
         @Override

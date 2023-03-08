@@ -50,6 +50,7 @@ public class TetrisPanel extends JPanel implements PropertyChangeListener {
      */
     public TetrisPanel(final Dimension theBoardSize) {
 
+        super();
         myBoardSize = new Dimension(theBoardSize);
         setBackground(GuiConstants.FROST);
 
@@ -118,6 +119,8 @@ public class TetrisPanel extends JPanel implements PropertyChangeListener {
                     if (row[i] != Block.EMPTY) {
                         block = new Rectangle2D.Double(x, y,
                                 myBlockSize, myBlockSize);
+                        myLogger.fine("Painting new block at : \n("
+                            + x + ", " + y + ") ");
                         g2d.fill(block);
                     }
 
