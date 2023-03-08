@@ -74,7 +74,8 @@ public class TetrisGUI extends JFrame implements PropertyChangeListener {
         @Override
         public void actionPerformed(final ActionEvent theE) {
             myBoard.step();
-            System.out.println(myBoard);
+            myLogger.finest("Stepping");
+            //System.out.println(myBoard);
         }
     });
 

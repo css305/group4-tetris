@@ -236,10 +236,10 @@ public class Board implements TetrisBoard {
             if (!myGameOver) {
                 myCurrentPiece = nextMovablePiece(false);
             }
-
-            myPcs.firePropertyChange(BoardProp.GEN_BOARD_UPDATE.name(),
-                    null, myBoardData.getBoardData());
+            myPcs.firePropertyChange(BoardProp.MOVED_PIECE.name(),
+                    null, myCurrentPiece);
         }
+
     }
 
     /**
@@ -381,7 +381,7 @@ public class Board implements TetrisBoard {
             if (!myDrop) {
                 //TODO Publish Update!
                 myPcs.firePropertyChange(BoardProp.MOVED_PIECE.name(),
-                        null, myBoardData.getBoardData());
+                        null, myCurrentPiece);
             }
         }
         return result;
