@@ -17,7 +17,7 @@ public class BlockSprite {
     /**
      * Minimum sprite texture size.
      */
-    private static final int MIN_TEXTURE_SIZE = 16;
+    public static final int MIN_TEXTURE_SIZE = 16;
 
     /**
      * Path to sprite texture.
