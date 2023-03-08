@@ -32,8 +32,7 @@ public class StatPanel extends JPanel implements PropertyChangeListener {
     public void propertyChange(final PropertyChangeEvent theEvt) {
         //TODO: Add functionality based on received property
         if (theEvt.getPropertyName().equals(BoardProp.GEN_BOARD_UPDATE.name())) {
-            myLogger.log(Level.WARNING,
-                    "Property received, PROPERTY_BOARD_CHANGED, StatPanel");
+            myLogger.fine("Update Received: " + theEvt.getPropertyName());
         }
     }
 }
