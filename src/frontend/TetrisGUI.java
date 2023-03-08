@@ -2,7 +2,6 @@ package frontend;
 
 import com.formdev.flatlaf.themes.FlatMacDarkLaf;
 import com.formdev.flatlaf.themes.FlatMacLightLaf;
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -48,24 +47,6 @@ public class TetrisGUI extends JFrame implements PropertyChangeListener {
     private static final Dimension SCREEN_SIZE = KIT.getScreenSize();
 
     /**
-     * Number of columns for the grid layout.
-     */
-    private static final int GRID_COLS = 3;
-
-    /** Pixel increment by which to resize the application */
-    private static final int PIXEL_INCREMENT = 10;
-
-    /**
-     * Transparent color.
-     */
-    private static final Color TRANSPARENT = new Color(0, 0, 0, 0);
-
-    /**
-     * Frosted color.
-     */
-    private static final Color FROSTED = new Color(242, 242, 242, 50);
-
-    /**
      * Millisecond delay between ticks, 1 ticks per second.
      */
     private static final int TICK_DELAY = 1000;
@@ -90,7 +71,7 @@ public class TetrisGUI extends JFrame implements PropertyChangeListener {
         @Override
         public void actionPerformed(final ActionEvent theE) {
             myBoard.step();
-            System.out.println(myBoard.toString());
+            System.out.println(myBoard);
         }
     });
 
@@ -131,9 +112,9 @@ public class TetrisGUI extends JFrame implements PropertyChangeListener {
         final StatPanel statPanel = new StatPanel();
         final TetrominoPanel tetrominoPanel = new TetrominoPanel();
         final RootPanel root = new RootPanel();
-        myBoard.addPropertyChangeListener((PropertyChangeListener) tetrisPanel);
-        myBoard.addPropertyChangeListener((PropertyChangeListener) statPanel);
-        myBoard.addPropertyChangeListener((PropertyChangeListener) tetrominoPanel);
+        myBoard.addPropertyChangeListener(tetrisPanel);
+        myBoard.addPropertyChangeListener(statPanel);
+        myBoard.addPropertyChangeListener(tetrominoPanel);
 
         final GridBagConstraints c = new GridBagConstraints();
         c.fill = GridBagConstraints.BOTH;
@@ -198,7 +179,7 @@ public class TetrisGUI extends JFrame implements PropertyChangeListener {
             }
             SwingUtilities.updateComponentTreeUI(this);
         } catch (final UnsupportedLookAndFeelException e) {
-            myLogger.info("Failed to use requested LaF.");
+            myLogger.warning("Failed to use requested LaF.");
         }
 
 
@@ -222,16 +203,21 @@ public class TetrisGUI extends JFrame implements PropertyChangeListener {
      * The root GUI panel of the G4Tetris application.
      * The root panel handles the key listening behavior and command passage from the GUI to
      * backend board.
+     *
      * @author Zac Andersen (anderzb@uw.edu)
      * @version 0.1
      */
     private final class RootPanel extends JPanel implements KeyListener {
 
 
-        /**Minimum size of the root content pane. */
-        private static final Dimension MIN_SIZE = new Dimension(480,  640);
+        /**
+         * Minimum size of the root content pane.
+         */
+        private static final Dimension MIN_SIZE = new Dimension(480, 640);
 
-        /** Map of keys - command pairs. */
+        /**
+         * Map of keys - command pairs.
+         */
         private final Map<Integer, Runnable> myKeyMap = new HashMap<>();
 
         /**
