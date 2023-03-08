@@ -1,10 +1,13 @@
 package frontend;
 
+import static frontend.GuiConstants.D_INSET;
+
 import com.formdev.flatlaf.themes.FlatMacDarkLaf;
 import com.formdev.flatlaf.themes.FlatMacLightLaf;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.Insets;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -108,17 +111,32 @@ public class TetrisGUI extends JFrame implements PropertyChangeListener {
         setLaF(LookAndFeel.DARK);
         System.setProperty("flatlaf.menuBarEmbedded", "true");
 
+        //
         final TetrisPanel tetrisPanel = new TetrisPanel();
-        final StatPanel statPanel = new StatPanel();
-        final TetrominoPanel tetrominoPanel = new TetrominoPanel();
-        final RootPanel root = new RootPanel();
         myBoard.addPropertyChangeListener(tetrisPanel);
+        final JPanel tetrisStretch = createStretchPanel();
+
+        final StatPanel statPanel = new StatPanel();
         myBoard.addPropertyChangeListener(statPanel);
+        final JPanel statStretch = createStretchPanel();
+
+        final TetrominoPanel tetrominoPanel = new TetrominoPanel();
         myBoard.addPropertyChangeListener(tetrominoPanel);
+        final JPanel tetStretch = createStretchPanel();
+
+        final GridBagConstraints stretchConstraints = new GridBagConstraints();
+        stretchConstraints.anchor = GridBagConstraints.CENTER;
+        tetrisStretch.add(tetrisPanel, stretchConstraints);
+        statStretch.add(statPanel, stretchConstraints);
+        tetStretch.add(tetrominoPanel, stretchConstraints);
+
+
+        final RootPanel root = new RootPanel();
 
         final GridBagConstraints c = new GridBagConstraints();
         c.fill = GridBagConstraints.BOTH;
-        c.anchor = GridBagConstraints.NORTHWEST;
+        c.insets = new Insets(D_INSET, D_INSET, D_INSET, D_INSET);
+        c.anchor = GridBagConstraints.CENTER;
         /*
         Weird gridBag note: If you make a component span more than one column then you need
         to add a dummy component into the "empty" column otherwise it will set the column
@@ -130,14 +148,14 @@ public class TetrisGUI extends JFrame implements PropertyChangeListener {
         c.gridx = GuiConstants.TETRIS_PANEL_GRID_X;
         c.gridy = GuiConstants.TETRIS_PANEL_GRID_Y;
         c.gridheight = GuiConstants.TETRIS_PANEL_GRID_HEIGHT;
-        root.add(tetrisPanel, c);
+        root.add(tetrisStretch, c);
 
         c.weightx = GuiConstants.COL2_WEIGHT_X;
         c.weighty = GuiConstants.TETROMINO_PANEL_WEIGHT_Y;
         c.gridx = GuiConstants.TETROMINO_PANEL_GRID_X;
         c.gridy = GuiConstants.TETROMINO_PANEL_GRID_Y;
         c.gridheight = GuiConstants.TETROMINO_PANEL_GRID_HEIGHT;
-        root.add(tetrominoPanel, c);
+        root.add(tetStretch, c);
         //TODO: Make this panel square, consider:
         //https://stackoverflow.com/questions/27544569/java-how-to-control-jpanel-aspect-ratio
 
@@ -146,7 +164,7 @@ public class TetrisGUI extends JFrame implements PropertyChangeListener {
         c.gridx = GuiConstants.STAT_PANEL_GRID_X;
         c.gridy = GuiConstants.STAT_PANEL_GRID_Y;
         c.gridheight = GuiConstants.STAT_PANEL_GRID_HEIGHT;
-        root.add(statPanel, c);
+        root.add(statStretch, c);
 
         setResizable(true);
 
@@ -162,6 +180,17 @@ public class TetrisGUI extends JFrame implements PropertyChangeListener {
                 SCREEN_SIZE.height / 2 - getHeight() / 2);
 
 
+    }
+
+    /**
+     * Creates a panel to stretch with UI.
+     */
+    private JPanel createStretchPanel() {
+        final JPanel panel = new JPanel(new GridBagLayout());
+        panel.setBackground(GuiConstants.FROST);
+        panel.setFocusable(false);
+
+        return panel;
     }
 
     /**

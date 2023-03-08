@@ -1,5 +1,7 @@
 package frontend;
 
+import java.awt.Color;
+
 /**
  * Holds constant information for various GUI elements.
  * @author Zachary C Anderson (zca721@uw.edu)
@@ -11,6 +13,15 @@ public final class GuiConstants {
     //Global Constants
     /**Default aspect ratio. */
     static final double ASPECT_RATIO = 3.0 / 2.0;
+
+    /**Transparent color for invisible backgrounds. */
+    static final Color TRANSPARENT = new Color(0, 0, 0, 0);
+
+    /**Transparent white color for panels */
+    static final Color FROST = new Color(240, 240, 240, 50);
+
+    /**Default inset. */
+    static final int D_INSET = 10;
 
     // Tetris panel instance variables.
     // ----------------------------------------------------------------------------------------
