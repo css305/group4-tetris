@@ -6,7 +6,9 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.logging.Logger;
 import javax.swing.*;
+
 import model.Board.BoardProp;
+import model.Point;
 import model.TetrisPiece;
 import resources.G4Logging;
 
@@ -17,6 +19,7 @@ import resources.G4Logging;
  */
 public class TetrominoPanel extends JPanel implements PropertyChangeListener {
     //Constants
+
 
     /**
      * Logger for this class.
@@ -32,57 +35,17 @@ public class TetrominoPanel extends JPanel implements PropertyChangeListener {
     private final Color[] myColors = {Color.RED, Color.BLUE, Color.GREEN};
 
 
-
-    /** I tetris piece. */
-    private final Rectangle2D[] myRectArrayI = new Rectangle2D[]{
-        new Rectangle2D.Double(50.0, 50.0, 20.0, 20.0),
-        new Rectangle2D.Double(70.0, 50.0, 20.0, 20.0),
-        new Rectangle2D.Double(90.0, 50.0, 20.0, 20.0),
-        new Rectangle2D.Double(110.0, 50.0, 20.0, 20.0)};
-    /** J tetris piece. */
-    private final Rectangle2D[] myRectArrayJ = new Rectangle2D[] {
-        new Rectangle2D.Double(70.0, 50.0, 20.0, 20.0),
-        new Rectangle2D.Double(70.0, 70.0, 20.0, 20.0),
-        new Rectangle2D.Double(70.0, 90.0, 20.0, 20.0),
-        new Rectangle2D.Double(50.0, 90.0, 20.0, 20.0)};
-    /** L tetris piece. */
-    private final Rectangle2D[] myRectArrayL = new Rectangle2D[] {
-        new Rectangle2D.Double(50.0, 50.0, 20.0, 20.0),
-        new Rectangle2D.Double(50.0, 70.0, 20.0, 20.0),
-        new Rectangle2D.Double(50.0, 90.0, 20.0, 20.0),
-        new Rectangle2D.Double(70.0, 90.0, 20.0, 20.0)};
-    /** O tetris piece. */
-
-    private final Rectangle2D[] myRectArrayO = new Rectangle2D[] {
-        new Rectangle2D.Double(50.0, 50.0, 20.0, 20.0),
-        new Rectangle2D.Double(70.0, 50.0, 20.0, 20.0),
-        new Rectangle2D.Double(50.0, 70.0, 20.0, 20.0),
-        new Rectangle2D.Double(70.0, 70.0, 20.0, 20.0)};
-    /** S tetris piece. */
-    private final Rectangle2D[] myRectArrayS = new Rectangle2D[] {
-        new Rectangle2D.Double(90.0, 50.0, 20.0, 20.0),
-        new Rectangle2D.Double(70.0, 50.0, 20.0, 20.0),
-        new Rectangle2D.Double(50.0, 70.0, 20.0, 20.0),
-        new Rectangle2D.Double(70.0, 70.0, 20.0, 20.0)};
-
-    /** T tetris piece. */
-    private final Rectangle2D[] myRectArrayT = new Rectangle2D[] {
-        new Rectangle2D.Double(50.0, 50.0, 20.0, 20.0),
-        new Rectangle2D.Double(70.0, 50.0, 20.0, 20.0),
-        new Rectangle2D.Double(90.0, 50.0, 20.0, 20.0),
-        new Rectangle2D.Double(70.0, 70.0, 20.0, 20.0)};
-    /** Z tetris piece. */
-    private final Rectangle2D[] myRectArrayZ = new Rectangle2D[] {
-        new Rectangle2D.Double(50.0, 50.0, 20.0, 20.0),
-        new Rectangle2D.Double(70.0, 50.0, 20.0, 20.0),
-        new Rectangle2D.Double(90.0, 70.0, 20.0, 20.0),
-        new Rectangle2D.Double(70.0, 70.0, 20.0, 20.0)};
+    /**
+     * Current tetromino piece.
+     */
+    private TetrisPiece myTetrisPiece;
 
 
     /**
-     * Current tetromino.
+     * Is the game running.
      */
-    private Rectangle2D[] myCurrentTetromino = myRectArrayI;
+    private boolean myIsRunning;
+    
 
     //TODO: Implement the tetromino preview pane
     public TetrominoPanel() {
@@ -107,14 +70,24 @@ public class TetrominoPanel extends JPanel implements PropertyChangeListener {
         g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
                 RenderingHints.VALUE_ANTIALIAS_ON);
 
+
+        int blockSize = Math.min(getHeight(), getWidth())/4;
         if (myPCLCalls > 2) {
             myPCLCalls = 0;
         }
 
-        // tetris piece
-        for (int i = 0; i < 4; i++) {
-            g2d.setPaint(myColors[myPCLCalls]);
-            g2d.fill(myCurrentTetromino[i]);
+        Rectangle2D myShape;
+        if (myIsRunning) {
+            final Point[] pointGrid = myTetrisPiece.getPoints();
+            for (Point point : pointGrid) {
+                myShape = new Rectangle2D.Double(
+                        point.x() * blockSize, point.y() * blockSize,
+                        blockSize, blockSize);
+                g2d.setPaint(myColors[myPCLCalls]);
+                g2d.fill(myShape);
+                g2d.setPaint(Color.BLACK);
+                g2d.draw(myShape);
+            }
         }
         myPCLCalls++;
 
@@ -124,22 +97,9 @@ public class TetrominoPanel extends JPanel implements PropertyChangeListener {
     public void propertyChange(final PropertyChangeEvent e0) {
         //TODO: Add functionality based on received property
         if (BoardProp.valueOf(e0.getPropertyName()) == BoardProp.NEW_TETROMINO) {
-            System.out.println("Printing the tetromino " + e0.getNewValue());
-            switch ((TetrisPiece) e0.getNewValue()) {
-                case I -> paintPiece(myRectArrayI);
-                case J -> paintPiece(myRectArrayJ);
-                case O -> paintPiece(myRectArrayO);
-                case L -> paintPiece(myRectArrayL);
-                case T -> paintPiece(myRectArrayT);
-                case S -> paintPiece(myRectArrayS);
-                case Z -> paintPiece(myRectArrayZ);
-                default -> { }
-            }
+            myIsRunning = true;
+            myTetrisPiece = (TetrisPiece) e0.getNewValue();
+            repaint();
         }
     }
-    private void paintPiece(final Rectangle2D[] theArr) {
-        myCurrentTetromino = theArr;
-        repaint();
-    }
-
 }
