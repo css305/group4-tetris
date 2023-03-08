@@ -3,7 +3,6 @@ package frontend;
 import java.awt.*;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.*;
 import model.Board.BoardProp;
@@ -64,5 +63,12 @@ public class StatPanel extends JPanel implements PropertyChangeListener {
             myLevel.setText("Current Level: " + Score.INSTANCE.getMyLevel());
 
         }
+    }
+
+    public Dimension getPreferredSize() {
+        int pH = getParent().getSize().height;
+        int pW= getParent().getSize().width;
+        int pD = Math.min(pH, pW);
+        return new Dimension(pD, pD);
     }
 }

@@ -101,7 +101,7 @@ public class TetrisGUI extends JFrame implements PropertyChangeListener {
         @Override
         public void actionPerformed(final ActionEvent theE) {
             myBoard.step();
-            System.out.println(myBoard.toString());
+            System.out.println(myBoard);
         }
     });
 
@@ -143,9 +143,9 @@ public class TetrisGUI extends JFrame implements PropertyChangeListener {
         final TetrominoPanel tetrominoPanel = new TetrominoPanel();
 
         final Container mainPanel = initListenerPane(tetrisPanel, tetrominoPanel);
-        myBoard.addPropertyChangeListener((PropertyChangeListener) tetrisPanel);
-        myBoard.addPropertyChangeListener((PropertyChangeListener) statPanel);
-        myBoard.addPropertyChangeListener((PropertyChangeListener) tetrominoPanel);
+        myBoard.addPropertyChangeListener(tetrisPanel);
+        myBoard.addPropertyChangeListener(statPanel);
+        myBoard.addPropertyChangeListener(tetrominoPanel);
 
         final GridBagConstraints c = new GridBagConstraints();
         c.fill = GridBagConstraints.BOTH;
