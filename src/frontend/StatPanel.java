@@ -51,7 +51,7 @@ public class StatPanel extends JPanel implements PropertyChangeListener {
     @Override
     public void propertyChange(final PropertyChangeEvent e0) {
         //TODO: Add functionality based on received property
-        if (e0.getPropertyName().equals(BoardProp.GEN_BOARD_UPDATE.name())) {
+        if (e0.getPropertyName().equals(BoardProp.ROWS_CLEARED.name())) {
             Score.INSTANCE.updateScore((int) e0.getNewValue());
             myScore.setText("Current Score: " + Score.INSTANCE.getScore());
             myHighScore.setText("High Score: " + Score.INSTANCE.getHighScore());

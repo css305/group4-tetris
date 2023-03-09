@@ -440,8 +440,8 @@ public class Board implements TetrisBoard {
             if (complete) {
                 completeRows.add(myFrozenBlocks.indexOf(row));
 
-                myPcs.firePropertyChange(BoardProp.GEN_BOARD_UPDATE.name(),
-                        null, new BoardData().getBoardData());
+                myPcs.firePropertyChange(BoardProp.ROWS_CLEARED.name(),
+                        null, completeRows.size());
             }
         }
         // loop through list backwards removing items by index
@@ -667,7 +667,11 @@ public class Board implements TetrisBoard {
         /**
          * When the game has met fail condition.
          */
-        GAME_OVER
+        GAME_OVER,
+        /**
+         * When one or more rows are cleared.
+         */
+        ROWS_CLEARED
     }
 
     
