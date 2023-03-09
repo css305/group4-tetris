@@ -1,12 +1,24 @@
 package frontend;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.RenderingHints;
 import java.awt.geom.Rectangle2D;
+import java.awt.geom.RectangularShape;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Logger;
-import javax.swing.*;
+import javax.swing.JPanel;
+import model.Block;
+import model.Board;
 import model.Board.BoardProp;
+import model.MovableTetrisPiece;
+import model.Point;
+import resources.BlockSprite;
 import resources.G4Logging;
 
 /**
@@ -22,45 +34,146 @@ public class TetrisPanel extends JPanel implements PropertyChangeListener {
      */
     private final Logger myLogger = G4Logging.getLogger(getClass());
 
-    //Instance vars
+    /** The current in use block sprite. */
+    private final BlockSprite mySprite = new BlockSprite();
 
-    /** PCL counter. */
-    private int myPCLCalls;
+    /** Current block size. */
+    private int myBlockSize = BlockSprite.MIN_TEXTURE_SIZE;
 
-    /** Some colors for now. */
-    private final Color[] colors = {Color.RED, Color.BLUE, Color.GREEN};
+    /**Board size. */
+    private final Dimension myBoardSize;
 
-    private final Rectangle2D myRect = new Rectangle2D.Double(0.0, 0.0, 50.0, 50.0);
+    /** Latest received BoardData */
+    private List<Block[]> myBoardData;
 
-    //TODO: Implement Tetris game panel
-    public TetrisPanel() {
+    private MovableTetrisPiece myMovingPiece;
 
-        setBackground(Color.WHITE);
+
+    /**
+     * Constructs a new panel to render the game board.
+     */
+    public TetrisPanel(final Dimension theBoardSize) {
+
+        super();
+        myBoardSize = new Dimension(theBoardSize);
+        setBackground(Color.LIGHT_GRAY);
+
+    }
+
+    /**
+     * Gets the sprite object used by this board.
+     * @return Reference to this board's sprite.
+     */
+    public BlockSprite getSprite() {
+        return mySprite;
+    }
+
+    @Override
+    public Dimension getPreferredSize() {
+        final Dimension p = getParent().getSize();
+        final int nWidth;
+        final int nHeight;
+        final int boardAspect = 2;
+
+        if (p.height >= p.width * boardAspect) {
+            nWidth = p.width;
+            nHeight = nWidth * boardAspect;
+        } else {
+            nHeight = p.height;
+            nWidth = p.height / boardAspect;
+        }
+
+        myBlockSize = nWidth / myBoardSize.width;
+        myLogger.finer("Tetris resized to: " + nWidth + ", " + nHeight);
+        myLogger.fine("Tetris block size: " + myBlockSize);
+
+        return new Dimension(nWidth, nHeight);
+
     }
 
 
     @Override
     public void paintComponent(final Graphics g0) {
+
         super.paintComponent(g0);
         final Graphics2D g2d = (Graphics2D) g0;
 
         g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
                 RenderingHints.VALUE_ANTIALIAS_ON);
 
-        if (myPCLCalls > 2) {
-            myPCLCalls = 0;
+        if (myBoardData != null) {
+            int y;
+            final int bH = myBoardSize.height;
+            int startRow = myBoardData.size() - GuiConstants.STUPID_RENDERING_ROWS;
+            myLogger.fine("Starting row: " + startRow + ", board height: " + bH);
+
+            if (startRow > bH) {
+                startRow -= (startRow - bH) - 1;
+                y = 0;
+            } else if (startRow == bH) {
+                startRow -= 1;
+                y = 0;
+            } else {
+                y = (bH - startRow) * myBlockSize;
+                startRow -= 1;
+            }
+
+            ArrayList<RectangularShape> blocks = new ArrayList<>();
+            for (int i = startRow; i >= 0; i--) {
+                final Block[] row = myBoardData.get(i);
+                for (int b = 0; b < row.length; b++) {
+                    final int x = b * myBlockSize;
+                    g2d.setPaint(Color.CYAN);
+
+                    if (row[b] != null && row[b] != Block.EMPTY) {
+                        final RectangularShape block = new Rectangle2D.Double(x, y,
+                                myBlockSize, myBlockSize);
+                        myLogger.finer("Painting new block at : \n("
+                            + x + ", " + y + ") ");
+                        blocks.add(block);
+                    }
+
+                }
+                for (RectangularShape b : blocks) {
+                    g2d.fill(b);
+                }
+                y += myBlockSize;
+            }
         }
-
-        g2d.setPaint(colors[myPCLCalls]);
-        g2d.fill(myRect);
-        myPCLCalls++;
-
     }
 
     @Override
     public void propertyChange(final PropertyChangeEvent e0) {
-        switch (BoardProp.valueOf(e0.getPropertyName())) {
-            case MOVED_PIECE -> repaint();
+        final BoardProp prop = BoardProp.valueOf(e0.getPropertyName());
+
+        if (
+                prop == BoardProp.GEN_BOARD_UPDATE
+                || prop == BoardProp.NEW_GAME
+                || prop == BoardProp.MOVED_PIECE
+        ) {
+            List<Block[]> boardData = (List<Block[]>) e0.getNewValue();
+
+
+            if (boardData.equals(myBoardData)) {
+                myLogger.warning("New board data is equivalent to current");
+            }
+
+            StringBuilder sb = new StringBuilder();
+            for (Block[] r : boardData ) {
+                sb.append("[");
+                for (int i = 0; i < r.length; i++) {
+                    sb.append(r[i]);
+                    sb.append(", ");
+                }
+                sb.append("]\n");
+            }
+
+            myLogger.info(sb.toString());
+
+            myBoardData = boardData;
+
+            repaint();
         }
+        transferFocus();
     }
 }

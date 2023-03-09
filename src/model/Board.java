@@ -6,6 +6,7 @@
 
 package model;
 
+import frontend.GuiConstants;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.util.ArrayList;
@@ -185,9 +186,9 @@ public class Board implements TetrisBoard {
         myCurrentPiece = nextMovablePiece(true);
         myDrop = false;
 
-        //TODO Publish Update!
-        myPcs.firePropertyChange(BoardProp.GAME_OVER.toString(),
-                null, myBoardData.getBoardData());
+
+        myPcs.firePropertyChange(BoardProp.NEW_GAME.name(),
+                null, new BoardData().getBoardData());
 
     }
 
@@ -236,9 +237,8 @@ public class Board implements TetrisBoard {
             if (!myGameOver) {
                 myCurrentPiece = nextMovablePiece(false);
             }
-            //TODO Publish Update!
-            myPcs.firePropertyChange(BoardProp.NEW_TETROMINO.name(),
-                    null, myBoardData.getBoardData());
+            myPcs.firePropertyChange(BoardProp.GEN_BOARD_UPDATE.name(),
+                    null, new BoardData().getBoardData());
         }
     }
 
@@ -273,8 +273,8 @@ public class Board implements TetrisBoard {
             } else {
                 final MovableTetrisPiece cwPiece = myCurrentPiece.rotateCW();
                 final Point[] offsets = WallKick.getWallKicks(cwPiece.getTetrisPiece(),
-                                                    myCurrentPiece.getRotation(),
-                                                    cwPiece.getRotation());
+                        myCurrentPiece.getRotation(),
+                        cwPiece.getRotation());
                 for (final Point p : offsets) {
                     final Point offsetLocation = cwPiece.getPosition().transform(p);
                     final MovableTetrisPiece temp = cwPiece.setPosition(offsetLocation);
@@ -297,8 +297,8 @@ public class Board implements TetrisBoard {
             } else {
                 final MovableTetrisPiece ccwPiece = myCurrentPiece.rotateCCW();
                 final Point[] offsets = WallKick.getWallKicks(ccwPiece.getTetrisPiece(),
-                                                    myCurrentPiece.getRotation(),
-                                                    ccwPiece.getRotation());
+                        myCurrentPiece.getRotation(),
+                        ccwPiece.getRotation());
                 for (final Point p : offsets) {
                     final Point offsetLocation = ccwPiece.getPosition().transform(p);
                     final MovableTetrisPiece temp = ccwPiece.setPosition(offsetLocation);
@@ -379,9 +379,8 @@ public class Board implements TetrisBoard {
             myCurrentPiece = theMovedPiece;
             result = true;
             if (!myDrop) {
-                //TODO Publish Update!
                 myPcs.firePropertyChange(BoardProp.MOVED_PIECE.name(),
-                        null, myBoardData.getBoardData());
+                        null, new BoardData().getBoardData());
             }
         }
         return result;
@@ -440,9 +439,9 @@ public class Board implements TetrisBoard {
             }
             if (complete) {
                 completeRows.add(myFrozenBlocks.indexOf(row));
-             //TODO Publish Update!
+
                 myPcs.firePropertyChange(BoardProp.GEN_BOARD_UPDATE.name(),
-                        null, myBoardData.getBoardData());
+                        null, new BoardData().getBoardData());
             }
         }
         // loop through list backwards removing items by index
@@ -477,7 +476,7 @@ public class Board implements TetrisBoard {
      */
     private boolean isPointOnBoard(final List<Block[]> theBoard, final Point thePoint) {
         return thePoint.x() >= 0 && thePoint.x() < myWidth && thePoint.y() >= 0
-               && thePoint.y() < theBoard.size();
+                && thePoint.y() < theBoard.size();
     }
 
     /**
@@ -496,8 +495,9 @@ public class Board implements TetrisBoard {
             row[thePoint.x()] = theBlock;
         } else if (!myGameOver) {
             myGameOver = true;
-            //TODO Publish Update!
-            myPcs.firePropertyChange(BoardProp.MOVED_PIECE.name(), null, myCurrentPiece);
+
+            myPcs.firePropertyChange(BoardProp.GAME_OVER.name(), null,
+                    new BoardData().getBoardData());
 
         }
     }
@@ -555,8 +555,8 @@ public class Board implements TetrisBoard {
 
         prepareNextMovablePiece();
         return new MovableTetrisPiece(
-                       next,
-                       new Point((myWidth - myNextPiece.getWidth()) / 2, startY));
+                next,
+                new Point((myWidth - myNextPiece.getWidth()) / 2, startY));
     }
 
     /**
@@ -572,9 +572,11 @@ public class Board implements TetrisBoard {
             myNextPiece = myNonRandomPieces.get(mySequenceIndex++);
         }
         if (share && !myGameOver) {
-            //TODO Publish Update!
             myPcs.firePropertyChange(BoardProp.NEW_TETROMINO.name(),
                     myCurrentPiece, myNextPiece);
+
+            myPcs.firePropertyChange(BoardProp.GEN_BOARD_UPDATE.name(), null,
+                    new BoardData().getBoardData());
         }
     }
 
@@ -619,10 +621,9 @@ public class Board implements TetrisBoard {
          */
         protected BoardData() {
             myBoardData = getBoard();
-            myBoardData.add(new Block[myWidth]);
-            myBoardData.add(new Block[myWidth]);
-            myBoardData.add(new Block[myWidth]);
-            myBoardData.add(new Block[myWidth]);
+            for (int i = 0; i < GuiConstants.STUPID_RENDERING_ROWS; i++) {
+                myBoardData.add(new Block[myWidth]);
+            }
             if (myCurrentPiece != null) {
                 addPieceToBoardData(myBoardData, myCurrentPiece);
             }
@@ -654,15 +655,19 @@ public class Board implements TetrisBoard {
         /**
          * Name for move property.
          */
-        GAME_OVER,
+        NEW_GAME,
         /**
          * Name for move property.
          */
         NEW_TETROMINO,
         /**
-         * Name for move property.
+         * Piece moved and/or row cleared.
          */
-        GEN_BOARD_UPDATE
+        GEN_BOARD_UPDATE,
+        /**
+         * When the game has met fail condition.
+         */
+        GAME_OVER
     }
 
     

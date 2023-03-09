@@ -1,18 +1,39 @@
 package frontend;
 
+import java.awt.Color;
+
 /**
- * Holds instance variables for gridBagConstraints.
+ * Holds constant information for various GUI elements.
  * @author Zachary C Anderson (zca721@uw.edu)
+ * @author Zac Andersen (anderzb@uw.edu)
  * @version 0.1
  */
-public final class GridConstraints {
+public final class GuiConstants {
+
+    //Global Constants
+    /**Default aspect ratio. */
+    static final double ASPECT_RATIO = 3.0 / 2.0;
+
+    /**Transparent color for invisible backgrounds. */
+    static final Color TRANSPARENT = new Color(0, 0, 0, 0);
+
+    /**Transparent white color for panels */
+    static final Color FROST = new Color(240, 240, 240, 50);
+
+    /**Default inset. */
+    static final int D_INSET = 10;
+
+    /**
+     * Stupid added rows to render the stupid piece in.
+     */
+    public static final int STUPID_RENDERING_ROWS = 4;
 
     // Tetris panel instance variables.
     // ----------------------------------------------------------------------------------------
     /**
      * Tetris panel weight x.
      */
-    static final double COL1_WEIGHT_X = 0.75;
+    static final double COL1_WEIGHT_X = 0.6;
     /**
      * Tetris panel weight y.
      */
@@ -35,7 +56,7 @@ public final class GridConstraints {
     /**
      * Tetromino panel weight x.
      */
-    static final double COL2_WEIGHT_X = 0.25;
+    static final double COL2_WEIGHT_X = 0.3;
     /**
      * Tetromino panel weight y.
      */
@@ -94,7 +115,7 @@ public final class GridConstraints {
      */
     static final int PREF_SIZE_H_MOD = 2;
 
-    private GridConstraints() {
+    private GuiConstants() {
         //no
     }
 
