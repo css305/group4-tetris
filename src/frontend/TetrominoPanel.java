@@ -1,6 +1,11 @@
 package frontend;
 
-import java.awt.*;
+import java.awt.BasicStroke;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.RenderingHints;
 import java.awt.geom.Rectangle2D;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -26,12 +31,6 @@ public class TetrominoPanel extends JPanel implements PropertyChangeListener {
 
     //Instance vars
 
-    /** PCL counter. */
-    private int myPCLCalls;
-
-    /** Some colors for now. */
-    private final Color[] myColors = {Color.RED, Color.BLUE, Color.GREEN};
-
 
     /**
      * Current tetromino piece.
@@ -42,7 +41,6 @@ public class TetrominoPanel extends JPanel implements PropertyChangeListener {
      * Is the game running.
      */
     private boolean myIsRunning;
-
 
     //TODO: Implement the tetromino preview pane
     public TetrominoPanel() {
@@ -56,6 +54,7 @@ public class TetrominoPanel extends JPanel implements PropertyChangeListener {
      *
      * @param g0 the <code>Graphics</code> object to protect
      */
+    @SuppressWarnings("checkstyle:MissingSwitchDefault")
     @Override
     public void paintComponent(final Graphics g0) {
         super.paintComponent(g0);
@@ -68,25 +67,24 @@ public class TetrominoPanel extends JPanel implements PropertyChangeListener {
 
         final int blockSize = Math.min(getHeight(), getWidth()) / 5;
         final int halfABlock = Math.ceilDiv(blockSize, 2);
-        if (myPCLCalls > 2) {
-            myPCLCalls = 0;
-        }
+
+
 
         Rectangle2D shape;
         if (myIsRunning) {
+            Color myColor = myTetrisPiece.getMyColor();
             final Point[] pointGrid = myTetrisPiece.getPoints();
             for (Point point : pointGrid) {
                 shape = new Rectangle2D.Double(
-                        (point.x()) * blockSize + halfABlock,
-                        point.y() * blockSize + halfABlock,
+                         point.x() * blockSize + halfABlock,
+                         getHeight() - blockSize - halfABlock - point.y() * blockSize,
                         blockSize, blockSize);
-                g2d.setPaint(myColors[myPCLCalls]);
+                g2d.setPaint(myColor);
                 g2d.fill(shape);
                 g2d.setPaint(Color.BLACK);
                 g2d.draw(shape);
             }
         }
-        myPCLCalls++;
 
         final Rectangle2D border = new Rectangle2D.Double(0, 0, getWidth(), getHeight());
 

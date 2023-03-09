@@ -6,6 +6,7 @@
 
 package model;
 
+import java.awt.Color;
 import java.util.Random;
 
 /**
@@ -20,17 +21,19 @@ public enum TetrisPiece {
     /** The 'I' TetrisPiece. */
     I(4, 1,
       Block.I ,
+      0,
       new int[][][]
          {{{0, 2}, {1, 2}, {2, 2}, {3, 2}},
           {{2, 3}, {2, 2}, {2, 1}, {2, 0}},
           {{0, 1}, {1, 1}, {2, 1}, {3, 1}},
           {{1, 3}, {1, 2}, {1, 1}, {1, 0}}},
-      new Point(0, 2), new Point(1, 2), new Point(2, 2), new Point(3, 2) 
+      new Point(0, 2), new Point(1, 2), new Point(2, 2), new Point(3, 2)
       ),
 
     /** The 'J' TetrisPiece. */
     J(3, 2,
       Block.J,
+      1,
       new int[][][]
          {{{0, 2}, {0, 1}, {1, 1}, {2, 1}},
           {{1, 2}, {2, 2}, {1, 1}, {1, 0}},
@@ -41,6 +44,7 @@ public enum TetrisPiece {
     /** The 'L' TetrisPiece. */
     L(3, 2,
       Block.L,
+      2,
       new int[][][]
          {{{2, 2}, {0, 1}, {1, 1}, {2, 1}},
           {{1, 2}, {1, 1}, {1, 0}, {2, 0}},
@@ -51,6 +55,7 @@ public enum TetrisPiece {
     /** The 'O' TetrisPiece. */
     O(3, 2,
       Block.O,
+      3,
       new int[][][]
         {{{1, 2}, {2, 2}, {1, 1}, {2, 1}},
             {{1, 2}, {2, 2}, {1, 1}, {2, 1}},
@@ -61,6 +66,7 @@ public enum TetrisPiece {
     /** The 'S' TetrisPiece. */
     S(3, 2,
       Block.S,
+      4,
       new int[][][]
          {{{1, 2}, {2, 2}, {0, 1}, {1, 1}},
           {{1, 2}, {1, 1}, {2, 1}, {2, 0}},
@@ -71,6 +77,7 @@ public enum TetrisPiece {
     /** The 'T' TetrisPiece. */
     T(3, 2,
       Block.T,
+      5,
       new int[][][]
          {{{1, 2}, {0, 1}, {1, 1}, {2, 1}},
           {{1, 2}, {1, 1}, {2, 1}, {1, 0}},
@@ -81,6 +88,7 @@ public enum TetrisPiece {
     /** The 'Z' TetrisPiece. */
     Z(3, 2,
       Block.Z,
+      6,
       new int[][][]
          {{{0, 2}, {1, 2}, {1, 1}, {2, 1}},
           {{2, 2}, {1, 1}, {2, 1}, {1, 0}},
@@ -96,7 +104,7 @@ public enum TetrisPiece {
      */
     private static final Random RANDOM = new Random();
 
-    
+
     // instance fields
     /**
      * The width of the TetrisPiece.
@@ -124,6 +132,11 @@ public enum TetrisPiece {
     private final Block myBlock;
 
     /**
+     * Color of the Tetris Piece.
+     */
+    private final Color myColor;
+
+    /**
      * The TetrisPiece constructor.
      * 
      * @param theWidth width of the TetrisPiece.
@@ -133,14 +146,20 @@ public enum TetrisPiece {
      * @param thePoints the initial position of the blocks of the TetrisPiece.
      */
     TetrisPiece(final int theWidth, final int theHeight,
-                final Block theBlock, 
-                final int[][][] thePointsByRotation, 
+                final Block theBlock,
+                final int theIndex,
+                final int[][][] thePointsByRotation,
                 final Point... thePoints) {
         myPointsByRotation = thePointsByRotation.clone();
         myWidth = theWidth;
         myHeight = theHeight;
         myBlock = theBlock;
         myPoints = thePoints.clone();
+
+        final Color[] colorArray = new Color[] {
+            Color.RED, Color.BLUE, Color.CYAN, Color.GREEN,
+            Color.MAGENTA, Color.ORANGE, Color.PINK};
+        myColor = colorArray[theIndex];
     }
 
     /**
@@ -195,5 +214,11 @@ public enum TetrisPiece {
      */
     public static TetrisPiece getRandomPiece() {
         return values()[RANDOM.nextInt(values().length)];
+    }
+    /**
+     * Get a color corresponding to a piece.
+     */
+    public Color getMyColor() {
+        return myColor;
     }
 }
