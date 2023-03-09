@@ -236,8 +236,9 @@ public class Board implements TetrisBoard {
             if (!myGameOver) {
                 myCurrentPiece = nextMovablePiece(false);
             }
-            myPcs.firePropertyChange(BoardProp.MOVED_PIECE.name(),
-                    null, myCurrentPiece);
+            List<Block[]> mb = myBoardData.getBoardData();
+            myPcs.firePropertyChange(BoardProp.GEN_BOARD_UPDATE.name(),
+                    null, myBoardData.getBoardData());
         }
 
     }
@@ -273,8 +274,8 @@ public class Board implements TetrisBoard {
             } else {
                 final MovableTetrisPiece cwPiece = myCurrentPiece.rotateCW();
                 final Point[] offsets = WallKick.getWallKicks(cwPiece.getTetrisPiece(),
-                                                    myCurrentPiece.getRotation(),
-                                                    cwPiece.getRotation());
+                        myCurrentPiece.getRotation(),
+                        cwPiece.getRotation());
                 for (final Point p : offsets) {
                     final Point offsetLocation = cwPiece.getPosition().transform(p);
                     final MovableTetrisPiece temp = cwPiece.setPosition(offsetLocation);
@@ -440,6 +441,9 @@ public class Board implements TetrisBoard {
             }
             if (complete) {
                 completeRows.add(myFrozenBlocks.indexOf(row));
+
+                List<Block[]> bd = myBoardData.getBoardData();
+
              //TODO Publish Update!
                 myPcs.firePropertyChange(BoardProp.GEN_BOARD_UPDATE.name(),
                         null, myBoardData.getBoardData());
@@ -555,8 +559,8 @@ public class Board implements TetrisBoard {
 
         prepareNextMovablePiece();
         return new MovableTetrisPiece(
-                       next,
-                       new Point((myWidth - myNextPiece.getWidth()) / 2, startY));
+                next,
+                new Point((myWidth - myNextPiece.getWidth()) / 2, startY));
     }
 
     /**

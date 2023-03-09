@@ -4,7 +4,6 @@ import java.awt.*;
 import java.awt.geom.Rectangle2D;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.*;
 import model.Board.BoardProp;

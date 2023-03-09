@@ -15,6 +15,7 @@ import java.util.List;
 import java.util.logging.Logger;
 import javax.swing.JPanel;
 import model.Block;
+import model.Board;
 import model.Board.BoardProp;
 import model.MovableTetrisPiece;
 import model.Point;
@@ -105,6 +106,7 @@ public class TetrisPanel extends JPanel implements PropertyChangeListener {
         if (myMovingPiece != null) {
             Point[] locals = myMovingPiece.getTetrisPiece().getPoints();
             Point coord = myMovingPiece.getPosition();
+            myLogger.fine("Piece coordinate: " + coord.toString());
 
             Point[] inPlane = new Point[locals.length];
 
@@ -173,9 +175,30 @@ public class TetrisPanel extends JPanel implements PropertyChangeListener {
     @Override
     public void propertyChange(final PropertyChangeEvent e0) {
         final BoardProp prop = BoardProp.valueOf(e0.getPropertyName());
+
         if (prop == BoardProp.MOVED_PIECE) {
             myMovingPiece = (MovableTetrisPiece) e0.getNewValue();
             repaint();
+        } else if (prop == BoardProp.GEN_BOARD_UPDATE) {
+            List<Block[]> boardData = (List<Block[]>) e0.getNewValue();
+
+            if (boardData.equals(myBoardData)) {
+                myLogger.warning("New board data is equivalent to current");
+            }
+
+            StringBuilder sb = new StringBuilder();
+            for (Block[] r : boardData ) {
+                sb.append("[");
+                for (int i = 0; i < r.length; i++) {
+                    sb.append(r[i]);
+                    sb.append(", ");
+                }
+                sb.append("]\n");
+            }
+
+            myLogger.info(sb.toString());
+
+            myBoardData = boardData;
         }
         transferFocus();
     }
