@@ -1,17 +1,16 @@
 /*
  * TCSS 305
- * 
+ *
  * An implementation of the classic game "Tetris".
  */
 
 package model;
 
-import java.awt.Color;
 import java.util.Random;
 
 /**
  * Enumeration of the TetrisPiece types.
- * 
+ *
  * @author Charles Bryan
  * @author Alan Fowler
  * @version 1.3
@@ -20,83 +19,76 @@ public enum TetrisPiece {
 
     /** The 'I' TetrisPiece. */
     I(4, 1,
-      Block.I ,
-      0,
-      new int[][][]
-         {{{0, 2}, {1, 2}, {2, 2}, {3, 2}},
-          {{2, 3}, {2, 2}, {2, 1}, {2, 0}},
-          {{0, 1}, {1, 1}, {2, 1}, {3, 1}},
-          {{1, 3}, {1, 2}, {1, 1}, {1, 0}}},
-      new Point(0, 2), new Point(1, 2), new Point(2, 2), new Point(3, 2)
-      ),
+            Block.I ,
+            new int[][][]
+                    {{{0, 2}, {1, 2}, {2, 2}, {3, 2}},
+                            {{2, 3}, {2, 2}, {2, 1}, {2, 0}},
+                            {{0, 1}, {1, 1}, {2, 1}, {3, 1}},
+                            {{1, 3}, {1, 2}, {1, 1}, {1, 0}}},
+            new Point(0, 2), new Point(1, 2), new Point(2, 2), new Point(3, 2)
+    ),
 
     /** The 'J' TetrisPiece. */
     J(3, 2,
-      Block.J,
-      1,
-      new int[][][]
-         {{{0, 2}, {0, 1}, {1, 1}, {2, 1}},
-          {{1, 2}, {2, 2}, {1, 1}, {1, 0}},
-          {{0, 1}, {1, 1}, {2, 1}, {2, 0}},
-          {{1, 2}, {1, 1}, {0, 0}, {1, 0}}},
-      new Point(0, 2), new Point(0, 1), new Point(1, 1), new Point(2, 1)),
+            Block.J,
+            new int[][][]
+                    {{{0, 2}, {0, 1}, {1, 1}, {2, 1}},
+                            {{1, 2}, {2, 2}, {1, 1}, {1, 0}},
+                            {{0, 1}, {1, 1}, {2, 1}, {2, 0}},
+                            {{1, 2}, {1, 1}, {0, 0}, {1, 0}}},
+            new Point(0, 2), new Point(0, 1), new Point(1, 1), new Point(2, 1)),
 
     /** The 'L' TetrisPiece. */
     L(3, 2,
-      Block.L,
-      2,
-      new int[][][]
-         {{{2, 2}, {0, 1}, {1, 1}, {2, 1}},
-          {{1, 2}, {1, 1}, {1, 0}, {2, 0}},
-          {{0, 1}, {1, 1}, {2, 1}, {0, 0}},
-          {{0, 2}, {1, 2}, {1, 1}, {1, 0}}},           
-      new Point(2, 2), new Point(0, 1), new Point(1, 1), new Point(2, 1)),
+            Block.L,
+            new int[][][]
+                    {{{2, 2}, {0, 1}, {1, 1}, {2, 1}},
+                            {{1, 2}, {1, 1}, {1, 0}, {2, 0}},
+                            {{0, 1}, {1, 1}, {2, 1}, {0, 0}},
+                            {{0, 2}, {1, 2}, {1, 1}, {1, 0}}},
+            new Point(2, 2), new Point(0, 1), new Point(1, 1), new Point(2, 1)),
 
     /** The 'O' TetrisPiece. */
     O(3, 2,
-      Block.O,
-      3,
-      new int[][][]
-        {{{1, 2}, {2, 2}, {1, 1}, {2, 1}},
-            {{1, 2}, {2, 2}, {1, 1}, {2, 1}},
-            {{1, 2}, {2, 2}, {1, 1}, {2, 1}},
-            {{1, 2}, {2, 2}, {1, 1}, {2, 1}}},
-      new Point(1, 2), new Point(2, 2), new Point(1, 1), new Point(2, 1)),
+            Block.O,
+            new int[][][]
+                    {{{1, 2}, {2, 2}, {1, 1}, {2, 1}},
+                            {{1, 2}, {2, 2}, {1, 1}, {2, 1}},
+                            {{1, 2}, {2, 2}, {1, 1}, {2, 1}},
+                            {{1, 2}, {2, 2}, {1, 1}, {2, 1}}},
+            new Point(1, 2), new Point(2, 2), new Point(1, 1), new Point(2, 1)),
 
     /** The 'S' TetrisPiece. */
     S(3, 2,
-      Block.S,
-      4,
-      new int[][][]
-         {{{1, 2}, {2, 2}, {0, 1}, {1, 1}},
-          {{1, 2}, {1, 1}, {2, 1}, {2, 0}},
-          {{1, 1}, {2, 1}, {0, 0}, {1, 0}},
-          {{0, 2}, {0, 1}, {1, 1}, {1, 0}}},     
-      new Point(1, 2), new Point(2, 2), new Point(0, 1), new Point(1, 1)),
+            Block.S,
+            new int[][][]
+                    {{{1, 2}, {2, 2}, {0, 1}, {1, 1}},
+                            {{1, 2}, {1, 1}, {2, 1}, {2, 0}},
+                            {{1, 1}, {2, 1}, {0, 0}, {1, 0}},
+                            {{0, 2}, {0, 1}, {1, 1}, {1, 0}}},
+            new Point(1, 2), new Point(2, 2), new Point(0, 1), new Point(1, 1)),
 
     /** The 'T' TetrisPiece. */
     T(3, 2,
-      Block.T,
-      5,
-      new int[][][]
-         {{{1, 2}, {0, 1}, {1, 1}, {2, 1}},
-          {{1, 2}, {1, 1}, {2, 1}, {1, 0}},
-          {{0, 1}, {1, 1}, {2, 1}, {1, 0}},
-          {{1, 2}, {0, 1}, {1, 1}, {1, 0}}},
-      new Point(1, 2), new Point(0, 1), new Point(1, 1), new Point(2, 1)),
+            Block.T,
+            new int[][][]
+                    {{{1, 2}, {0, 1}, {1, 1}, {2, 1}},
+                            {{1, 2}, {1, 1}, {2, 1}, {1, 0}},
+                            {{0, 1}, {1, 1}, {2, 1}, {1, 0}},
+                            {{1, 2}, {0, 1}, {1, 1}, {1, 0}}},
+            new Point(1, 2), new Point(0, 1), new Point(1, 1), new Point(2, 1)),
 
     /** The 'Z' TetrisPiece. */
     Z(3, 2,
-      Block.Z,
-      6,
-      new int[][][]
-         {{{0, 2}, {1, 2}, {1, 1}, {2, 1}},
-          {{2, 2}, {1, 1}, {2, 1}, {1, 0}},
-          {{0, 1}, {1, 1}, {1, 0}, {2, 0}},
-          {{1, 2}, {0, 1}, {1, 1}, {0, 0}}},
-      new Point(0, 2), new Point(1, 2), new Point(1, 1), new Point(2, 1));
+            Block.Z,
+            new int[][][]
+                    {{{0, 2}, {1, 2}, {1, 1}, {2, 1}},
+                            {{2, 2}, {1, 1}, {2, 1}, {1, 0}},
+                            {{0, 1}, {1, 1}, {1, 0}, {2, 0}},
+                            {{1, 2}, {0, 1}, {1, 1}, {0, 0}}},
+            new Point(0, 2), new Point(1, 2), new Point(1, 1), new Point(2, 1));
 
-    
+
     // Other class constants
 
     /**
@@ -120,9 +112,9 @@ public enum TetrisPiece {
      * The 4 Points of the TetrisPiece.
      */
     private final Point[] myPoints;
-    
+
     /**
-     * The 4 arrays of 4 points. 
+     * The 4 arrays of 4 points.
      */
     private final int[][][] myPointsByRotation;
 
@@ -132,22 +124,16 @@ public enum TetrisPiece {
     private final Block myBlock;
 
     /**
-     * Color of the Tetris Piece.
-     */
-    private final Color myColor;
-
-    /**
      * The TetrisPiece constructor.
-     * 
+     *
      * @param theWidth width of the TetrisPiece.
      * @param theHeight height of the TetrisPiece.
      * @param theBlock Block type of the TetrisPiece.
-     * @param thePointsByRotation The 4 different point arrays based on rotation. 
+     * @param thePointsByRotation The 4 different point arrays based on rotation.
      * @param thePoints the initial position of the blocks of the TetrisPiece.
      */
     TetrisPiece(final int theWidth, final int theHeight,
                 final Block theBlock,
-                final int theIndex,
                 final int[][][] thePointsByRotation,
                 final Point... thePoints) {
         myPointsByRotation = thePointsByRotation.clone();
@@ -155,16 +141,11 @@ public enum TetrisPiece {
         myHeight = theHeight;
         myBlock = theBlock;
         myPoints = thePoints.clone();
-
-        final Color[] colorArray = new Color[] {
-            Color.RED, Color.BLUE, Color.CYAN, Color.GREEN,
-            Color.MAGENTA, Color.ORANGE, Color.PINK};
-        myColor = colorArray[theIndex];
     }
 
     /**
      * Return the width of the TetrisPiece.
-     * 
+     *
      * @return the width of the TetrisPiece.
      */
     public int getWidth() {
@@ -173,7 +154,7 @@ public enum TetrisPiece {
 
     /**
      * Return the height of the TetrisPiece.
-     * 
+     *
      * @return the height of the TetrisPiece.
      */
     public int getHeight() {
@@ -182,43 +163,37 @@ public enum TetrisPiece {
 
     /**
      * Return the Block type of the TetrisPiece.
-     * 
+     *
      * @return The Block type of the TetrisPiece.
      */
     public Block getBlock() {
         return myBlock;
     }
-    
+
     /**
      * Returns the Points of the TetrisPiece.
-     * 
+     *
      * @return the Points of the TetrisPiece.
      */
     public Point[] getPoints() {
         return myPoints.clone();
     }
     /**
-     * Returns the Points of the TetrisPiece based on the Rotation. 
-     * 
+     * Returns the Points of the TetrisPiece based on the Rotation.
+     *
      * @param theRotation return the points for this Piece based on this rotation
      * @return the Points of the TetrisPiece.
-     */    
+     */
     public int[][] getPointsByRotation(final Rotation theRotation) {
         return myPointsByRotation[theRotation.ordinal()].clone();
     }
 
     /**
      * Get a random TetrisPiece.
-     * 
+     *
      * @return a random TetrisPiece.
      */
     public static TetrisPiece getRandomPiece() {
         return values()[RANDOM.nextInt(values().length)];
-    }
-    /**
-     * Get a color corresponding to a piece.
-     */
-    public Color getMyColor() {
-        return myColor;
     }
 }

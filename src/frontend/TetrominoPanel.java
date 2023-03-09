@@ -72,14 +72,14 @@ public class TetrominoPanel extends JPanel implements PropertyChangeListener {
 
         Rectangle2D shape;
         if (myIsRunning) {
-            Color myColor = myTetrisPiece.getMyColor();
+            Color color = myTetrisPiece.getBlock().getMyColor();
             final Point[] pointGrid = myTetrisPiece.getPoints();
             for (Point point : pointGrid) {
                 shape = new Rectangle2D.Double(
                          point.x() * blockSize + halfABlock,
                          getHeight() - blockSize - halfABlock - point.y() * blockSize,
                         blockSize, blockSize);
-                g2d.setPaint(myColor);
+                g2d.setPaint(color);
                 g2d.fill(shape);
                 g2d.setPaint(Color.BLACK);
                 g2d.draw(shape);
