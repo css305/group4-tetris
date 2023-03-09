@@ -14,10 +14,7 @@ import java.util.List;
 import java.util.logging.Logger;
 import javax.swing.JPanel;
 import model.Block;
-import model.Board;
 import model.Board.BoardProp;
-import model.MovableTetrisPiece;
-import model.Point;
 import resources.BlockSprite;
 import resources.G4Logging;
 
@@ -43,10 +40,8 @@ public class TetrisPanel extends JPanel implements PropertyChangeListener {
     /**Board size. */
     private final Dimension myBoardSize;
 
-    /** Latest received BoardData */
+    /** Latest received BoardData. */
     private List<Block[]> myBoardData;
-
-    private MovableTetrisPiece myMovingPiece;
 
 
     /**
@@ -105,7 +100,7 @@ public class TetrisPanel extends JPanel implements PropertyChangeListener {
             int y;
             final int bH = myBoardSize.height;
             int startRow = myBoardData.size() - GuiConstants.STUPID_RENDERING_ROWS;
-            myLogger.fine("Starting row: " + startRow + ", board height: " + bH);
+            myLogger.finer("Starting row: " + startRow + ", board height: " + bH);
 
             if (startRow > bH) {
                 startRow -= (startRow - bH) - 1;
@@ -128,7 +123,7 @@ public class TetrisPanel extends JPanel implements PropertyChangeListener {
                     if (row[b] != null && row[b] != Block.EMPTY) {
                         final RectangularShape block = new Rectangle2D.Double(x, y,
                                 myBlockSize, myBlockSize);
-                        myLogger.finer("Painting new block at : \n("
+                        myLogger.finest("Painting new block at : \n("
                             + x + ", " + y + ") ");
                         blocks.add(block);
                     }
@@ -168,7 +163,7 @@ public class TetrisPanel extends JPanel implements PropertyChangeListener {
                 sb.append("]\n");
             }
 
-            myLogger.fine(sb.toString());
+            myLogger.finest(sb.toString());
 
             myBoardData = boardData;
 
