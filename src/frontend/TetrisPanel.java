@@ -153,7 +153,7 @@ public class TetrisPanel extends JPanel implements PropertyChangeListener {
                     final int x = b * myBlockSize;
                     g2d.setPaint(Color.CYAN);
 
-                    if (row[i] != null && row[i] != Block.EMPTY) {
+                    if (row[b] != null && row[b] != Block.EMPTY) {
                         final RectangularShape block = new Rectangle2D.Double(x, y,
                                 myBlockSize, myBlockSize);
                         myLogger.finer("Painting new block at : \n("
@@ -181,6 +181,7 @@ public class TetrisPanel extends JPanel implements PropertyChangeListener {
             repaint();
         } else if (prop == BoardProp.GEN_BOARD_UPDATE) {
             List<Block[]> boardData = (List<Block[]>) e0.getNewValue();
+
 
             if (boardData.equals(myBoardData)) {
                 myLogger.warning("New board data is equivalent to current");

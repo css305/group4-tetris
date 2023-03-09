@@ -237,8 +237,10 @@ public class Board implements TetrisBoard {
                 myCurrentPiece = nextMovablePiece(false);
             }
             List<Block[]> mb = myBoardData.getBoardData();
+//            myPcs.firePropertyChange(BoardProp.GEN_BOARD_UPDATE.name(),
+//                    null, myBoardData.getBoardData());
             myPcs.firePropertyChange(BoardProp.GEN_BOARD_UPDATE.name(),
-                    null, myBoardData.getBoardData());
+                    null, getBoard());
         }
 
     }
@@ -445,8 +447,8 @@ public class Board implements TetrisBoard {
                 List<Block[]> bd = myBoardData.getBoardData();
 
              //TODO Publish Update!
-                myPcs.firePropertyChange(BoardProp.GEN_BOARD_UPDATE.name(),
-                        null, myBoardData.getBoardData());
+                myPcs.firePropertyChange(BoardProp.ROWS_CLEARED.name(),
+                        null, completeRows.size());
             }
         }
         // loop through list backwards removing items by index
@@ -501,7 +503,7 @@ public class Board implements TetrisBoard {
         } else if (!myGameOver) {
             myGameOver = true;
             //TODO Publish Update!
-            myPcs.firePropertyChange(BoardProp.MOVED_PIECE.name(), null, myCurrentPiece);
+            myPcs.firePropertyChange(BoardProp.GAME_OVER.name(), null, myCurrentPiece);
 
         }
     }
@@ -666,7 +668,11 @@ public class Board implements TetrisBoard {
         /**
          * Name for move property.
          */
-        GEN_BOARD_UPDATE
+        GEN_BOARD_UPDATE,
+        /**
+         * name for a row clear property
+         */
+        ROWS_CLEARED
     }
 
     
