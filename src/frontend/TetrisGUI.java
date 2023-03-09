@@ -12,14 +12,19 @@ import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Logger;
+import javax.swing.AbstractAction;
+import javax.swing.Action;
+import javax.swing.ActionMap;
+import javax.swing.InputMap;
+import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.KeyStroke;
 import javax.swing.SwingUtilities;
 import javax.swing.Timer;
 import javax.swing.UIManager;
@@ -252,7 +257,7 @@ public class TetrisGUI extends JFrame implements PropertyChangeListener {
      * @author Zac Andersen (anderzb@uw.edu)
      * @version 0.1
      */
-    private final class RootPanel extends JPanel implements KeyListener {
+    private final class RootPanel extends JPanel{
 
 
         /**
@@ -263,7 +268,7 @@ public class TetrisGUI extends JFrame implements PropertyChangeListener {
         /**
          * Map of keys - command pairs.
          */
-        private final Map<Integer, Runnable> myKeyMap = new HashMap<>();
+        private final Map<Integer, BindableAction> myKeyMap = new HashMap<>();
 
         /**
          * Constructs to GUI root panel. Initializes code - command pairs.
@@ -271,6 +276,7 @@ public class TetrisGUI extends JFrame implements PropertyChangeListener {
         private RootPanel() {
             setLayout(new GridBagLayout());
             initDefaultKeyCodes();
+            initKeyBinds();
 
             setFocusable(true);
         }
@@ -279,42 +285,66 @@ public class TetrisGUI extends JFrame implements PropertyChangeListener {
          * Places default code - command pairs into the key map.
          */
         private void initDefaultKeyCodes() {
-            myKeyMap.put(KeyEvent.VK_A, myBoard::left);
-            myKeyMap.put(KeyEvent.VK_LEFT, myBoard::left);
-            myKeyMap.put(KeyEvent.VK_S, myBoard::down);
-            myKeyMap.put(KeyEvent.VK_DOWN, myBoard::down);
-            myKeyMap.put(KeyEvent.VK_D, myBoard::right);
-            myKeyMap.put(KeyEvent.VK_RIGHT, myBoard::right);
-            myKeyMap.put(KeyEvent.VK_W, myBoard::rotateCW);
-            myKeyMap.put(KeyEvent.VK_E, myBoard::rotateCW);
-            myKeyMap.put(KeyEvent.VK_Z, myBoard::rotateCCW);
-            myKeyMap.put(KeyEvent.VK_Q, myBoard::rotateCCW);
-            myKeyMap.put(KeyEvent.VK_PAUSE, TetrisGUI.this::toggleTimer);
-            myKeyMap.put(KeyEvent.VK_N, TetrisGUI.this::newGame);
-            myKeyMap.put(KeyEvent.VK_PAGE_DOWN, myBoard::step);
+            myKeyMap.put(KeyEvent.VK_A, BindableAction.LEFT);
+            myKeyMap.put(KeyEvent.VK_LEFT, BindableAction.LEFT);
+            myKeyMap.put(KeyEvent.VK_S, BindableAction.DOWN);
+            myKeyMap.put(KeyEvent.VK_DOWN, BindableAction.DOWN);
+            myKeyMap.put(KeyEvent.VK_D, BindableAction.RIGHT);
+            myKeyMap.put(KeyEvent.VK_RIGHT, BindableAction.RIGHT);
+            myKeyMap.put(KeyEvent.VK_W, BindableAction.ROTATE_CW);
+            myKeyMap.put(KeyEvent.VK_E, BindableAction.ROTATE_CW);
+            myKeyMap.put(KeyEvent.VK_Z, BindableAction.ROTATE_CCW);
+            myKeyMap.put(KeyEvent.VK_Q, BindableAction.ROTATE_CW);
+            myKeyMap.put(KeyEvent.VK_PAUSE, BindableAction.PAUSE);
+        }
+
+        /**
+         * Places key binds into the input and action maps for this panel..
+         */
+        private void initKeyBinds() {
+            final InputMap input = getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
+            final ActionMap actions = getActionMap();
+            input.put(KeyStroke.getKeyStroke(KeyEvent.VK_SPACE, 0),
+                    BindableAction.DOWN);
+
+            for (Map.Entry<Integer, BindableAction> e : myKeyMap.entrySet()) {
+                input.put(KeyStroke.getKeyStroke(e.getKey(), 0), e.getValue());
+            }
+
+            for (BindableAction a : BindableAction.values()) {
+                final Runnable func;
+                switch (a) {
+                    case DROP -> func = myBoard::drop;
+                    case DOWN -> func = myBoard::down;
+                    case LEFT -> func = myBoard::left;
+                    case RIGHT -> func = myBoard::right;
+                    case ROTATE_CW -> func = myBoard::rotateCW;
+                    case ROTATE_CCW -> func = myBoard::rotateCCW;
+                    case PAUSE -> func = TetrisGUI.this::toggleTimer;
+                    default -> throw new IllegalArgumentException("Not a recognized bindable "
+                            + "action");
+                }
+                actions.put(a, makeAction(func));
+            }
+        }
+
+        /**
+         * Creates a new Action which runs a given method when performed.
+         * @param theFunc Method to perform on action.
+         * @return new Action.
+         */
+        private Action makeAction(final Runnable theFunc) {
+            return new AbstractAction() {
+                @Override
+                public void actionPerformed(final ActionEvent e) {
+                    theFunc.run();
+                }
+            };
         }
 
         @Override
         public Dimension getMinimumSize() {
             return MIN_SIZE;
-        }
-
-        @Override
-        public void keyTyped(final KeyEvent e0) {
-            //Unused, reports only character and code always returns 0.
-        }
-
-        @Override
-        public void keyPressed(final KeyEvent e0) {
-            final int code = e0.getKeyCode();
-            if (myKeyMap.containsKey(code)) {
-                myKeyMap.get(code).run();
-            }
-        }
-
-        @Override
-        public void keyReleased(final KeyEvent e0) {
-            //Currently unused, could use to repeat commands on tick clock.
         }
     }
 
@@ -331,6 +361,24 @@ public class TetrisGUI extends JFrame implements PropertyChangeListener {
          */
         DARK
 
+    }
+
+    /** The bindable actions available for key binds. */
+    private enum BindableAction {
+        /**Drop command. */
+        DROP,
+        /**Down command. */
+        DOWN,
+        /**Left command. */
+        LEFT,
+        /**Right command. */
+        RIGHT,
+        /**Rotate CW command. */
+        ROTATE_CW,
+        /**Rotate CCW command. */
+        ROTATE_CCW,
+        /**Pause/resume command. */
+        PAUSE
     }
     private void checkLevel() {
         if (myTickDelay * Score.INSTANCE.getMyLevel() > INITIAL_TICK_DELAY) {

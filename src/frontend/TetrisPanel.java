@@ -168,7 +168,7 @@ public class TetrisPanel extends JPanel implements PropertyChangeListener {
                 sb.append("]\n");
             }
 
-            myLogger.info(sb.toString());
+            myLogger.fine(sb.toString());
 
             myBoardData = boardData;
 
