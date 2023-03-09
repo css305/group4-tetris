@@ -74,11 +74,6 @@ public class Board implements TetrisBoard {
     private boolean myGameOver;
 
     /**
-     * The board data.
-     */
-    private final BoardData myBoardData;
-
-    /**
      * Contains a non random sequence of TetrisPieces to loop through.
      */
     private List<TetrisPiece> myNonRandomPieces;
@@ -140,7 +135,6 @@ public class Board implements TetrisBoard {
          */
 
         myPcs = new PropertyChangeSupport(this);
-        myBoardData = new BoardData();
     }
 
 
