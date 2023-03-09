@@ -113,7 +113,7 @@ public class TetrisPanel extends JPanel implements PropertyChangeListener {
                 startRow -= 1;
             }
 
-            ArrayList<RectangularShape> blocks = new ArrayList<>();
+            final ArrayList<RectangularShape> blocks = new ArrayList<>();
             for (int i = startRow; i >= 0; i--) {
                 final Block[] row = myBoardData.get(i);
                 for (int b = 0; b < row.length; b++) {
@@ -146,18 +146,18 @@ public class TetrisPanel extends JPanel implements PropertyChangeListener {
                 || prop == BoardProp.NEW_GAME
                 || prop == BoardProp.MOVED_PIECE
         ) {
-            List<Block[]> boardData = (List<Block[]>) e0.getNewValue();
+            final List<Block[]> boardData = (List<Block[]>) e0.getNewValue();
 
 
             if (boardData.equals(myBoardData)) {
                 myLogger.warning("New board data is equivalent to current");
             }
 
-            StringBuilder sb = new StringBuilder();
-            for (Block[] r : boardData ) {
+            final StringBuilder sb = new StringBuilder();
+            for (Block[] r : boardData) {
                 sb.append("[");
-                for (int i = 0; i < r.length; i++) {
-                    sb.append(r[i]);
+                for (Block block : r) {
+                    sb.append(block);
                     sb.append(", ");
                 }
                 sb.append("]\n");
