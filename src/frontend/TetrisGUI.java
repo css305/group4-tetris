@@ -28,6 +28,7 @@ import javax.swing.WindowConstants;
 import model.Board;
 import model.TetrisBoard;
 import resources.G4Logging;
+import resources.Score;
 
 public class TetrisGUI extends JFrame implements PropertyChangeListener {
 
@@ -50,9 +51,16 @@ public class TetrisGUI extends JFrame implements PropertyChangeListener {
     private static final Dimension SCREEN_SIZE = KIT.getScreenSize();
 
     /**
-     * Millisecond delay between ticks, 1 ticks per second.
+     * Initial millisecond delay between ticks, 2 ticks per second.
      */
-    private static final int TICK_DELAY = 1000;
+    private static final int INITIAL_TICK_DELAY = 2000;
+
+    /**
+     * Stores the millisecond delay between ticks.
+     */
+    private static int myTickDelay = INITIAL_TICK_DELAY;
+
+
 
     //Instance vars
     // ----------------------------------------------------------------------------------------
@@ -70,12 +78,11 @@ public class TetrisGUI extends JFrame implements PropertyChangeListener {
     /**
      * Timer for game ticking.
      */
-    private final Timer myTickTimer = new Timer(TICK_DELAY, new ActionListener() {
+    private final Timer myTickTimer = new Timer(INITIAL_TICK_DELAY, new ActionListener() {
         @Override
         public void actionPerformed(final ActionEvent theE) {
             myBoard.step();
             myLogger.finest("Stepping");
-            //System.out.println(myBoard);
         }
     });
 
@@ -229,7 +236,9 @@ public class TetrisGUI extends JFrame implements PropertyChangeListener {
     @Override
     public void propertyChange(final PropertyChangeEvent theEvt) {
         //TODO: Add functionality based on received property
-
+        switch (Board.BoardProp.valueOf(theEvt.getPropertyName())) {
+            case GEN_BOARD_UPDATE -> checkLevel();
+        }
 
     }
 
@@ -322,6 +331,12 @@ public class TetrisGUI extends JFrame implements PropertyChangeListener {
          */
         DARK
 
+    }
+    private void checkLevel() {
+        if (myTickDelay * Score.INSTANCE.getMyLevel() > INITIAL_TICK_DELAY) {
+            myTickDelay = myTickDelay / 2;
+            myTickTimer.setDelay(myTickDelay);
+        }
     }
 
 }

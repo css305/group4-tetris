@@ -240,7 +240,6 @@ public class Board implements TetrisBoard {
             myPcs.firePropertyChange(BoardProp.GEN_BOARD_UPDATE.name(),
                     null, new BoardData().getBoardData());
         }
-
     }
 
     /**
