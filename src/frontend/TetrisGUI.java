@@ -299,7 +299,7 @@ public class TetrisGUI extends JFrame implements PropertyChangeListener {
         }
 
         /**
-         * Places key binds into the input and action maps for this panel..
+         * Places key binds into the input and action maps for this panel.
          */
         private void initKeyBinds() {
             final InputMap input = getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
