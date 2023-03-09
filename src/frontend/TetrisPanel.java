@@ -101,31 +101,6 @@ public class TetrisPanel extends JPanel implements PropertyChangeListener {
         g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
                 RenderingHints.VALUE_ANTIALIAS_ON);
 
-//        if (myMovingPiece != null) {
-//            Point[] locals = myMovingPiece.getTetrisPiece().getPoints();
-//            Point coord = myMovingPiece.getPosition();
-//            myLogger.fine("Piece coordinate: " + coord.toString());
-//
-//            Point[] inPlane = new Point[locals.length];
-//
-//            ArrayList<RectangularShape> boxes = new ArrayList<>();
-//            for (int i = 0; i < locals.length; i++) {
-//                inPlane[i] = new Point(locals[i].x() + coord.x(),
-//                        locals[i].y() + coord.y());
-//
-//            }
-//
-//            for (Point p : inPlane) {
-//                boxes.add(new Rectangle2D.Double(p.x() * myBlockSize, p.y() * myBlockSize,
-//                        myBlockSize, myBlockSize));
-//            }
-//
-//            for (RectangularShape b : boxes) {
-//                g2d.fill(b);
-//            }
-//        }
-
-
         if (myBoardData != null) {
             int y;
             final int bH = myBoardSize.height;
@@ -165,8 +140,6 @@ public class TetrisPanel extends JPanel implements PropertyChangeListener {
                 y += myBlockSize;
             }
         }
-
-
     }
 
     @Override
