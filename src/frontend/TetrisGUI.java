@@ -80,6 +80,9 @@ public class TetrisGUI extends JFrame implements PropertyChangeListener {
      */
     private final TetrisBoard myBoard;
 
+    /** The root content and listener pane for this GUI */
+    RootPanel myRoot;
+
     /**
      * Timer for game ticking.
      */
@@ -100,7 +103,7 @@ public class TetrisGUI extends JFrame implements PropertyChangeListener {
         myLogger.warning("Good Morning!");
         myBoard = new Board();
         myBoard.addPropertyChangeListener(this);
-        initGUI();
+        myRoot = initGUI();
 
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setJMenuBar(new TetrisFrameMenu(this));
@@ -118,7 +121,7 @@ public class TetrisGUI extends JFrame implements PropertyChangeListener {
     /**
      * Initializes GUI configuration.
      */
-    private void initGUI() {
+    private RootPanel initGUI() {
 
         setLaF(LookAndFeel.DARK);
         System.setProperty("flatlaf.menuBarEmbedded", "true");
@@ -190,6 +193,8 @@ public class TetrisGUI extends JFrame implements PropertyChangeListener {
         setLocation(SCREEN_SIZE.width / 2 - getWidth() / 2,
                 SCREEN_SIZE.height / 2 - getHeight() / 2);
 
+        return root;
+
     }
 
     /**
@@ -230,6 +235,7 @@ public class TetrisGUI extends JFrame implements PropertyChangeListener {
         } else {
             myTickTimer.start();
         }
+        myRoot.toggleKeyBinds();
 
     }
 
@@ -277,8 +283,28 @@ public class TetrisGUI extends JFrame implements PropertyChangeListener {
             setLayout(new GridBagLayout());
             initDefaultKeyCodes();
             initKeyBinds();
+            toggleKeyBinds();
 
             setFocusable(true);
+        }
+
+        /**
+         * Enables or Disables key binds from running.
+         */
+        public void toggleKeyBinds() {
+            InputMap iM = getInputMap();
+
+            myLogger.finer("InputMap has " + iM.size() + " binds.");
+
+            if (iM.size() > 0) {
+                myLogger.fine("Clearing key binds");
+                iM.clear();
+            } else {
+                myLogger.fine("Remapping key binds.");
+                for (Map.Entry<Integer, BindableAction> e : myKeyMap.entrySet()) {
+                    iM.put(KeyStroke.getKeyStroke(e.getKey(), 0), e.getValue());
+                }
+            }
         }
 
         /**
@@ -289,6 +315,7 @@ public class TetrisGUI extends JFrame implements PropertyChangeListener {
             myKeyMap.put(KeyEvent.VK_LEFT, BindableAction.LEFT);
             myKeyMap.put(KeyEvent.VK_S, BindableAction.DOWN);
             myKeyMap.put(KeyEvent.VK_DOWN, BindableAction.DOWN);
+            myKeyMap.put(KeyEvent.VK_SPACE, BindableAction.DROP);
             myKeyMap.put(KeyEvent.VK_D, BindableAction.RIGHT);
             myKeyMap.put(KeyEvent.VK_RIGHT, BindableAction.RIGHT);
             myKeyMap.put(KeyEvent.VK_W, BindableAction.ROTATE_CW);
@@ -304,8 +331,6 @@ public class TetrisGUI extends JFrame implements PropertyChangeListener {
         private void initKeyBinds() {
             final InputMap input = getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
             final ActionMap actions = getActionMap();
-            input.put(KeyStroke.getKeyStroke(KeyEvent.VK_SPACE, 0),
-                    BindableAction.DOWN);
 
             for (Map.Entry<Integer, BindableAction> e : myKeyMap.entrySet()) {
                 input.put(KeyStroke.getKeyStroke(e.getKey(), 0), e.getValue());
