@@ -4,7 +4,6 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.Rectangle;
 import java.awt.RenderingHints;
 import java.awt.geom.Rectangle2D;
 import java.awt.geom.RectangularShape;
@@ -102,37 +101,35 @@ public class TetrisPanel extends JPanel implements PropertyChangeListener {
         g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
                 RenderingHints.VALUE_ANTIALIAS_ON);
 
-        myLogger.finer("paintComponent Called.");
-        if (myMovingPiece != null) {
-            Point[] locals = myMovingPiece.getTetrisPiece().getPoints();
-            Point coord = myMovingPiece.getPosition();
-            myLogger.fine("Piece coordinate: " + coord.toString());
-
-            Point[] inPlane = new Point[locals.length];
-
-            ArrayList<RectangularShape> boxes = new ArrayList<>();
-            for (int i = 0; i < locals.length; i++) {
-                inPlane[i] = new Point(locals[i].x() + coord.x(),
-                        locals[i].y() + coord.y());
-
-            }
-
-            for (Point p : inPlane) {
-                boxes.add(new Rectangle2D.Double(p.x() * myBlockSize, p.y() * myBlockSize,
-                        myBlockSize, myBlockSize));
-            }
-
-            for (RectangularShape b : boxes) {
-                g2d.fill(b);
-            }
-        }
+//        if (myMovingPiece != null) {
+//            Point[] locals = myMovingPiece.getTetrisPiece().getPoints();
+//            Point coord = myMovingPiece.getPosition();
+//            myLogger.fine("Piece coordinate: " + coord.toString());
+//
+//            Point[] inPlane = new Point[locals.length];
+//
+//            ArrayList<RectangularShape> boxes = new ArrayList<>();
+//            for (int i = 0; i < locals.length; i++) {
+//                inPlane[i] = new Point(locals[i].x() + coord.x(),
+//                        locals[i].y() + coord.y());
+//
+//            }
+//
+//            for (Point p : inPlane) {
+//                boxes.add(new Rectangle2D.Double(p.x() * myBlockSize, p.y() * myBlockSize,
+//                        myBlockSize, myBlockSize));
+//            }
+//
+//            for (RectangularShape b : boxes) {
+//                g2d.fill(b);
+//            }
+//        }
 
 
         if (myBoardData != null) {
-            myLogger.fine("Board data is: \n" + myBoardData);
             int y;
             final int bH = myBoardSize.height;
-            int startRow = myBoardData.size();
+            int startRow = myBoardData.size() - GuiConstants.STUPID_RENDERING_ROWS;
             myLogger.fine("Starting row: " + startRow + ", board height: " + bH);
 
             if (startRow > bH) {
@@ -176,10 +173,11 @@ public class TetrisPanel extends JPanel implements PropertyChangeListener {
     public void propertyChange(final PropertyChangeEvent e0) {
         final BoardProp prop = BoardProp.valueOf(e0.getPropertyName());
 
-        if (prop == BoardProp.MOVED_PIECE) {
-            myMovingPiece = (MovableTetrisPiece) e0.getNewValue();
-            repaint();
-        } else if (prop == BoardProp.GEN_BOARD_UPDATE) {
+        if (
+                prop == BoardProp.GEN_BOARD_UPDATE
+                || prop == BoardProp.NEW_GAME
+                || prop == BoardProp.MOVED_PIECE
+        ) {
             List<Block[]> boardData = (List<Block[]>) e0.getNewValue();
 
 
@@ -200,6 +198,8 @@ public class TetrisPanel extends JPanel implements PropertyChangeListener {
             myLogger.info(sb.toString());
 
             myBoardData = boardData;
+
+            repaint();
         }
         transferFocus();
     }

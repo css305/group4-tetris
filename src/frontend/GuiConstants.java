@@ -23,6 +23,11 @@ public final class GuiConstants {
     /**Default inset. */
     static final int D_INSET = 10;
 
+    /**
+     * Stupid added rows to render the stupid piece in.
+     */
+    public static final int STUPID_RENDERING_ROWS = 4;
+
     // Tetris panel instance variables.
     // ----------------------------------------------------------------------------------------
     /**
