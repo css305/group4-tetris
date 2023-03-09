@@ -17,20 +17,10 @@ import java.beans.PropertyChangeListener;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Logger;
-import javax.swing.AbstractAction;
-import javax.swing.Action;
-import javax.swing.ActionMap;
-import javax.swing.InputMap;
-import javax.swing.JComponent;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.KeyStroke;
-import javax.swing.SwingUtilities;
-import javax.swing.Timer;
-import javax.swing.UIManager;
-import javax.swing.UnsupportedLookAndFeelException;
-import javax.swing.WindowConstants;
+import javax.swing.*;
+
 import model.Board;
+import model.Board.BoardProp;
 import model.TetrisBoard;
 import resources.G4Logging;
 import resources.Score;
@@ -116,6 +106,7 @@ public class TetrisGUI extends JFrame implements PropertyChangeListener {
     public void newGame() {
         myBoard.newGame();
         myTickTimer.start();
+        myRoot.toggleKeyBinds(false);
     }
 
     /**
@@ -232,11 +223,11 @@ public class TetrisGUI extends JFrame implements PropertyChangeListener {
     private void toggleTimer() {
         if (myTickTimer.isRunning()) {
             myTickTimer.stop();
+            myRoot.toggleKeyBinds(true);
         } else {
             myTickTimer.start();
+            myRoot.toggleKeyBinds(false);
         }
-        myRoot.toggleKeyBinds();
-
     }
 
     @Override
@@ -246,9 +237,9 @@ public class TetrisGUI extends JFrame implements PropertyChangeListener {
 
     @Override
     public void propertyChange(final PropertyChangeEvent theEvt) {
-        //TODO: Add functionality based on received property
-        switch (Board.BoardProp.valueOf(theEvt.getPropertyName())) {
-            case GEN_BOARD_UPDATE -> checkLevel();
+        BoardProp prop = BoardProp.valueOf(theEvt.getPropertyName());
+        if (prop == BoardProp.GEN_BOARD_UPDATE) {
+            checkLevel();
         }
 
     }
@@ -263,8 +254,7 @@ public class TetrisGUI extends JFrame implements PropertyChangeListener {
      * @author Zac Andersen (anderzb@uw.edu)
      * @version 0.1
      */
-    private final class RootPanel extends JPanel{
-
+    private final class RootPanel extends JPanel {
 
         /**
          * Minimum size of the root content pane.
@@ -277,13 +267,30 @@ public class TetrisGUI extends JFrame implements PropertyChangeListener {
         private final Map<Integer, BindableAction> myKeyMap = new HashMap<>();
 
         /**
+         * The Input Map for when the game is in progress.
+         */
+        ComponentInputMap myRunningMap;
+
+        /**
+         * The Input Map for when the game is paused.
+         */
+        ComponentInputMap myPausedMap;
+
+        /**
+         * The Action Map, this always has bindable command -> Action.
+         */
+        ActionMap myActionMap;
+
+        /**
          * Constructs to GUI root panel. Initializes code - command pairs.
          */
         private RootPanel() {
             setLayout(new GridBagLayout());
             initDefaultKeyCodes();
             initKeyBinds();
-            toggleKeyBinds();
+
+            setActionMap(myActionMap);
+            setInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW, myPausedMap);
 
             setFocusable(true);
         }
@@ -291,19 +298,11 @@ public class TetrisGUI extends JFrame implements PropertyChangeListener {
         /**
          * Enables or Disables key binds from running.
          */
-        public void toggleKeyBinds() {
-            InputMap iM = getInputMap();
-
-            myLogger.finer("InputMap has " + iM.size() + " binds.");
-
-            if (iM.size() > 0) {
-                myLogger.fine("Clearing key binds");
-                iM.clear();
+        public void toggleKeyBinds(boolean theGameIsPaused) {
+            if (theGameIsPaused) {
+                setInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW, myPausedMap);
             } else {
-                myLogger.fine("Remapping key binds.");
-                for (Map.Entry<Integer, BindableAction> e : myKeyMap.entrySet()) {
-                    iM.put(KeyStroke.getKeyStroke(e.getKey(), 0), e.getValue());
-                }
+                setInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW, myRunningMap);
             }
         }
 
@@ -329,28 +328,28 @@ public class TetrisGUI extends JFrame implements PropertyChangeListener {
          * Places key binds into the input and action maps for this panel.
          */
         private void initKeyBinds() {
-            final InputMap input = getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
-            final ActionMap actions = getActionMap();
+            final ComponentInputMap input = new ComponentInputMap(this);
+            final ComponentInputMap pause = new ComponentInputMap(this);
+            final ActionMap actions = new ActionMap();
 
             for (Map.Entry<Integer, BindableAction> e : myKeyMap.entrySet()) {
                 input.put(KeyStroke.getKeyStroke(e.getKey(), 0), e.getValue());
             }
 
-            for (BindableAction a : BindableAction.values()) {
-                final Runnable func;
-                switch (a) {
-                    case DROP -> func = myBoard::drop;
-                    case DOWN -> func = myBoard::down;
-                    case LEFT -> func = myBoard::left;
-                    case RIGHT -> func = myBoard::right;
-                    case ROTATE_CW -> func = myBoard::rotateCW;
-                    case ROTATE_CCW -> func = myBoard::rotateCCW;
-                    case PAUSE -> func = TetrisGUI.this::toggleTimer;
-                    default -> throw new IllegalArgumentException("Not a recognized bindable "
-                            + "action");
-                }
-                actions.put(a, makeAction(func));
-            }
+            pause.put(KeyStroke.getKeyStroke(KeyEvent.VK_PAUSE, 0),
+                    BindableAction.PAUSE);
+
+            actions.put(BindableAction.DROP, makeAction(myBoard::drop));
+            actions.put(BindableAction.DOWN, makeAction(myBoard::down));
+            actions.put(BindableAction.LEFT, makeAction(myBoard::left));
+            actions.put(BindableAction.RIGHT, makeAction(myBoard::right));
+            actions.put(BindableAction.ROTATE_CW, makeAction(myBoard::rotateCW));
+            actions.put(BindableAction.ROTATE_CCW, makeAction(myBoard::rotateCCW));
+            actions.put(BindableAction.PAUSE, makeAction(TetrisGUI.this::toggleTimer));
+
+            myActionMap = actions;
+            myRunningMap = input;
+            myPausedMap = pause;
         }
 
         /**
