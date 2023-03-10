@@ -1,12 +1,25 @@
 package frontend;
 
-import java.awt.*;
+import java.awt.BasicStroke;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.RenderingHints;
 import java.awt.geom.Rectangle2D;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.*;
+import javax.swing.Box;
+import javax.swing.BoxLayout;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.border.Border;
+import javax.swing.border.CompoundBorder;
+import javax.swing.border.EmptyBorder;
 import model.Board.BoardProp;
 import resources.G4Logging;
 import resources.Score;
@@ -18,28 +31,42 @@ import resources.Score;
  */
 public class StatPanel extends JPanel implements PropertyChangeListener {
     //Constants
+    /**
+     * Standard font size.
+     */
+    private static final int FONT_SIZE = 20;
+    /**
+     * Standard font.
+     */
+    private static final String FONT_NAME = "Times New Roman";
+    /**
+     * Font size.
+     */
+    private static final int MARGIN = 5;
+
 
     /** Logger for this class. */
     private final Logger myLogger = G4Logging.getLogger(getClass());
 
-    /** Panel that will display the highest score. */
+    /** Panel that will display the highest score text. */
     private final JLabel myHighScore;
 
-    /** Panel that will display score. */
+    /** Panel that will display score text. */
     private final JLabel myScore;
 
-    /** Panel that will display current level. */
+    /** Panel that will display  level text. */
     private final JLabel myLevel;
 
-    /** Panel that will display current lines. */
+    /** Panel that will display lines text. */
     private final JLabel myLines;
 
+    /** Panel that will display the highest score. */
     private final JLabel myHighScoreValue;
-
+    /** Panel that will display score. */
     private final JLabel myScoreValue;
-
+    /** Panel that will display current level. */
     private final JLabel myLevelValue;
-
+    /** Panel that will display current lines. */
     private final JLabel myLinesValue;
 
     /**
@@ -47,53 +74,20 @@ public class StatPanel extends JPanel implements PropertyChangeListener {
      */
     //TODO: Implement stats area
     public StatPanel() {
+        myHighScore = createLabel("High Score");
+        myHighScoreValue = createLabel("0", Color.RED);
+        myHighScoreValue.setFont(new Font(FONT_NAME, Font.BOLD, FONT_SIZE));
 
-        myHighScore = new JLabel("High Score");
-        myHighScore.setFont(new Font("Times New Roman", Font.ITALIC, 20));
-        myHighScore.setAlignmentX(Component.CENTER_ALIGNMENT);
-        myHighScoreValue = new JLabel("0");
-        myHighScoreValue.setFont(new Font("Times New Roman", Font.ITALIC, 20));
-        myHighScoreValue.setAlignmentX(Component.CENTER_ALIGNMENT);
+        myScore =  createLabel("Score");
+        myScoreValue = createLabel("0");
 
-        myScore = new JLabel("Score");
-        myScore.setFont(new Font("Times New Roman", Font.ITALIC, 20));
-        myScore.setAlignmentX(Component.CENTER_ALIGNMENT);
-        myScoreValue = new JLabel("0");
-        myScoreValue.setFont(new Font("Times New Roman", Font.ITALIC, 20));
-        myScoreValue.setAlignmentX(Component.CENTER_ALIGNMENT);
+        myLevel = createLabel("Level");
+        myLevelValue = createLabel("1");
 
-        myLevel = new JLabel("Level");
-        myLevel.setFont(new Font("Times New Roman", Font.ITALIC, 20));
-        myLevel.setAlignmentX(Component.CENTER_ALIGNMENT);
-        myLevelValue = new JLabel("1");
-        myLevelValue.setFont(new Font("Times New Roman", Font.ITALIC, 20));
-        myLevelValue.setAlignmentX(Component.CENTER_ALIGNMENT);
+        myLines = createLabel("Lines");
+        myLinesValue = createLabel("0");
 
-        myLines = new JLabel("Lines");
-        myLines.setFont(new Font("Times New Roman", Font.ITALIC, 20));
-        myLines.setAlignmentX(Component.CENTER_ALIGNMENT);
-        myLinesValue = new JLabel("0");
-        myLinesValue.setFont(new Font("Times New Roman", Font.ITALIC, 20));
-        myLevelValue.setAlignmentX(Component.CENTER_ALIGNMENT);
-
-        setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-
-        add(Box.createVerticalGlue());
-        add(myHighScore);
-        add(myHighScoreValue);
-        add(Box.createVerticalGlue());
-        add(myScore);
-        add(myScoreValue);
-        add(Box.createVerticalGlue());
-        add(myLevel);
-        add(myLevelValue);
-        add(Box.createVerticalGlue());
-        add(myLines);
-        add(myLinesValue);
-        add(Box.createVerticalGlue());
-
-        setBackground(Color.GRAY);
-
+        init();
     }
 
     @Override
@@ -105,8 +99,9 @@ public class StatPanel extends JPanel implements PropertyChangeListener {
                 RenderingHints.VALUE_ANTIALIAS_ON);
         final Rectangle2D border = new Rectangle2D.Double(0, 0, getWidth(), getHeight());
 
+
         g2d.setPaint(Color.WHITE);
-        g2d.setStroke(new BasicStroke(5));
+        g2d.setStroke(new BasicStroke(MARGIN));
         g2d.draw(border);
 
     }
@@ -135,5 +130,47 @@ public class StatPanel extends JPanel implements PropertyChangeListener {
         final int pW = getParent().getSize().width;
         final int pD = Math.min(pH, pW);
         return new Dimension(pD, pD);
+    }
+    private void init() {
+        final JPanel highScoreLabel = createPanel(myHighScore, myHighScoreValue);
+        final JPanel scoreLabel = createPanel(myScore, myScoreValue);
+        final JPanel levelLabel = createPanel(myLevel, myLevelValue);
+        final JPanel linesLabel = createPanel(myLines, myLinesValue);
+
+        final Border borderElement = getBorder();
+        final Border margin = new EmptyBorder(MARGIN, MARGIN, MARGIN, MARGIN);
+        setBorder(new CompoundBorder(borderElement, margin));
+        setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+
+        add(Box.createVerticalGlue());
+        add(highScoreLabel);
+        add(Box.createVerticalGlue());
+        add(scoreLabel);
+        add(Box.createVerticalGlue());
+        add(levelLabel);
+        add(Box.createVerticalGlue());
+        add(linesLabel);
+        add(Box.createVerticalGlue());
+    }
+    private JLabel createLabel(final String theText) {
+        final JLabel label = new JLabel(theText);
+        final Border border = label.getBorder();
+        final Border margin = new EmptyBorder(0, MARGIN, 0, MARGIN);
+        label.setBorder(new CompoundBorder(border, margin));
+        label.setFont(new Font(FONT_NAME, Font.ITALIC, FONT_SIZE));
+        return label;
+    }
+    private JLabel createLabel(final String theText, final Color theColor) {
+        final JLabel label = createLabel(theText);
+        label.setForeground(theColor);
+        return label;
+    }
+
+    private JPanel createPanel(final JLabel theTextLabel, final JLabel theScoreLabel) {
+        final JPanel panel = new JPanel(new BorderLayout());
+        panel.add(theTextLabel, BorderLayout.CENTER);
+        panel.add(theScoreLabel, BorderLayout.EAST);
+        panel.setBackground(Color.GRAY);
+        return panel;
     }
 }
