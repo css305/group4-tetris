@@ -105,6 +105,7 @@ public class TetrisGUI extends JFrame implements PropertyChangeListener {
      */
     public void newGame() {
         myBoard.newGame();
+        myTickTimer.setDelay(INITIAL_TICK_DELAY);
         myTickTimer.start();
         myRoot.toggleKeyBinds(false);
     }
