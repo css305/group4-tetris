@@ -46,7 +46,7 @@ public class TetrominoPanel extends JPanel implements PropertyChangeListener {
     public TetrominoPanel() {
 
 
-        setBackground(Color.DARK_GRAY);
+        setBackground(Color.GRAY);
     }
 
     /**
