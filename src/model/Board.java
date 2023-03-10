@@ -9,10 +9,14 @@ package model;
 import frontend.GuiConstants;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import model.wallkicks.WallKick;
+import javax.sound.sampled.*;
+
 
 /**
  * Represents a Tetris board. Board objects communicate with clients via Observer pattern. 
@@ -105,6 +109,11 @@ public class Board implements TetrisBoard {
      */
     private final PropertyChangeSupport myPcs;
 
+    /**
+     * A Sound Effects Object that can play sound effects.
+     */
+    private final SoundEffects mySFX;
+
     // Constructors
 
     /**
@@ -135,6 +144,8 @@ public class Board implements TetrisBoard {
          */
 
         myPcs = new PropertyChangeSupport(this);
+        mySFX = new SoundEffects();
+
     }
 
 
@@ -241,9 +252,14 @@ public class Board implements TetrisBoard {
      */
     @Override
     public void left() {
+
         if (myCurrentPiece != null) {
             move(myCurrentPiece.left());
         }
+        final String leftSoundEffect =
+                "src/sounds/sfx/TetrisLeft.wav";
+        mySFX.setSoundEffect(leftSoundEffect);
+        mySFX.play();
     }
 
     /**
@@ -666,6 +682,33 @@ public class Board implements TetrisBoard {
          * When one or more rows are cleared.
          */
         ROWS_CLEARED
+    }
+
+    /**
+     * Simple Sound Effect class plays sound effect.
+     * @author Hariroop Singh.
+     * @version Sprint 3.
+     */
+    public class SoundEffects {
+        /**
+         * Holds sound effect.
+         */
+        private Clip mySoundEffect;
+
+        public void setSoundEffect(final String theSoundEffect) {
+            try {
+                final File soundFile = new File(theSoundEffect);
+                final AudioInputStream ais =
+                        AudioSystem.getAudioInputStream(soundFile);
+                mySoundEffect = AudioSystem.getClip();
+                mySoundEffect.open(ais);
+            } catch (final Exception e) {
+
+            }
+        }
+        public void play() {
+            mySoundEffect.start();
+        }
     }
 
     

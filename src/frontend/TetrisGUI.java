@@ -350,6 +350,7 @@ public class TetrisGUI extends JFrame implements PropertyChangeListener {
             myActionMap = actions;
             myRunningMap = input;
             myPausedMap = pause;
+
         }
 
         /**
