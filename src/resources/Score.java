@@ -57,4 +57,8 @@ public class Score {
     public  int getHighScore() {
         return myHighScore;
     }
+    public void reset() {
+        myScore = 0;
+        myLevel = 1;
+    }
 }
