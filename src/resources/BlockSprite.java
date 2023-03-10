@@ -71,6 +71,11 @@ public class BlockSprite {
         return mySprite.getWidth();
     }
 
+    /** Gets the current sprite image */
+    public BufferedImage getImage() {
+        return mySprite;
+    }
+
     /**
      * Wrapper to load image file and crash if file not found.
      * @param thePath Path to load file from.
