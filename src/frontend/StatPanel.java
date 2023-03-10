@@ -1,6 +1,7 @@
 package frontend;
 
 import java.awt.*;
+import java.awt.geom.Rectangle2D;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.logging.Level;
@@ -21,14 +22,25 @@ public class StatPanel extends JPanel implements PropertyChangeListener {
     /** Logger for this class. */
     private final Logger myLogger = G4Logging.getLogger(getClass());
 
-    /** Panel that will display score. */
-    private final JLabel myScore;
-
     /** Panel that will display the highest score. */
     private final JLabel myHighScore;
 
+    /** Panel that will display score. */
+    private final JLabel myScore;
+
     /** Panel that will display current level. */
     private final JLabel myLevel;
+
+    /** Panel that will display current lines. */
+    private final JLabel myLines;
+
+    private final JLabel myHighScoreValue;
+
+    private final JLabel myScoreValue;
+
+    private final JLabel myLevelValue;
+
+    private final JLabel myLinesValue;
 
     /**
      * Stat panel displaying attributes to game.
@@ -36,15 +48,66 @@ public class StatPanel extends JPanel implements PropertyChangeListener {
     //TODO: Implement stats area
     public StatPanel() {
 
-        myScore = new JLabel("Current Score: 0");
-        myHighScore = new JLabel("Highest Score: 0");
-        myLevel = new JLabel("Current Level: 0");
+        myHighScore = new JLabel("High Score");
+        myHighScore.setFont(new Font("Times New Roman", Font.ITALIC, 20));
+        myHighScore.setAlignmentX(Component.CENTER_ALIGNMENT);
+        myHighScoreValue = new JLabel("0");
+        myHighScoreValue.setFont(new Font("Times New Roman", Font.ITALIC, 20));
+        myHighScoreValue.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-        add(myScore);
+        myScore = new JLabel("Score");
+        myScore.setFont(new Font("Times New Roman", Font.ITALIC, 20));
+        myScore.setAlignmentX(Component.CENTER_ALIGNMENT);
+        myScoreValue = new JLabel("0");
+        myScoreValue.setFont(new Font("Times New Roman", Font.ITALIC, 20));
+        myScoreValue.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+        myLevel = new JLabel("Level");
+        myLevel.setFont(new Font("Times New Roman", Font.ITALIC, 20));
+        myLevel.setAlignmentX(Component.CENTER_ALIGNMENT);
+        myLevelValue = new JLabel("1");
+        myLevelValue.setFont(new Font("Times New Roman", Font.ITALIC, 20));
+        myLevelValue.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+        myLines = new JLabel("Lines");
+        myLines.setFont(new Font("Times New Roman", Font.ITALIC, 20));
+        myLines.setAlignmentX(Component.CENTER_ALIGNMENT);
+        myLinesValue = new JLabel("0");
+        myLinesValue.setFont(new Font("Times New Roman", Font.ITALIC, 20));
+        myLevelValue.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+        setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+
+        add(Box.createVerticalGlue());
         add(myHighScore);
+        add(myHighScoreValue);
+        add(Box.createVerticalGlue());
+        add(myScore);
+        add(myScoreValue);
+        add(Box.createVerticalGlue());
         add(myLevel);
+        add(myLevelValue);
+        add(Box.createVerticalGlue());
+        add(myLines);
+        add(myLinesValue);
+        add(Box.createVerticalGlue());
 
-        setBackground(Color.DARK_GRAY);
+        setBackground(Color.GRAY);
+
+    }
+
+    @Override
+    public void paintComponent(final Graphics g0) {
+        super.paintComponent(g0);
+        final Graphics2D g2d = (Graphics2D) g0;
+
+        g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
+                RenderingHints.VALUE_ANTIALIAS_ON);
+        final Rectangle2D border = new Rectangle2D.Double(0, 0, getWidth(), getHeight());
+
+        g2d.setPaint(Color.WHITE);
+        g2d.setStroke(new BasicStroke(5));
+        g2d.draw(border);
 
     }
 
@@ -60,10 +123,11 @@ public class StatPanel extends JPanel implements PropertyChangeListener {
         }
     }
 
+    @Override
     public Dimension getPreferredSize() {
-        int pH = getParent().getSize().height;
-        int pW= getParent().getSize().width;
-        int pD = Math.min(pH, pW);
+        final int pH = getParent().getSize().height;
+        final int pW = getParent().getSize().width;
+        final int pD = Math.min(pH, pW);
         return new Dimension(pD, pD);
     }
 }
