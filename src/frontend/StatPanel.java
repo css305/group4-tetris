@@ -121,6 +121,11 @@ public class StatPanel extends JPanel implements PropertyChangeListener {
             myLevelValue.setText("" + Score.INSTANCE.getMyLevel());
             myLinesValue.setText("" + Score.INSTANCE.getLines());
 
+        } else if (e0.getPropertyName().equals(BoardProp.NEW_GAME.name())) {
+            Score.INSTANCE.reset();
+            myScoreValue.setText("" + Score.INSTANCE.getScore());
+            myLevelValue.setText("" + Score.INSTANCE.getMyLevel());
+            myLinesValue.setText("" + Score.INSTANCE.getLines());
         }
     }
 

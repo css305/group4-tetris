@@ -118,24 +118,22 @@ public class TetrisPanel extends JPanel implements PropertyChangeListener {
                 startRow -= 1;
             }
 
-            ArrayList<RectangularShape> blocks = new ArrayList<>();
             for (int i = startRow; i >= 0; i--) {
                 final Block[] row = myBoardData.get(i);
                 for (int b = 0; b < row.length; b++) {
                     final int x = b * myBlockSize;
-                    g2d.setPaint(Color.CYAN);
 
                     if (row[b] != null && row[b] != Block.EMPTY) {
                         final RectangularShape block = new Rectangle2D.Double(x, y,
                                 myBlockSize, myBlockSize);
                         myLogger.finer("Painting new block at : \n("
                             + x + ", " + y + ") ");
-                        blocks.add(block);
+                        g2d.setPaint(row[b].getMyColor());
+                        g2d.fill(block);
+                        g2d.setPaint(Color.BLACK);
+                        g2d.draw(block);
                     }
 
-                }
-                for (RectangularShape b : blocks) {
-                    g2d.fill(b);
                 }
                 y += myBlockSize;
             }

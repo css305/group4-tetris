@@ -70,5 +70,6 @@ public class Score {
     public void reset() {
         myScore = 0;
         myLevel = 1;
+        myLines = 0;
     }
 }
