@@ -10,7 +10,7 @@ public class Score {
     /**
      * Multiplicative constant for the score.
      */
-    private static final int SCORE_THRESHOLD = 2000;
+    private static final int SCORE_THRESHOLD = 500;
 
     // instance fields
     /**
@@ -34,12 +34,19 @@ public class Score {
     private int myScoreNeeded = SCORE_THRESHOLD;
 
     /**
+     * Total lines cleared.
+     */
+    private int myLines;
+
+    /**
      * Creates a static class Score.
      */
     public static final Score INSTANCE = new Score();
 
+    private Score() { }
     public void updateScore(final int theRowsCleared) {
-        myScore = theRowsCleared * myLevel * SCORE_UNIT;
+        myScore += theRowsCleared * myLevel * SCORE_UNIT;
+        myLines += theRowsCleared;
         if (myScore >= myScoreNeeded) {
             myLevel += 1;
             myScoreNeeded *= 2;
@@ -54,11 +61,15 @@ public class Score {
     public int getMyLevel() {
         return myLevel;
     }
-    public  int getHighScore() {
+    public int getHighScore() {
         return myHighScore;
+    }
+    public int getLines() {
+        return myLines;
     }
     public void reset() {
         myScore = 0;
         myLevel = 1;
+        myLines = 0;
     }
 }
