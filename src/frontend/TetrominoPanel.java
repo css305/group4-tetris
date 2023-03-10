@@ -1,11 +1,16 @@
 package frontend;
 
-import java.awt.*;
+import java.awt.BasicStroke;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.RenderingHints;
 import java.awt.geom.Rectangle2D;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.logging.Logger;
-import javax.swing.*;
+import javax.swing.JPanel;
 import model.Board.BoardProp;
 import model.Point;
 import model.TetrisPiece;
@@ -26,29 +31,22 @@ public class TetrominoPanel extends JPanel implements PropertyChangeListener {
 
     //Instance vars
 
-    /** PCL counter. */
-    private int myPCLCalls;
-
-    /** Some colors for now. */
-    private final Color[] myColors = {Color.RED, Color.BLUE, Color.GREEN};
-
 
     /**
      * Current tetromino piece.
      */
     private TetrisPiece myTetrisPiece;
 
-
     /**
      * Is the game running.
      */
     private boolean myIsRunning;
 
-
     //TODO: Implement the tetromino preview pane
     public TetrominoPanel() {
 
-        setBackground(Color.BLACK);
+
+        setBackground(Color.GRAY);
     }
 
     /**
@@ -56,6 +54,7 @@ public class TetrominoPanel extends JPanel implements PropertyChangeListener {
      *
      * @param g0 the <code>Graphics</code> object to protect
      */
+    @SuppressWarnings("checkstyle:MissingSwitchDefault")
     @Override
     public void paintComponent(final Graphics g0) {
         super.paintComponent(g0);
@@ -65,26 +64,33 @@ public class TetrominoPanel extends JPanel implements PropertyChangeListener {
                 RenderingHints.VALUE_ANTIALIAS_ON);
 
 
-        int blockSize = Math.min(getHeight(), getWidth())/4;
-        if (myPCLCalls > 2) {
-            myPCLCalls = 0;
-        }
 
-        Rectangle2D myShape;
+        final int blockSize = Math.min(getHeight(), getWidth()) / 5;
+        final int halfABlock = Math.ceilDiv(blockSize, 2);
+
+
+
+        Rectangle2D shape;
         if (myIsRunning) {
+            Color color = myTetrisPiece.getBlock().getMyColor();
             final Point[] pointGrid = myTetrisPiece.getPoints();
             for (Point point : pointGrid) {
-                myShape = new Rectangle2D.Double(
-                        point.x() * blockSize, point.y() * blockSize,
+                shape = new Rectangle2D.Double(
+                         point.x() * blockSize + halfABlock,
+                         getHeight() - blockSize - halfABlock - point.y() * blockSize,
                         blockSize, blockSize);
-                g2d.setPaint(myColors[myPCLCalls]);
-                g2d.fill(myShape);
+                g2d.setPaint(color);
+                g2d.fill(shape);
                 g2d.setPaint(Color.BLACK);
-                g2d.draw(myShape);
+                g2d.draw(shape);
             }
         }
-        myPCLCalls++;
 
+        final Rectangle2D border = new Rectangle2D.Double(0, 0, getWidth(), getHeight());
+
+        g2d.setPaint(Color.WHITE);
+        g2d.setStroke(new BasicStroke(5));
+        g2d.draw(border);
     }
 
     @Override
@@ -95,6 +101,13 @@ public class TetrominoPanel extends JPanel implements PropertyChangeListener {
             myTetrisPiece = (TetrisPiece) e0.getNewValue();
             repaint();
         }
+    }
+    @Override
+    public Dimension getPreferredSize() {
+        final int pH = getParent().getSize().height;
+        final int pW = getParent().getSize().width;
+        final int pD = Math.min(pH, pW);
+        return new Dimension(pD, pD);
     }
 
 }
