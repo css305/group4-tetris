@@ -108,17 +108,17 @@ public class BlockSprite {
             return;
         }
 
-        final int scaleFactor = theTargetSize / myBaseSprite.getWidth();
+        final double scaleFactor = theTargetSize / (double) myBaseSprite.getWidth();
 
-        final int bufferSize = myBaseSprite.getWidth() * scaleFactor;
+        final int bufferSize = (int) (myBaseSprite.getWidth() * scaleFactor);
         final BufferedImage newImage = new BufferedImage(bufferSize, bufferSize,
                 myBaseSprite.getType());
 
         for (int x = 0; x < myBaseSprite.getWidth(); x++) {
             for (int y = 0; y < myBaseSprite.getHeight(); y++) {
                 final int pixel = myBaseSprite.getRGB(x, y);
-                final int targetX = x * scaleFactor;
-                final int targetY = y * scaleFactor;
+                final int targetX = (int) (x * scaleFactor);
+                final int targetY = (int) (y * scaleFactor);
 
                 for (int offsetX = 0; offsetX < scaleFactor; offsetX++) {
                     for (int offsetY = 0; offsetY < scaleFactor; offsetY++) {

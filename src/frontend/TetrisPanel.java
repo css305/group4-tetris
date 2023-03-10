@@ -144,7 +144,8 @@ public class TetrisPanel extends JPanel implements PropertyChangeListener {
                 for (TetrisBlock b : blocks) {
                     g2d.setPaint(b.getColor());
                     g2d.fill(b);
-                    RescaleOp rescale = new RescaleOp(1f, 0f, g2d.getRenderingHints());
+                    final RescaleOp rescale = new RescaleOp(1f, 0f,
+                            g2d.getRenderingHints());
                     g2d.drawImage(mySprite.getImage(), rescale, (int) b.x, (int) b.y);
                 }
                 y += myBlockSize;
