@@ -70,8 +70,8 @@ public class TetrisGUI extends JFrame implements PropertyChangeListener {
      */
     private final TetrisBoard myBoard;
 
-    /** The root content and listener pane for this GUI */
-    RootPanel myRoot;
+    /** The root content and listener pane for this GUI. */
+    private final RootPanel myRoot;
 
     /**
      * Timer for game ticking.

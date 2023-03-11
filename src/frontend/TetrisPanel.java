@@ -74,11 +74,11 @@ public class TetrisPanel extends JPanel implements PropertyChangeListener {
         final int nHeight;
 
         if (p.height >= p.width * myBoardAspect) {
-            nWidth = p.width;
+            nWidth = p.width - (p.width % myBoardSize.width);
             nHeight = nWidth * myBoardAspect;
         } else {
-            nHeight = p.height;
-            nWidth = p.height / myBoardAspect;
+            nHeight = p.height - (p.height % myBoardSize.height);
+            nWidth = nHeight / myBoardAspect;
         }
 
         myBlockSize = nWidth / myBoardSize.width;
