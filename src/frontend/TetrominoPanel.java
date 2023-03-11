@@ -20,34 +20,28 @@ import resources.G4Logging;
 
 /**
  * Displays a single tetromino.
+ *
  * @version 0.1
  * @author Zac Andersen (anderzb@uw.edu)
  */
 public class TetrominoPanel extends JPanel implements PropertyChangeListener {
     //Constants
-
     /** The grid size for this panel. */
     private static final int GRID_SIZE = 5;
 
     //Instance vars
 
-    /**
-     * Logger for this class.
-     */
+    /** Logger for this class. */
     private final Logger myLogger = G4Logging.getLogger(getClass());
 
 
-    /**
-     * Current tetromino piece.
-     */
+    /** Current tetromino piece. */
     private TetrisPiece myTetrisPiece;
 
-    /**
-     * Is the game running.
-     */
+    /** Is the game running. */
     private boolean myIsRunning;
 
-    /**Block texture sprite. */
+    /** Block texture sprite. */
     private final BlockSprite mySprite;
 
     public TetrominoPanel() {
@@ -67,8 +61,6 @@ public class TetrominoPanel extends JPanel implements PropertyChangeListener {
 
         g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
                 RenderingHints.VALUE_ANTIALIAS_ON);
-
-
 
         final int blockSize = Math.min(getHeight(), getWidth()) / GRID_SIZE;
         final int halfABlock = Math.ceilDiv(blockSize, 2);

@@ -17,27 +17,19 @@ package model;
  */
 public final class MovableTetrisPiece {
     
-    /**
-     * The number of Points in a TetrisPiece.
-     */
+    /** The number of Points in a TetrisPiece. */
     private static final int BLOCKS = 4;
     
-    /**
-     * The TetrisPiece.
-     */
+    /** The TetrisPiece. */
     private final TetrisPiece myTetrisPiece;
     
-    /**
-     * The board position of this TetrisPiece.
-     */
+    /** The board position of this TetrisPiece. */
     private final Point myPosition;
 
-    /**
-     * The rotation value of this TetrisPiece.
-     */
+    /** The rotation value of this TetrisPiece. */
     private final Rotation myRotation;
     
-    // This constructor allows creation of pieces in the zero rotational state
+    // This constructor allows creation of pieces in the zero rotational state.
     /**
      * Constructs a MovablTetrisPiece using the specified type and position;
      * the initial rotation is set to the default zero (NONE) Rotation.
@@ -95,8 +87,7 @@ public final class MovableTetrisPiece {
         return myRotation;
     }
     
-    
-    // methods overridden from class Object
+    // methods overridden from class Object.
     @Override
     public String toString() {
         final StringBuilder sb = new StringBuilder(myPosition.toString());
@@ -122,10 +113,7 @@ public final class MovableTetrisPiece {
         return sb.toString();
     }
     
-    // protected getters - used by the Board class
-
-
-
+    // protected getters - used by the Board class.
     /**
      * Gets the TetrisPiece points rotated and translated to board coordinates.
      * 
@@ -192,7 +180,7 @@ public final class MovableTetrisPiece {
     }
     
     // This protected method is used by the Board class rotation methods
-    // in order to support wall kicks during rotations
+    // in order to support wall kicks during rotations.
     /**
      * Returns a new MovableTetrisPiece of the current piece type and same Rotation
      * at the specified location.
@@ -203,11 +191,8 @@ public final class MovableTetrisPiece {
     protected MovableTetrisPiece setPosition(final Point thePosition) {
         return new MovableTetrisPiece(myTetrisPiece, thePosition, myRotation);
     }
-
-
     
-    // private methods
-
+    // private methods.
     /**
      * Get the block points of the TetrisPiece transformed by x and y.
      * 

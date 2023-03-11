@@ -18,7 +18,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Logger;
 import javax.swing.*;
-
 import model.Board;
 import model.Board.BoardProp;
 import model.TetrisBoard;
@@ -30,52 +29,34 @@ public class TetrisGUI extends JFrame implements PropertyChangeListener {
     //Constants
     // ----------------------------------------------------------------------------------------
 
-    /**
-     * Version Information.
-     */
+    /** Version Information. */
     private static final double VERSION = 0.1;
 
-    /**
-     * Toolkit!
-     */
+    /** Toolkit! */
     private static final Toolkit KIT = Toolkit.getDefaultToolkit();
 
-    /**
-     * Screen dimensions.
-     */
+    /** Screen dimensions. */
     private static final Dimension SCREEN_SIZE = KIT.getScreenSize();
 
-    /**
-     * Initial millisecond delay between ticks, 2 ticks per second.
-     */
+    /** Initial millisecond delay between ticks, 2 ticks per second. */
     private static final int INITIAL_TICK_DELAY = 2000;
 
-    /**
-     * Stores the millisecond delay between ticks.
-     */
+    /** Stores the millisecond delay between ticks. */
     private static int myTickDelay = INITIAL_TICK_DELAY;
-
-
 
     //Instance vars
     // ----------------------------------------------------------------------------------------
 
-    /**
-     * Logger for GUI.
-     */
+    /** Logger for GUI. */
     private final Logger myLogger = G4Logging.getLogger(getClass());
 
-    /**
-     * Board instance for the game.
-     */
+    /** Board instance for the game. */
     private final TetrisBoard myBoard;
 
     /** The root content and listener pane for this GUI. */
     private final RootPanel myRoot;
 
-    /**
-     * Timer for game ticking.
-     */
+    /** Timer for game ticking. */
     private final Timer myTickTimer = new Timer(INITIAL_TICK_DELAY, new ActionListener() {
         @Override
         public void actionPerformed(final ActionEvent theE) {
@@ -101,7 +82,7 @@ public class TetrisGUI extends JFrame implements PropertyChangeListener {
     }
 
     /**
-     * Starts a new game of Tetris
+     * Starts a new game of Tetris.
      */
     public void newGame() {
         myBoard.newGame();
@@ -137,7 +118,6 @@ public class TetrisGUI extends JFrame implements PropertyChangeListener {
         tetrisStretch.add(tetrisPanel, stretchConstraints);
         statStretch.add(statPanel, stretchConstraints);
         tetStretch.add(tetrominoPanel, stretchConstraints);
-
 
         final RootPanel root = new RootPanel();
 
@@ -238,7 +218,7 @@ public class TetrisGUI extends JFrame implements PropertyChangeListener {
 
     @Override
     public void propertyChange(final PropertyChangeEvent theEvt) {
-        BoardProp prop = BoardProp.valueOf(theEvt.getPropertyName());
+        final BoardProp prop = BoardProp.valueOf(theEvt.getPropertyName());
         if (prop == BoardProp.GEN_BOARD_UPDATE) {
             checkLevel();
         }
@@ -246,7 +226,6 @@ public class TetrisGUI extends JFrame implements PropertyChangeListener {
     }
 
     //Nested Support Classes
-
     /**
      * The root GUI panel of the G4Tetris application.
      * The root panel handles the key listening behavior and command passage from the GUI to
@@ -257,29 +236,19 @@ public class TetrisGUI extends JFrame implements PropertyChangeListener {
      */
     private final class RootPanel extends JPanel {
 
-        /**
-         * Minimum size of the root content pane.
-         */
+        /** Minimum size of the root content pane. */
         private static final Dimension MIN_SIZE = new Dimension(480, 640);
 
-        /**
-         * Map of keys - command pairs.
-         */
+        /** Map of keys - command pairs. */
         private final Map<Integer, BindableAction> myKeyMap = new HashMap<>();
 
-        /**
-         * The Input Map for when the game is in progress.
-         */
+        /** The Input Map for when the game is in progress. */
         ComponentInputMap myRunningMap;
 
-        /**
-         * The Input Map for when the game is paused.
-         */
+        /** The Input Map for when the game is paused. */
         ComponentInputMap myPausedMap;
 
-        /**
-         * The Action Map, this always has bindable command -> Action.
-         */
+        /** The Action Map, this always has bindable command -> Action. */
         ActionMap myActionMap;
 
         /**
@@ -299,7 +268,7 @@ public class TetrisGUI extends JFrame implements PropertyChangeListener {
         /**
          * Enables or Disables key binds from running.
          */
-        public void toggleKeyBinds(boolean theGameIsPaused) {
+        public void toggleKeyBinds(final boolean theGameIsPaused) {
             if (theGameIsPaused) {
                 setInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW, myPausedMap);
             } else {
@@ -356,13 +325,14 @@ public class TetrisGUI extends JFrame implements PropertyChangeListener {
 
         /**
          * Creates a new Action which runs a given method when performed.
+         *
          * @param theFunc Method to perform on action.
          * @return new Action.
          */
         private Action makeAction(final Runnable theFunc) {
             return new AbstractAction() {
                 @Override
-                public void actionPerformed(final ActionEvent e) {
+                public void actionPerformed(final ActionEvent e0) {
                     theFunc.run();
                 }
             };
@@ -378,13 +348,11 @@ public class TetrisGUI extends JFrame implements PropertyChangeListener {
      * Look and Feel options for application.
      */
     public enum LookAndFeel {
-        /**
-         * Light mode.
-         */
+
+        /** Light mode. */
         LIGHT,
-        /**
-         * Dark mode.
-         */
+
+        /** Dark mode. */
         DARK
 
     }
@@ -393,16 +361,22 @@ public class TetrisGUI extends JFrame implements PropertyChangeListener {
     private enum BindableAction {
         /**Drop command. */
         DROP,
+
         /**Down command. */
         DOWN,
+
         /**Left command. */
         LEFT,
+
         /**Right command. */
         RIGHT,
+
         /**Rotate CW command. */
         ROTATE_CW,
+
         /**Rotate CCW command. */
         ROTATE_CCW,
+
         /**Pause/resume command. */
         PAUSE
     }

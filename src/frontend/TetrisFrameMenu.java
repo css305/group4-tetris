@@ -15,9 +15,7 @@ public final class TetrisFrameMenu extends JMenuBar {
     /** TetrisGUI associated with this menu bar. */
     private final TetrisGUI myTetrisGUI;
 
-    /**
-     * Logger.
-     */
+    /** Logger. */
     private final Logger myLogger = G4Logging.getLogger(getClass());
 
     public TetrisFrameMenu(final TetrisGUI theTetrisGUI) {
@@ -65,7 +63,7 @@ public final class TetrisFrameMenu extends JMenuBar {
 
         fileMenu.add(new JMenuItem(new AbstractAction("JukeBox") {
             @Override
-            public void actionPerformed(ActionEvent e) {
+            public void actionPerformed(final ActionEvent e0) {
                 myLogger.fine("JukeBox Opened");
             }
         }));
@@ -91,12 +89,10 @@ public final class TetrisFrameMenu extends JMenuBar {
     private JMenu createViewMenu() {
         final JMenu viewMenu = new JMenu("View");
 
-
         viewMenu.add(new JMenuItem(new AbstractAction("Light mode") {
             @Override
             public void actionPerformed(final ActionEvent e0) {
                 myTetrisGUI.setLaF(TetrisGUI.LookAndFeel.LIGHT);
-
             }
         }));
 
@@ -104,7 +100,6 @@ public final class TetrisFrameMenu extends JMenuBar {
             @Override
             public void actionPerformed(final ActionEvent e0) {
                 myTetrisGUI.setLaF(TetrisGUI.LookAndFeel.DARK);
-
             }
         }));
 

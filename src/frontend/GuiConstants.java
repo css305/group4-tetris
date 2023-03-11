@@ -11,108 +11,71 @@ import java.awt.Color;
 public final class GuiConstants {
 
     //Global Constants
-    /**Default aspect ratio. */
+    // ----------------------------------------------------------------------------------------
+    /** Stupid added rows to render the stupid piece in. */
+    public static final int STUPID_RENDERING_ROWS = 4;
+
+    /** Default aspect ratio. */
     static final double ASPECT_RATIO = 3.0 / 2.0;
 
-    /**Transparent color for invisible backgrounds. */
+    /** Transparent color for invisible backgrounds. */
     static final Color TRANSPARENT = new Color(0, 0, 0, 0);
 
-    /**Transparent white color for panels */
+    /** Transparent white color for panels. */
     static final Color FROST = new Color(240, 240, 240, 50);
 
-    /**Default inset. */
+    /** Default inset. */
     static final int D_INSET = 10;
-
-    /**
-     * Stupid added rows to render the stupid piece in.
-     */
-    public static final int STUPID_RENDERING_ROWS = 4;
 
     // Tetris panel instance variables.
     // ----------------------------------------------------------------------------------------
-    /**
-     * Tetris panel weight x.
-     */
+    /** Tetris panel weight x. */
     static final double COL1_WEIGHT_X = 0.6;
-    /**
-     * Tetris panel weight y.
-     */
+    /** Tetris panel weight y. */
     static final double COL1_WEIGHT_Y = 1.0;
-    /**
-     * Tetris panel grid x.
-     */
+    /** Tetris panel grid x. */
     static final int TETRIS_PANEL_GRID_X = 0;
-    /**
-     * Tetris panel grid y.
-     */
+    /** Tetris panel grid y. */
     static final int TETRIS_PANEL_GRID_Y = 0;
-    /**
-     * Tetris panel grid height.
-     */
+    /** Tetris panel grid height. */
     static final int TETRIS_PANEL_GRID_HEIGHT = 4;
 
     // Tetromino panel instance variables.
     // ----------------------------------------------------------------------------------------
-    /**
-     * Tetromino panel weight x.
-     */
+    /** Tetromino panel weight x. */
     static final double COL2_WEIGHT_X = 0.3;
-    /**
-     * Tetromino panel weight y.
-     */
+    /** Tetromino panel weight y. */
     static final double TETROMINO_PANEL_WEIGHT_Y = 0.3;
-    /**
-     * Tetromino panel grid x.
-     */
+    /** Tetromino panel grid x. */
     static final int TETROMINO_PANEL_GRID_X = 1;
-    /**
-     * Tetromino panel grid y.
-     */
+    /** Tetromino panel grid y. */
     static final int TETROMINO_PANEL_GRID_Y = 0;
-    /**
-     * Tetromino panel grid height.
-     */
+    /** Tetromino panel grid height. */
     static final int TETROMINO_PANEL_GRID_HEIGHT = 1;
 
     // Stat panel instance variables.
     // ----------------------------------------------------------------------------------------
-    /**
-     * Stat panel weight y.
-     */
+    /** Stat panel weight y. */
     static final double STAT_PANEL_WEIGHT_Y = 0.6;
-    /**
-     * Stat panel grid x.
-     */
+    /** Stat panel grid x. */
     static final int STAT_PANEL_GRID_X = 1;
-    /**
-     * Stat panel grid y.
-     */
+    /** Stat panel grid y. */
     static final int STAT_PANEL_GRID_Y = 1;
-    /**
-     * Stat panel grid height.
-     */
+    /** Stat panel grid height. */
     static final int STAT_PANEL_GRID_HEIGHT = 3;
 
     // Main panel instance variables.
     // ----------------------------------------------------------------------------------------
-    /**
-     * Minimum screen size width.
-     */
+    /** Minimum screen size width. */
     static final int MINIMUM_SIZE_WIDTH = 360;
-    /**
-     * Minimum screen size height.
-     */
+    /** Minimum screen size height. */
     static final int MINIMUM_SIZE_HEIGHT = 480;
 
     // Screen Dimension Modifiers
     // ----------------------------------------------------------------------------------------
-    /**
-     * Window to screen width ratio.
-     */
+    /** Window to screen width ratio. */
     static final int PREF_SIZE_W_MOD = 3;
-    /**
-     * Window to screen height ratio.
-     */
+    /** Window to screen height ratio. */
     static final int PREF_SIZE_H_MOD = 2;
 
     private GuiConstants() {

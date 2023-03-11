@@ -35,7 +35,7 @@ public final class Point {
         myY = theY;
     }
 
-    // Queries
+    // Queries.
     /**
      * Returns the X coordinate.
      * 
@@ -75,8 +75,7 @@ public final class Point {
         return transform(thePoint.x(), thePoint.y());
     }
 
-    // overridden methods of class Object
-
+    // overridden methods of class Object.
     @Override
     public boolean equals(final Object theOther) {
         boolean result = false;

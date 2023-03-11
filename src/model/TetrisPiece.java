@@ -21,10 +21,10 @@ public enum TetrisPiece {
     I(4, 1,
             Block.I ,
             new int[][][]
-                    {{{0, 2}, {1, 2}, {2, 2}, {3, 2}},
-                            {{2, 3}, {2, 2}, {2, 1}, {2, 0}},
-                            {{0, 1}, {1, 1}, {2, 1}, {3, 1}},
-                            {{1, 3}, {1, 2}, {1, 1}, {1, 0}}},
+            {{{0, 2}, {1, 2}, {2, 2}, {3, 2}},
+             {{2, 3}, {2, 2}, {2, 1}, {2, 0}},
+             {{0, 1}, {1, 1}, {2, 1}, {3, 1}},
+             {{1, 3}, {1, 2}, {1, 1}, {1, 0}}},
             new Point(0, 2), new Point(1, 2), new Point(2, 2), new Point(3, 2)
     ),
 
@@ -32,95 +32,83 @@ public enum TetrisPiece {
     J(3, 2,
             Block.J,
             new int[][][]
-                    {{{0, 2}, {0, 1}, {1, 1}, {2, 1}},
-                            {{1, 2}, {2, 2}, {1, 1}, {1, 0}},
-                            {{0, 1}, {1, 1}, {2, 1}, {2, 0}},
-                            {{1, 2}, {1, 1}, {0, 0}, {1, 0}}},
+            {{{0, 2}, {0, 1}, {1, 1}, {2, 1}},
+             {{1, 2}, {2, 2}, {1, 1}, {1, 0}},
+             {{0, 1}, {1, 1}, {2, 1}, {2, 0}},
+             {{1, 2}, {1, 1}, {0, 0}, {1, 0}}},
             new Point(0, 2), new Point(0, 1), new Point(1, 1), new Point(2, 1)),
 
     /** The 'L' TetrisPiece. */
     L(3, 2,
             Block.L,
             new int[][][]
-                    {{{2, 2}, {0, 1}, {1, 1}, {2, 1}},
-                            {{1, 2}, {1, 1}, {1, 0}, {2, 0}},
-                            {{0, 1}, {1, 1}, {2, 1}, {0, 0}},
-                            {{0, 2}, {1, 2}, {1, 1}, {1, 0}}},
+            {{{2, 2}, {0, 1}, {1, 1}, {2, 1}},
+             {{1, 2}, {1, 1}, {1, 0}, {2, 0}},
+             {{0, 1}, {1, 1}, {2, 1}, {0, 0}},
+             {{0, 2}, {1, 2}, {1, 1}, {1, 0}}},
             new Point(2, 2), new Point(0, 1), new Point(1, 1), new Point(2, 1)),
 
     /** The 'O' TetrisPiece. */
     O(3, 2,
             Block.O,
             new int[][][]
-                    {{{1, 2}, {2, 2}, {1, 1}, {2, 1}},
-                            {{1, 2}, {2, 2}, {1, 1}, {2, 1}},
-                            {{1, 2}, {2, 2}, {1, 1}, {2, 1}},
-                            {{1, 2}, {2, 2}, {1, 1}, {2, 1}}},
+            {{{1, 2}, {2, 2}, {1, 1}, {2, 1}},
+             {{1, 2}, {2, 2}, {1, 1}, {2, 1}},
+             {{1, 2}, {2, 2}, {1, 1}, {2, 1}},
+             {{1, 2}, {2, 2}, {1, 1}, {2, 1}}},
             new Point(1, 2), new Point(2, 2), new Point(1, 1), new Point(2, 1)),
 
     /** The 'S' TetrisPiece. */
     S(3, 2,
             Block.S,
             new int[][][]
-                    {{{1, 2}, {2, 2}, {0, 1}, {1, 1}},
-                            {{1, 2}, {1, 1}, {2, 1}, {2, 0}},
-                            {{1, 1}, {2, 1}, {0, 0}, {1, 0}},
-                            {{0, 2}, {0, 1}, {1, 1}, {1, 0}}},
+            {{{1, 2}, {2, 2}, {0, 1}, {1, 1}},
+             {{1, 2}, {1, 1}, {2, 1}, {2, 0}},
+             {{1, 1}, {2, 1}, {0, 0}, {1, 0}},
+             {{0, 2}, {0, 1}, {1, 1}, {1, 0}}},
             new Point(1, 2), new Point(2, 2), new Point(0, 1), new Point(1, 1)),
 
     /** The 'T' TetrisPiece. */
     T(3, 2,
             Block.T,
             new int[][][]
-                    {{{1, 2}, {0, 1}, {1, 1}, {2, 1}},
-                            {{1, 2}, {1, 1}, {2, 1}, {1, 0}},
-                            {{0, 1}, {1, 1}, {2, 1}, {1, 0}},
-                            {{1, 2}, {0, 1}, {1, 1}, {1, 0}}},
+            {{{1, 2}, {0, 1}, {1, 1}, {2, 1}},
+             {{1, 2}, {1, 1}, {2, 1}, {1, 0}},
+             {{0, 1}, {1, 1}, {2, 1}, {1, 0}},
+             {{1, 2}, {0, 1}, {1, 1}, {1, 0}}},
             new Point(1, 2), new Point(0, 1), new Point(1, 1), new Point(2, 1)),
 
     /** The 'Z' TetrisPiece. */
     Z(3, 2,
             Block.Z,
             new int[][][]
-                    {{{0, 2}, {1, 2}, {1, 1}, {2, 1}},
-                            {{2, 2}, {1, 1}, {2, 1}, {1, 0}},
-                            {{0, 1}, {1, 1}, {1, 0}, {2, 0}},
-                            {{1, 2}, {0, 1}, {1, 1}, {0, 0}}},
+            {{{0, 2}, {1, 2}, {1, 1}, {2, 1}},
+             {{2, 2}, {1, 1}, {2, 1}, {1, 0}},
+             {{0, 1}, {1, 1}, {1, 0}, {2, 0}},
+             {{1, 2}, {0, 1}, {1, 1}, {0, 0}}},
             new Point(0, 2), new Point(1, 2), new Point(1, 1), new Point(2, 1));
 
 
     // Other class constants
 
-    /**
-     * A Random Object.
-     */
+    /** A Random Object. */
     private static final Random RANDOM = new Random();
 
 
     // instance fields
-    /**
-     * The width of the TetrisPiece.
-     */
+    /** The width of the TetrisPiece. */
     private final int myWidth;
 
-    /**
-     * The height of the TetrisPiece.
-     */
+    /** The height of the TetrisPiece. */
     private final int myHeight;
 
-    /**
-     * The 4 Points of the TetrisPiece.
-     */
+    /** The 4 Points of the TetrisPiece. */
     private final Point[] myPoints;
 
-    /**
-     * The 4 arrays of 4 points.
-     */
+    /** The 4 arrays of 4 points. */
     private final int[][][] myPointsByRotation;
 
-    /**
-     * Block type of the TetrisPiece.
-     */
+    /** Block type of the TetrisPiece. */
     private final Block myBlock;
 
     /**

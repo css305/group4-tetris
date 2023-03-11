@@ -20,19 +20,14 @@ import resources.Score;
  */
 public class StatPanel extends JPanel implements PropertyChangeListener {
     //Constants
-    /**
-     * Standard font size.
-     */
+    /** Standard font size. */
     private static final int FONT_SCALE = 10;
-    /**
-     * Standard font.
-     */
-    private static final String FONT_NAME = "Times New Roman";
-    /**
-     * Font size.
-     */
-    private static final int MARGIN = 5;
 
+    /** Standard font. */
+    private static final String FONT_NAME = "Times New Roman";
+
+    /** Font size. */
+    private static final int MARGIN = 5;
 
     /** Logger for this class. */
     private final Logger myLogger = G4Logging.getLogger(getClass());
@@ -51,26 +46,25 @@ public class StatPanel extends JPanel implements PropertyChangeListener {
 
     /** Panel that will display the highest score. */
     private final JLabel myHighScoreValue;
+
     /** Panel that will display score. */
     private final JLabel myScoreValue;
+
     /** Panel that will display current level. */
     private final JLabel myLevelValue;
+
     /** Panel that will display current lines. */
     private final JLabel myLinesValue;
 
-    /**
-     * Label for GAME.
-     */
+    /** Label for GAME. */
     private JLabel myGame = new JLabel();
-    /**
-     * Label for OVER.
-     */
+
+    /** Label for OVER. */
     private JLabel myOver = new JLabel();
 
-    /**
-     * Dynamic font size.
-     */
+    /** Dynamic font size. */
     private int myFontSize;
+
     /**
      * Stat panel displaying attributes to game.
      */
@@ -102,11 +96,9 @@ public class StatPanel extends JPanel implements PropertyChangeListener {
                 RenderingHints.VALUE_ANTIALIAS_ON);
         final Rectangle2D border = new Rectangle2D.Double(0, 0, getWidth(), getHeight());
 
-
         g2d.setPaint(Color.WHITE);
         g2d.setStroke(new BasicStroke(MARGIN));
         g2d.draw(border);
-
 
         myFontSize = Math.min(getWidth(), getHeight()) / FONT_SCALE;
         setFonts(myFontSize);
@@ -130,6 +122,7 @@ public class StatPanel extends JPanel implements PropertyChangeListener {
             myScoreValue.setText("" + Score.INSTANCE.getScore());
             myLevelValue.setText("" + Score.INSTANCE.getMyLevel());
             myLinesValue.setText("" + Score.INSTANCE.getLines());
+
         } else if (e0.getPropertyName().equals(BoardProp.GAME_OVER.name())) {
             gameOver();
         }
@@ -147,7 +140,6 @@ public class StatPanel extends JPanel implements PropertyChangeListener {
         final JPanel scoreLabel = createPanel(myScore, myScoreValue, Color.GRAY);
         final JPanel levelLabel = createPanel(myLevel, myLevelValue, Color.GRAY);
         final JPanel linesLabel = createPanel(myLines, myLinesValue, Color.GRAY);
-
 
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
