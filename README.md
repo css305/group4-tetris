@@ -26,6 +26,7 @@ Sprint 1
 ###### *Comments*
 - We've chosen to use the `gridBagLayout` and implement a resizable window. This has presented some unique and interesting challenges. The gridBag is more complicated than the other layouts but seems more powerful and flexible in the long term. We will likely need to implement a component listener for `TetrominoPanel` to keep it square under free form resizing, in time we may choose to have resolution options for the game to ease the complexity of scaling the GUI components.
 - Java's internal logging has not been working well for us, and we've had problems getting it to respect a defined logging.properties file, we will likely switch to Log4J at the top of sprint 2.
+
 -----------------------------------------------------------------------------------------------------------------------------------------------------------
 
 Sprint 2
@@ -42,13 +43,14 @@ We tend to communicate through discord text channel, also the discord voice chan
 
 ###### *Comments:*
 - None at the moment.
+
 -----------------------------------------------------------------------------------------------------------------------------------------------------------
 
 Sprint 3
 =======
 ###### *Contributions:*
-- Group 1 | Sviatoslav Ruthovskyi, Hariroop Singh | 
-- Group 2 | Zachary C Anderson, Zac Andersen | 
+- Group 1 | Sviatoslav Ruthovskyi, Zachary C Anderson | Levels and game state changes, stat panel, sprite image. 
+- Group 2 | Hariroop Singh, Zac Andersen | TetrisPanel draw game board, save game structure, sound effects and music.
 
 ###### *Meetings:*
 - Link to meeting minutes:
