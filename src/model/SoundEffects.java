@@ -16,7 +16,7 @@ public class SoundEffects implements PropertyChangeListener {
     /**
      * Constant that holds move sound effect sound file name.
      */
-    private static final String MOVE_SOUND_EFFECT = "src/sounds/sfx/TetrisLeft.wav";
+    private static final String MOVE_SOUND_EFFECT = "src/sounds/sfx/TetrisMove.wav";
     /**
      * Constant that holds new game sound effect sound file name.
      */
@@ -35,7 +35,7 @@ public class SoundEffects implements PropertyChangeListener {
     public void propertyChange(final PropertyChangeEvent theEVT) {
         final Board.BoardProp p = Board.BoardProp.valueOf(theEVT.getPropertyName());
         if (p == Board.BoardProp.MOVED_PIECE) {
-            playSound(MOVE_SOUND_EFFECT);
+            
         } else if (p == Board.BoardProp.ROWS_CLEARED) {
             playSound(BREAK_SOUND_EFFECT);
         } else if (p == Board.BoardProp.NEW_GAME) {
