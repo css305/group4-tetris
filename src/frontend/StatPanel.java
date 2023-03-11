@@ -34,7 +34,7 @@ public class StatPanel extends JPanel implements PropertyChangeListener {
     /**
      * Standard font size.
      */
-    private static final int FONT_SIZE = 20;
+    private static final int FONT_SCALE = 10;
     /**
      * Standard font.
      */
@@ -70,13 +70,16 @@ public class StatPanel extends JPanel implements PropertyChangeListener {
     private final JLabel myLinesValue;
 
     /**
+     * Dynamic font size.
+     */
+    private int myFontSize;
+    /**
      * Stat panel displaying attributes to game.
      */
     //TODO: Implement stats area
     public StatPanel() {
         myHighScore = createLabel("High Score");
-        myHighScoreValue = createLabel("0", Color.RED);
-        myHighScoreValue.setFont(new Font(FONT_NAME, Font.BOLD, FONT_SIZE));
+        myHighScoreValue = createLabel("0");
 
         myScore =  createLabel("Score");
         myScoreValue = createLabel("0");
@@ -103,6 +106,10 @@ public class StatPanel extends JPanel implements PropertyChangeListener {
         g2d.setPaint(Color.WHITE);
         g2d.setStroke(new BasicStroke(MARGIN));
         g2d.draw(border);
+
+
+        myFontSize = getHeight() / FONT_SCALE;
+        setFonts(myFontSize);
 
     }
 
@@ -157,7 +164,7 @@ public class StatPanel extends JPanel implements PropertyChangeListener {
         final Border border = label.getBorder();
         final Border margin = new EmptyBorder(0, MARGIN, 0, MARGIN);
         label.setBorder(new CompoundBorder(border, margin));
-        label.setFont(new Font(FONT_NAME, Font.ITALIC, FONT_SIZE));
+        label.setFont(new Font(FONT_NAME, Font.ITALIC, myFontSize));
         return label;
     }
     private JLabel createLabel(final String theText, final Color theColor) {
@@ -172,5 +179,15 @@ public class StatPanel extends JPanel implements PropertyChangeListener {
         panel.add(theScoreLabel, BorderLayout.EAST);
         panel.setBackground(Color.GRAY);
         return panel;
+    }
+    private void setFonts(final int theFontSize) {
+        myScore.setFont(new Font(FONT_NAME, Font.ITALIC, theFontSize));
+        myScoreValue.setFont(new Font(FONT_NAME, Font.BOLD, theFontSize));
+        myHighScore.setFont(new Font(FONT_NAME, Font.ITALIC, theFontSize));
+        myHighScoreValue.setFont(new Font(FONT_NAME, Font.BOLD, theFontSize));
+        myLevel.setFont(new Font(FONT_NAME, Font.ITALIC, theFontSize));
+        myLevelValue.setFont(new Font(FONT_NAME, Font.BOLD, theFontSize));
+        myLines.setFont(new Font(FONT_NAME, Font.ITALIC, theFontSize));
+        myLinesValue.setFont(new Font(FONT_NAME, Font.BOLD, theFontSize));
     }
 }
