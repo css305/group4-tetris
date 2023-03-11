@@ -1,22 +1,11 @@
 package frontend;
 
-import java.awt.BasicStroke;
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Font;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.RenderingHints;
+import java.awt.*;
 import java.awt.geom.Rectangle2D;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.Box;
-import javax.swing.BoxLayout;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
+import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
@@ -70,6 +59,15 @@ public class StatPanel extends JPanel implements PropertyChangeListener {
     private final JLabel myLinesValue;
 
     /**
+     * Label for GAME.
+     */
+    private JLabel myGame = new JLabel();
+    /**
+     * Label for OVER.
+     */
+    private JLabel myOver = new JLabel();
+
+    /**
      * Dynamic font size.
      */
     private int myFontSize;
@@ -90,7 +88,9 @@ public class StatPanel extends JPanel implements PropertyChangeListener {
         myLines = createLabel("Lines");
         myLinesValue = createLabel("0");
 
-        init();
+        final Border borderElement = getBorder();
+        final Border margin = new EmptyBorder(MARGIN, MARGIN, MARGIN, MARGIN);
+        setBorder(new CompoundBorder(borderElement, margin));
     }
 
     @Override
@@ -108,7 +108,7 @@ public class StatPanel extends JPanel implements PropertyChangeListener {
         g2d.draw(border);
 
 
-        myFontSize = getHeight() / FONT_SCALE;
+        myFontSize = Math.min(getWidth(), getHeight()) / FONT_SCALE;
         setFonts(myFontSize);
 
     }
@@ -124,10 +124,14 @@ public class StatPanel extends JPanel implements PropertyChangeListener {
             myLinesValue.setText("" + Score.INSTANCE.getLines());
 
         } else if (e0.getPropertyName().equals(BoardProp.NEW_GAME.name())) {
+            removeAll();
+            init();
             Score.INSTANCE.reset();
             myScoreValue.setText("" + Score.INSTANCE.getScore());
             myLevelValue.setText("" + Score.INSTANCE.getMyLevel());
             myLinesValue.setText("" + Score.INSTANCE.getLines());
+        } else if (e0.getPropertyName().equals(BoardProp.GAME_OVER.name())) {
+            gameOver();
         }
     }
 
@@ -139,14 +143,12 @@ public class StatPanel extends JPanel implements PropertyChangeListener {
         return new Dimension(pD, pD);
     }
     private void init() {
-        final JPanel highScoreLabel = createPanel(myHighScore, myHighScoreValue);
-        final JPanel scoreLabel = createPanel(myScore, myScoreValue);
-        final JPanel levelLabel = createPanel(myLevel, myLevelValue);
-        final JPanel linesLabel = createPanel(myLines, myLinesValue);
+        final JPanel highScoreLabel = createPanel(myHighScore, myHighScoreValue, Color.GRAY);
+        final JPanel scoreLabel = createPanel(myScore, myScoreValue, Color.GRAY);
+        final JPanel levelLabel = createPanel(myLevel, myLevelValue, Color.GRAY);
+        final JPanel linesLabel = createPanel(myLines, myLinesValue, Color.GRAY);
 
-        final Border borderElement = getBorder();
-        final Border margin = new EmptyBorder(MARGIN, MARGIN, MARGIN, MARGIN);
-        setBorder(new CompoundBorder(borderElement, margin));
+
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
         add(Box.createVerticalGlue());
@@ -158,6 +160,7 @@ public class StatPanel extends JPanel implements PropertyChangeListener {
         add(Box.createVerticalGlue());
         add(linesLabel);
         add(Box.createVerticalGlue());
+
     }
     private JLabel createLabel(final String theText) {
         final JLabel label = new JLabel(theText);
@@ -177,7 +180,12 @@ public class StatPanel extends JPanel implements PropertyChangeListener {
         final JPanel panel = new JPanel(new BorderLayout());
         panel.add(theTextLabel, BorderLayout.CENTER);
         panel.add(theScoreLabel, BorderLayout.EAST);
-        panel.setBackground(Color.GRAY);
+        return panel;
+    }
+    private JPanel createPanel(final JLabel theTextLabel,
+                               final JLabel theScoreLabel, final Color theBackGroundColor) {
+        final JPanel panel = createPanel(theTextLabel, theScoreLabel);
+        panel.setBackground(theBackGroundColor);
         return panel;
     }
     private void setFonts(final int theFontSize) {
@@ -189,5 +197,33 @@ public class StatPanel extends JPanel implements PropertyChangeListener {
         myLevelValue.setFont(new Font(FONT_NAME, Font.BOLD, theFontSize));
         myLines.setFont(new Font(FONT_NAME, Font.ITALIC, theFontSize));
         myLinesValue.setFont(new Font(FONT_NAME, Font.BOLD, theFontSize));
+        myGame.setFont(new Font(FONT_NAME, Font.BOLD, theFontSize * 2));
+        myOver.setFont(new Font(FONT_NAME, Font.BOLD, theFontSize * 2));
+
+    }
+    private void gameOver() {
+        removeAll();
+        final JPanel panel = new JPanel(new BorderLayout());
+        final JPanel gameOver = new JPanel(new GridLayout(2, 1));
+        myGame = new JLabel("GAME", SwingConstants.CENTER);
+        myGame.setForeground(Color.RED);
+
+        myOver = new JLabel("OVER", SwingConstants.CENTER);
+        myOver.setForeground(Color.RED);
+
+        gameOver.add(myGame);
+        gameOver.add(myOver);
+
+        final JPanel highScoreLabel = createPanel(myHighScore, myHighScoreValue);
+        final JPanel scoreLabel = createPanel(myScore, myScoreValue);
+        final JPanel scorePanel = new JPanel(new GridLayout(2, 1));
+
+        scorePanel.add(highScoreLabel);
+        scorePanel.add(scoreLabel);
+
+        panel.add(gameOver, BorderLayout.CENTER);
+        panel.add(scorePanel, BorderLayout.SOUTH);
+        add(panel);
+        repaint();
     }
 }
