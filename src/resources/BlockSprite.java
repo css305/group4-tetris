@@ -34,7 +34,7 @@ public class BlockSprite {
      */
     private static BufferedImage myBaseSprite;
 
-    /** Logger for this class */
+    /** Logger for this class. */
     private final Logger myLogger = G4Logging.getLogger(this.getClass());
 
     /**
@@ -46,7 +46,6 @@ public class BlockSprite {
      * Creates a new sprite object of desired resolution.
      *
      * @param theTargetSize Desired square pixel size of sprite, minimum 16px.
-     * @throws IOException If texture file can not be found.
      */
     public BlockSprite(final int theTargetSize) {
         loadImageFile(TEXTURE_PATH);
@@ -71,7 +70,7 @@ public class BlockSprite {
         return mySprite.getWidth();
     }
 
-    /** Gets the current sprite image */
+    /** Gets the current sprite image. */
     public BufferedImage getImage() {
         return mySprite;
     }
@@ -108,12 +107,20 @@ public class BlockSprite {
             return;
         }
 
+        //Use double then round to int later for fractional scaling in line with the
+        //block size scaling Tetris and Tetromino panels.
         final double scaleFactor = theTargetSize / (double) myBaseSprite.getWidth();
 
         final int bufferSize = (int) (myBaseSprite.getWidth() * scaleFactor);
         final BufferedImage newImage = new BufferedImage(bufferSize, bufferSize,
                 myBaseSprite.getType());
 
+        /*
+        Loop over every pixel in the source image, redraw n (scaleFactor) times
+        in n rows to do pixel perfect scaling up to the target size.
+
+        Always start from the base 16px texture to prevent drift over time.
+         */
         for (int x = 0; x < myBaseSprite.getWidth(); x++) {
             for (int y = 0; y < myBaseSprite.getHeight(); y++) {
                 final int pixel = myBaseSprite.getRGB(x, y);
@@ -128,6 +135,11 @@ public class BlockSprite {
             }
         }
 
+        /*
+        If we have more than one sprite object we don't want to run this function n times.
+        Instead, place every resized image into a map so on subsequent resize calls we can
+        just look up the desired size if it has already been made.
+         */
         MEMOIZED.put(theTargetSize, newImage);
 
         mySprite = newImage;
