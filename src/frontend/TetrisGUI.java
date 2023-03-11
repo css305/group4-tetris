@@ -21,6 +21,7 @@ import javax.swing.*;
 
 import model.Board;
 import model.Board.BoardProp;
+import model.SoundEffects;
 import model.TetrisBoard;
 import resources.G4Logging;
 import resources.Score;
@@ -131,6 +132,9 @@ public class TetrisGUI extends JFrame implements PropertyChangeListener {
         final TetrominoPanel tetrominoPanel = new TetrominoPanel();
         myBoard.addPropertyChangeListener(tetrominoPanel);
         final JPanel tetStretch = createStretchPanel();
+
+        final SoundEffects sFX = new SoundEffects();
+        myBoard.addPropertyChangeListener(sFX);
 
         final GridBagConstraints stretchConstraints = new GridBagConstraints();
         stretchConstraints.anchor = GridBagConstraints.CENTER;
