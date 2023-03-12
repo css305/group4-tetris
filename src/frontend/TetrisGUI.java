@@ -20,7 +20,6 @@ import java.util.logging.Logger;
 import javax.swing.*;
 import model.Board;
 import model.Board.BoardProp;
-import model.SoundEffects;
 import model.TetrisBoard;
 import resources.G4Logging;
 import resources.Score;
@@ -58,6 +57,11 @@ public class TetrisGUI extends JFrame implements PropertyChangeListener {
     private final RootPanel myRoot;
 
     /** Timer for game ticking. */
+    private final JukeBox myJbox;
+
+    /**
+     * Timer for game ticking.
+     */
     private final Timer myTickTimer = new Timer(INITIAL_TICK_DELAY, new ActionListener() {
         @Override
         public void actionPerformed(final ActionEvent theE) {
@@ -65,6 +69,7 @@ public class TetrisGUI extends JFrame implements PropertyChangeListener {
             myLogger.finest("Stepping");
         }
     });
+
 
     /**
      * Constructs a new Tetris GUI.
@@ -80,6 +85,11 @@ public class TetrisGUI extends JFrame implements PropertyChangeListener {
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setJMenuBar(new TetrisFrameMenu(this));
         setVisible(true);
+        myJbox = new JukeBox();
+    }
+
+    public void makeJBoxVisible() {
+        myJbox.makeJukeBoxVisible();
     }
 
     /**
