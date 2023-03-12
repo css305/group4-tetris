@@ -67,6 +67,7 @@ public final class TetrisFrameMenu extends JMenuBar {
             @Override
             public void actionPerformed(ActionEvent e) {
                 myLogger.fine("JukeBox Opened");
+                myTetrisGUI.makeJBoxVisible();
             }
         }));
 
