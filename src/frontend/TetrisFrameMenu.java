@@ -51,14 +51,31 @@ public final class TetrisFrameMenu extends JMenuBar {
                 }
 
             }
-
         }));
+
 
         fileMenu.add(new JMenuItem(new AbstractAction("JukeBox") {
             @Override
             public void actionPerformed(final ActionEvent e0) {
                 myLogger.fine("JukeBox Opened");
                 myTetrisGUI.makeJBoxVisible();
+            }
+        }));
+
+        fileMenu.add(new JMenuItem(new AbstractAction("About this Game") {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                myLogger.fine("About Menu Opened");
+                myTetrisGUI.makeAboutVisible();
+
+            }
+        }));
+        fileMenu.add(new JMenuItem(new AbstractAction("How to play") {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                myLogger.fine("How to play");
+                myTetrisGUI.makeHowToPlayVisible();
+
             }
         }));
 

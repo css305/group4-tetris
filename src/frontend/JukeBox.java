@@ -42,7 +42,7 @@ public class JukeBox extends JFrame implements ActionListener {
     /**
      * Constant int holds jukebox height.
      */
-    private static final int JUKEBOX_DIMENSION_2 = 300;
+    private static final int JUKEBOX_DIMENSION_2 = 100;
 
     /**
      * Constant int holds default slider volume.

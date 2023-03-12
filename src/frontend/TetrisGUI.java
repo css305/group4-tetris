@@ -14,8 +14,11 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Scanner;
 import java.util.logging.Logger;
 import javax.swing.AbstractAction;
 import javax.swing.Action;
@@ -23,6 +26,7 @@ import javax.swing.ActionMap;
 import javax.swing.ComponentInputMap;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.KeyStroke;
 import javax.swing.SwingUtilities;
@@ -65,6 +69,14 @@ public class TetrisGUI extends JFrame implements PropertyChangeListener {
      * Stores the millisecond delay between ticks.
      */
     private static int myTickDelay = INITIAL_TICK_DELAY;
+    /**
+     * Stores about menu info path.
+     */
+    private static final String ABOUT_PAGE_PATH = "src/resources/TetrisAbout.txt";
+    /**
+     * Stores how to play menu info path.
+     */
+    private static final String HOW_TO_PLAY_PATH = "src/resources/TetrisHowToPlay.txt";
 
     //Instance vars
     // ----------------------------------------------------------------------------------------
@@ -85,9 +97,18 @@ public class TetrisGUI extends JFrame implements PropertyChangeListener {
     private final RootPanel myRoot;
 
     /**
-     * Timer for game ticking.
+     * JukeBox object for music.
      */
-    private final JukeBox myJbox;
+    private JukeBox myJbox;
+    /**
+     * About menu option.
+     */
+    private JFrame myAboutMenu;
+    /**
+     * How to play Jframe.
+     */
+
+    private JFrame myHowToPlayOption;
 
     /**
      * Timer for game ticking.
@@ -111,15 +132,84 @@ public class TetrisGUI extends JFrame implements PropertyChangeListener {
         myBoard = new Board();
         myBoard.addPropertyChangeListener(this);
         myRoot = initGUI();
-
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setJMenuBar(new TetrisFrameMenu(this));
         setVisible(true);
-        myJbox = new JukeBox();
+        setMenuOptions();
     }
 
+    /**
+     * Calls public visibility method in Jukebox class.
+     */
     public void makeJBoxVisible() {
         myJbox.makeJukeBoxVisible();
+    }
+
+    /**
+     * initializes and sets up different menu options.
+     */
+    private void setMenuOptions() {
+        final int aboutWidth = 250;
+        final int aboutHeight = 150;
+        final int howToWidth = 300;
+        final int howToHeight = 350;
+        myJbox = new JukeBox();
+
+        //setup about menu
+        myAboutMenu = new JFrame("About");
+        final JLabel aboutHeader = new JLabel(textReader(ABOUT_PAGE_PATH));
+        myAboutMenu.setSize(aboutWidth, aboutHeight);
+        myAboutMenu.setLocationRelativeTo(null);
+        myAboutMenu.setResizable(false);
+        myAboutMenu.add(aboutHeader);
+
+        //setup how to play menu
+        myHowToPlayOption = new JFrame("How To Play");
+        final JLabel howToPlay = new JLabel(textReader(HOW_TO_PLAY_PATH));
+        myHowToPlayOption.setSize(howToWidth, howToHeight);
+        myHowToPlayOption.setLocationRelativeTo(null);
+        myHowToPlayOption.setResizable(false);
+        myHowToPlayOption.add(howToPlay);
+    }
+
+    /**
+     * Parses through file and returns String object representing
+     * that file.
+     * @param theFilePath File path of file that needs to be read.
+     * @return String representation of file.
+     */
+    private String textReader(final String theFilePath)  {
+        final StringBuilder fileData = new StringBuilder();
+        final String htmlBreak = "<html>";
+        final String brBreak = "<br/<";
+        try {
+            final File file = new File(theFilePath);
+            final Scanner scan = new Scanner(file);
+            while (scan.hasNextLine()) {
+                final String textLine = scan.nextLine();
+                fileData.append(htmlBreak);
+                fileData.append(textLine);
+                fileData.append(brBreak);
+            }
+            scan.close();
+            return fileData.toString();
+        } catch (final FileNotFoundException e) {
+            throw new RuntimeException();
+        }
+    }
+
+    /**
+     * Calls public visibility method in about Jframe.
+     */
+    public void makeAboutVisible() {
+        myAboutMenu.setVisible(true);
+    }
+
+    /**
+     * Calls public visibility method in how to play Jframe.
+     */
+    public void makeHowToPlayVisible() {
+        myHowToPlayOption.setVisible(true);
     }
 
     /**
