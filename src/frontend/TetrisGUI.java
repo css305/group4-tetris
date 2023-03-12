@@ -335,8 +335,17 @@ public class TetrisGUI extends JFrame implements PropertyChangeListener {
 
     }
 
-    private void toggleTimer() {
+    public void toggleTimer() {
         if (myTickTimer.isRunning()) {
+            myTickTimer.stop();
+            myRoot.toggleKeyBinds(true);
+        } else {
+            myTickTimer.start();
+            myRoot.toggleKeyBinds(false);
+        }
+    }
+    public void toggleTimer(final Boolean theTurnOff) {
+        if (theTurnOff) {
             myTickTimer.stop();
             myRoot.toggleKeyBinds(true);
         } else {

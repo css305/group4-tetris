@@ -122,6 +122,7 @@ public class StatPanel extends JPanel implements PropertyChangeListener {
             myScoreValue.setText("" + Score.INSTANCE.getScore());
             myLevelValue.setText("" + Score.INSTANCE.getMyLevel());
             myLinesValue.setText("" + Score.INSTANCE.getLines());
+            repaint();
 
         } else if (e0.getPropertyName().equals(BoardProp.GAME_OVER.name())) {
             gameOver();
@@ -162,12 +163,6 @@ public class StatPanel extends JPanel implements PropertyChangeListener {
         label.setFont(new Font(FONT_NAME, Font.ITALIC, myFontSize));
         return label;
     }
-    private JLabel createLabel(final String theText, final Color theColor) {
-        final JLabel label = createLabel(theText);
-        label.setForeground(theColor);
-        return label;
-    }
-
     private JPanel createPanel(final JLabel theTextLabel, final JLabel theScoreLabel) {
         final JPanel panel = new JPanel(new BorderLayout());
         panel.add(theTextLabel, BorderLayout.CENTER);
