@@ -17,7 +17,19 @@ import java.beans.PropertyChangeListener;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Logger;
-import javax.swing.*;
+import javax.swing.AbstractAction;
+import javax.swing.Action;
+import javax.swing.ActionMap;
+import javax.swing.ComponentInputMap;
+import javax.swing.JComponent;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.KeyStroke;
+import javax.swing.SwingUtilities;
+import javax.swing.Timer;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
+import javax.swing.WindowConstants;
 import model.Board;
 import model.Board.BoardProp;
 import model.TetrisBoard;
@@ -29,34 +41,52 @@ public class TetrisGUI extends JFrame implements PropertyChangeListener {
     //Constants
     // ----------------------------------------------------------------------------------------
 
-    /** Version Information. */
+    /**
+     * Version Information.
+     */
     private static final double VERSION = 0.1;
 
-    /** Toolkit! */
+    /**
+     * Toolkit!
+     */
     private static final Toolkit KIT = Toolkit.getDefaultToolkit();
 
-    /** Screen dimensions. */
+    /**
+     * Screen dimensions.
+     */
     private static final Dimension SCREEN_SIZE = KIT.getScreenSize();
 
-    /** Initial millisecond delay between ticks, 2 ticks per second. */
+    /**
+     * Initial millisecond delay between ticks, 2 ticks per second.
+     */
     private static final int INITIAL_TICK_DELAY = 2000;
 
-    /** Stores the millisecond delay between ticks. */
+    /**
+     * Stores the millisecond delay between ticks.
+     */
     private static int myTickDelay = INITIAL_TICK_DELAY;
 
     //Instance vars
     // ----------------------------------------------------------------------------------------
 
-    /** Logger for GUI. */
+    /**
+     * Logger for GUI.
+     */
     private final Logger myLogger = G4Logging.getLogger(getClass());
 
-    /** Board instance for the game. */
+    /**
+     * Board instance for the game.
+     */
     private final TetrisBoard myBoard;
 
-    /** The root content and listener pane for this GUI. */
+    /**
+     * The root content and listener pane for this GUI.
+     */
     private final RootPanel myRoot;
 
-    /** Timer for game ticking. */
+    /**
+     * Timer for game ticking.
+     */
     private final JukeBox myJbox;
 
     /**
@@ -239,7 +269,15 @@ public class TetrisGUI extends JFrame implements PropertyChangeListener {
 
     }
 
-    //Nested Support Classes
+    private void checkLevel() {
+        if (myTickDelay * Score.INSTANCE.getMyLevel() > INITIAL_TICK_DELAY) {
+            myTickDelay = myTickDelay / 2;
+            myTickTimer.setDelay(myTickDelay);
+        }
+    }
+
+        //Nested Support Classes
+
     /**
      * The root GUI panel of the G4Tetris application.
      * The root panel handles the key listening behavior and command passage from the GUI to
@@ -250,20 +288,30 @@ public class TetrisGUI extends JFrame implements PropertyChangeListener {
      */
     private final class RootPanel extends JPanel {
 
-        /** Minimum size of the root content pane. */
+        /**
+         * Minimum size of the root content pane.
+         */
         private static final Dimension MIN_SIZE = new Dimension(480, 640);
 
-        /** Map of keys - command pairs. */
+        /**
+         * Map of keys - command pairs.
+         */
         private final Map<Integer, BindableAction> myKeyMap = new HashMap<>();
 
-        /** The Input Map for when the game is in progress. */
-        ComponentInputMap myRunningMap;
+        /**
+         * The Input Map for when the game is in progress.
+         */
+        private ComponentInputMap myRunningMap;
 
-        /** The Input Map for when the game is paused. */
-        ComponentInputMap myPausedMap;
+        /**
+         * The Input Map for when the game is paused.
+         */
+        private ComponentInputMap myPausedMap;
 
-        /** The Action Map, this always has bindable command -> Action. */
-        ActionMap myActionMap;
+        /**
+         * The Action Map, this always has bindable command -> Action.
+         */
+        private ActionMap myActionMap;
 
         /**
          * Constructs to GUI root panel. Initializes code - command pairs.
@@ -363,42 +411,57 @@ public class TetrisGUI extends JFrame implements PropertyChangeListener {
      */
     public enum LookAndFeel {
 
-        /** Light mode. */
+        /**
+         * Light mode.
+         */
         LIGHT,
 
-        /** Dark mode. */
+        /**
+         * Dark mode.
+         */
         DARK
 
     }
 
-    /** The bindable actions available for key binds. */
+    /**
+     * The bindable actions available for key binds.
+     */
     private enum BindableAction {
-        /**Drop command. */
+        /**
+         * Drop command.
+         */
         DROP,
 
-        /**Down command. */
+        /**
+         * Down command.
+         */
         DOWN,
 
-        /**Left command. */
+        /**
+         * Left command.
+         */
         LEFT,
 
-        /**Right command. */
+        /**
+         * Right command.
+         */
         RIGHT,
 
-        /**Rotate CW command. */
+        /**
+         * Rotate CW command.
+         */
         ROTATE_CW,
 
-        /**Rotate CCW command. */
+        /**
+         * Rotate CCW command.
+         */
         ROTATE_CCW,
 
-        /**Pause/resume command. */
+        /**
+         * Pause/resume command.
+         */
         PAUSE
-    }
-    private void checkLevel() {
-        if (myTickDelay * Score.INSTANCE.getMyLevel() > INITIAL_TICK_DELAY) {
-            myTickDelay = myTickDelay / 2;
-            myTickTimer.setDelay(myTickDelay);
-        }
     }
 
 }
+

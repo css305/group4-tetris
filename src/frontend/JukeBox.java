@@ -1,6 +1,8 @@
 package frontend;
 
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -16,8 +18,6 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JSlider;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 
 /**
  * Simple Jukebox gui.
@@ -45,7 +45,7 @@ public class JukeBox extends JFrame implements ActionListener {
     private static final int JUKEBOX_DIMENSION_2 = 300;
 
     /**
-     * Constant int holds default slider volume;
+     * Constant int holds default slider volume.
      */
     private static final int DEFAULT_VOLUME = -17;
     /**
@@ -76,11 +76,7 @@ public class JukeBox extends JFrame implements ActionListener {
     /**
      * Arraylist of songs.
      */
-    private final ArrayList<Song> mySongList = new ArrayList<Song>();
-    /**
-     * Folder that holds all files in directory.
-     */
-    private File myFolder;
+    private final ArrayList<Song> mySongList = new ArrayList<>();
 
     /**
      * JukeBOx frame.
@@ -97,15 +93,11 @@ public class JukeBox extends JFrame implements ActionListener {
     /**
      * Nexte button for jukebox.
      */
-    private  JButton myNextbutton;
+    private  JButton myNextButton;
     /**
      * Volume Slider for jukebox.
      */
     private  JSlider myVolumeSlider;
-    /**
-     * Control Panel for audio controls.
-     */
-    private JPanel myControlPanel;
 
     /**
      * Clip object holds song being played.
@@ -117,7 +109,7 @@ public class JukeBox extends JFrame implements ActionListener {
      */
     private long myPauseTime;
     /**
-     * String representation of last songs path.
+     * String representation of last song's path.
      */
     private String myLastSong;
     /**
@@ -142,7 +134,7 @@ public class JukeBox extends JFrame implements ActionListener {
     private boolean mySongOff;
 
     /**
-     * Simple Constructor for JukeBox
+     * Simple Constructor for JukeBox.
      */
     public JukeBox() {
         makeSongList();
@@ -160,10 +152,11 @@ public class JukeBox extends JFrame implements ActionListener {
      */
     private void makeSongList() {
         final String regex = "\\.";
-        myFolder = new File(SONG_PATH_FILE_PATH);
-        final File[] listOfFiles = myFolder.listFiles();
+         //Folder that holds all files in directory.
+        final File folder = new File(SONG_PATH_FILE_PATH);
+        final File[] listOfFiles = folder.listFiles();
         for (File thisFile : listOfFiles) {
-            //Creates Song object using song file format and string concatation tools.
+            //Creates Song object using song file format and string concatenation tools.
             if (thisFile.getName().substring(1).contains(".")) {
                 mySongList.add(new Song(SONG_PATH_FILE_PATH + thisFile.getName(),
                         IMAGE_PATH_NAME + this.getName().split(regex)[0] + "_Image.png",
@@ -180,17 +173,18 @@ public class JukeBox extends JFrame implements ActionListener {
         myFrame.setLayout(new BorderLayout());
         myFrame.setSize(JUKEBOX_DIMENSION_1, JUKEBOX_DIMENSION_2);
         myFrame.setLocationRelativeTo(null);
-        myControlPanel = new JPanel();
-        myControlPanel.setLayout(new FlowLayout());
-        myControlPanel.setSize(JUKEBOX_DIMENSION_1, JUKEBOX_DIMENSION_2);
+
+        final JPanel controlPanel = new JPanel();
+        controlPanel.setLayout(new FlowLayout());
+        controlPanel.setSize(JUKEBOX_DIMENSION_1, JUKEBOX_DIMENSION_2);
 
         myPausePlayButton = new JButton("Pause/Play");
         myPausePlayButton.setSize(BUTTON_SIZE);
         myPausePlayButton.addActionListener(this);
 
-        myNextbutton = new JButton("Next");
-        myNextbutton.setSize(BUTTON_SIZE);
-        myNextbutton.addActionListener(this);
+        myNextButton = new JButton("Next");
+        myNextButton.setSize(BUTTON_SIZE);
+        myNextButton.addActionListener(this);
 
         myPreviousButton = new JButton("Previous");
         myPreviousButton.setSize(BUTTON_SIZE);
@@ -199,22 +193,19 @@ public class JukeBox extends JFrame implements ActionListener {
         myVolumeSlider = new JSlider(MIN_SLIDER_VALUE, MAX_SLIDER_VALUE);
         myVolumeSlider.setSize(SLIDER_WIDTH, SLIDER_HEIGHT);
         myVolumeSlider.setValue(DEFAULT_VOLUME);
-        myVolumeSlider.addChangeListener(new ChangeListener() {
-            @Override
-            public void stateChanged(final ChangeEvent theEVT) {
-                myCurrentVol = myVolumeSlider.getValue();
-                if (myCurrentVol == MIN_SLIDER_VALUE) {
-                    myCurrentVol = MIN_VOLUME;
-                }
-                myFC.setValue(myCurrentVol);
+        myVolumeSlider.addChangeListener(theEVT -> {
+            myCurrentVol = myVolumeSlider.getValue();
+            if (myCurrentVol == MIN_SLIDER_VALUE) {
+                myCurrentVol = MIN_VOLUME;
             }
+            myFC.setValue(myCurrentVol);
         });
 
-        myControlPanel.add(myPreviousButton);
-        myControlPanel.add(myPausePlayButton);
-        myControlPanel.add(myNextbutton);
-        myControlPanel.add(myVolumeSlider);
-        myFrame.add(myControlPanel, BorderLayout.SOUTH);
+        controlPanel.add(myPreviousButton);
+        controlPanel.add(myPausePlayButton);
+        controlPanel.add(myNextButton);
+        controlPanel.add(myVolumeSlider);
+        myFrame.add(controlPanel, BorderLayout.SOUTH);
     }
 
     /**
@@ -247,11 +238,9 @@ public class JukeBox extends JFrame implements ActionListener {
             mySong.loop(Clip.LOOP_CONTINUOUSLY);
             myLastSong = theSongLocation;
 
-        } catch (final UnsupportedAudioFileException e) {
-            throw new RuntimeException(e);
-        } catch (final IOException e) {
-            throw new RuntimeException(e);
-        } catch (final LineUnavailableException e) {
+        } catch (final UnsupportedAudioFileException
+                       | IOException
+                       | LineUnavailableException e) {
             throw new RuntimeException(e);
         }
 
@@ -342,7 +331,7 @@ public class JukeBox extends JFrame implements ActionListener {
             }
         } else if (theEvt.getSource() ==  myPreviousButton) {
             playPreviousSong();
-        } else if (theEvt.getSource() == myNextbutton) {
+        } else if (theEvt.getSource() == myNextButton) {
             playNextSong();
         }
 

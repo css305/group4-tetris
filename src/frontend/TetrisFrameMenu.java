@@ -2,20 +2,29 @@ package frontend;
 
 import java.awt.event.ActionEvent;
 import java.util.logging.Logger;
-import javax.swing.*;
+import javax.swing.AbstractAction;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import resources.G4Logging;
 
 /**
  * The top level menu bar for the G4Tetris GUI.
+ *
  * @author Zac Andersen (anderzb@uw.edu)
  * @version 0.1
  */
 public final class TetrisFrameMenu extends JMenuBar {
 
-    /** TetrisGUI associated with this menu bar. */
+    /**
+     * TetrisGUI associated with this menu bar.
+     */
     private final TetrisGUI myTetrisGUI;
 
-    /** Logger. */
+    /**
+     * Logger.
+     */
     private final Logger myLogger = G4Logging.getLogger(getClass());
 
     public TetrisFrameMenu(final TetrisGUI theTetrisGUI) {

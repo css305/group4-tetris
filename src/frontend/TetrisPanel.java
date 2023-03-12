@@ -185,9 +185,9 @@ public class TetrisPanel extends JPanel implements PropertyChangeListener {
         transferFocus();
     }
 
-    private final class TetrisBlock extends Rectangle2D.Double {
+    private static final class TetrisBlock extends Rectangle2D.Double {
         /** Tetris block associated with this square. */
-        private Block myBlock;
+        private final Block myBlock;
 
         private TetrisBlock(final int theX, final int theY,
                             final int theWidth, final int theHeight,

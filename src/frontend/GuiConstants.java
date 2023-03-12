@@ -15,14 +15,8 @@ public final class GuiConstants {
     /** Stupid added rows to render the stupid piece in. */
     public static final int STUPID_RENDERING_ROWS = 4;
 
-    /** Default aspect ratio. */
-    static final double ASPECT_RATIO = 3.0 / 2.0;
-
     /** Transparent color for invisible backgrounds. */
     static final Color TRANSPARENT = new Color(0, 0, 0, 0);
-
-    /** Transparent white color for panels. */
-    static final Color FROST = new Color(240, 240, 240, 50);
 
     /** Default inset. */
     static final int D_INSET = 10;
@@ -63,20 +57,6 @@ public final class GuiConstants {
     static final int STAT_PANEL_GRID_Y = 1;
     /** Stat panel grid height. */
     static final int STAT_PANEL_GRID_HEIGHT = 3;
-
-    // Main panel instance variables.
-    // ----------------------------------------------------------------------------------------
-    /** Minimum screen size width. */
-    static final int MINIMUM_SIZE_WIDTH = 360;
-    /** Minimum screen size height. */
-    static final int MINIMUM_SIZE_HEIGHT = 480;
-
-    // Screen Dimension Modifiers
-    // ----------------------------------------------------------------------------------------
-    /** Window to screen width ratio. */
-    static final int PREF_SIZE_W_MOD = 3;
-    /** Window to screen height ratio. */
-    static final int PREF_SIZE_H_MOD = 2;
 
     private GuiConstants() {
         //no

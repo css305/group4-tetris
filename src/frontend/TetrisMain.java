@@ -1,7 +1,7 @@
 package frontend;
 
 import com.formdev.flatlaf.themes.FlatMacDarkLaf;
-import javax.swing.*;
+import javax.swing.SwingUtilities;
 import resources.G4Logging;
 
 /**

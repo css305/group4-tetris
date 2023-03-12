@@ -1,7 +1,5 @@
 package frontend;
 
-import model.Board;
-
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.File;
@@ -11,6 +9,7 @@ import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
+import model.Board;
 
 
 public class SoundEffects implements PropertyChangeListener {
@@ -36,9 +35,7 @@ public class SoundEffects implements PropertyChangeListener {
     @Override
     public void propertyChange(final PropertyChangeEvent theEVT) {
         final Board.BoardProp p = Board.BoardProp.valueOf(theEVT.getPropertyName());
-        if (p == Board.BoardProp.MOVED_PIECE) {
-
-        } else if (p == Board.BoardProp.ROWS_CLEARED) {
+        if (p == Board.BoardProp.ROWS_CLEARED) {
             playSound(BREAK_SOUND_EFFECT);
         } else if (p == Board.BoardProp.NEW_GAME) {
             playSound(NEW_GAME_SOUND_EFFECT);
@@ -54,11 +51,9 @@ public class SoundEffects implements PropertyChangeListener {
             final Clip sFX = AudioSystem.getClip();
             sFX.open(ais);
             sFX.start();
-        } catch (final UnsupportedAudioFileException e) {
-            throw new RuntimeException(e);
-        } catch (final IOException e) {
-            throw new RuntimeException(e);
-        } catch (final LineUnavailableException e) {
+        } catch (final UnsupportedAudioFileException
+                       | IOException
+                       | LineUnavailableException e) {
             throw new RuntimeException(e);
         }
     }
