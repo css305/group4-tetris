@@ -42,32 +42,16 @@ public final class TetrisFrameMenu extends JMenuBar {
         fileMenu.add(new JMenuItem(new AbstractAction("New Game") {
             @Override
             public void actionPerformed(final ActionEvent e0) {
-                myTetrisGUI.newGame();
-            }
-        }));
+                myTetrisGUI.toggleTimer(true);
+                final int opt = JOptionPane.showConfirmDialog(fileMenu, "Are you sure?");
+                if (opt == JOptionPane.YES_OPTION) {
+                    myTetrisGUI.newGame();
+                } else {
+                    myTetrisGUI.toggleTimer();
+                }
 
-        fileMenu.add(new JMenuItem(new AbstractAction("Save") {
-            @Override
-            public void actionPerformed(final ActionEvent e0) {
-                myLogger.fine("Save pressed");
-                JOptionPane.showMessageDialog(fileMenu, "This will save the game");
             }
-        }));
 
-        fileMenu.add(new JMenuItem(new AbstractAction("Save As") {
-            @Override
-            public void actionPerformed(final ActionEvent e0) {
-                myLogger.fine("Save as pressed");
-                JOptionPane.showMessageDialog(fileMenu, "This will save somewhere");
-            }
-        }));
-
-        fileMenu.add(new JMenuItem(new AbstractAction("Load") {
-            @Override
-            public void actionPerformed(final ActionEvent e0) {
-                myLogger.fine("Load pressed");
-                JOptionPane.showMessageDialog(fileMenu, "this will load a game");
-            }
         }));
 
         fileMenu.add(new JMenuItem(new AbstractAction("JukeBox") {
