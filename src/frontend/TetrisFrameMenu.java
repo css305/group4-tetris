@@ -42,14 +42,7 @@ public final class TetrisFrameMenu extends JMenuBar {
         fileMenu.add(new JMenuItem(new AbstractAction("New Game") {
             @Override
             public void actionPerformed(final ActionEvent e0) {
-                myTetrisGUI.toggleTimer(true);
-                final int opt = JOptionPane.showConfirmDialog(fileMenu, "Are you sure?");
-                if (opt == JOptionPane.YES_OPTION) {
-                    myTetrisGUI.newGame();
-                } else {
-                    myTetrisGUI.toggleTimer();
-                }
-
+                myTetrisGUI.newGame();
             }
         }));
 
