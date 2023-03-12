@@ -16,29 +16,19 @@ import java.util.Random;
  */
 public enum Rotation {
 
-    /**
-     * No rotation.
-     */
+    /** No rotation. */
     NONE,
 
-    /**
-     * Quarter rotation or 90 degrees.
-     */
+    /** Quarter rotation or 90 degrees. */
     QUARTER,
 
-    /**
-     * Half rotation or 180 degrees.
-     */
+    /** Half rotation or 180 degrees. */
     HALF,
 
-    /**
-     * Three quarters rotation or 270 degrees.
-     */
+    /** Three quarters rotation or 270 degrees. */
     THREEQUARTER;
 
-    /**
-     * A Random object used for generating random rotations.
-     */
+    /** A Random object used for generating random rotations. */
     private static final Random GENERATOR = new Random();
 
     /**

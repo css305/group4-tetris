@@ -17,8 +17,19 @@ import java.beans.PropertyChangeListener;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Logger;
-import javax.swing.*;
-
+import javax.swing.AbstractAction;
+import javax.swing.Action;
+import javax.swing.ActionMap;
+import javax.swing.ComponentInputMap;
+import javax.swing.JComponent;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.KeyStroke;
+import javax.swing.SwingUtilities;
+import javax.swing.Timer;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
+import javax.swing.WindowConstants;
 import model.Board;
 import model.Board.BoardProp;
 import model.TetrisBoard;
@@ -55,8 +66,6 @@ public class TetrisGUI extends JFrame implements PropertyChangeListener {
      */
     private static int myTickDelay = INITIAL_TICK_DELAY;
 
-
-
     //Instance vars
     // ----------------------------------------------------------------------------------------
 
@@ -70,8 +79,15 @@ public class TetrisGUI extends JFrame implements PropertyChangeListener {
      */
     private final TetrisBoard myBoard;
 
-    /** The root content and listener pane for this GUI */
-    RootPanel myRoot;
+    /**
+     * The root content and listener pane for this GUI.
+     */
+    private final RootPanel myRoot;
+
+    /**
+     * Timer for game ticking.
+     */
+    private final JukeBox myJbox;
 
     /**
      * Timer for game ticking.
@@ -83,6 +99,7 @@ public class TetrisGUI extends JFrame implements PropertyChangeListener {
             myLogger.finest("Stepping");
         }
     });
+
 
     /**
      * Constructs a new Tetris GUI.
@@ -98,13 +115,19 @@ public class TetrisGUI extends JFrame implements PropertyChangeListener {
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setJMenuBar(new TetrisFrameMenu(this));
         setVisible(true);
+        myJbox = new JukeBox();
+    }
+
+    public void makeJBoxVisible() {
+        myJbox.makeJukeBoxVisible();
     }
 
     /**
-     * Starts a new game of Tetris
+     * Starts a new game of Tetris.
      */
     public void newGame() {
         myBoard.newGame();
+        myTickTimer.setDelay(INITIAL_TICK_DELAY);
         myTickTimer.start();
         myRoot.toggleKeyBinds(false);
     }
@@ -131,12 +154,14 @@ public class TetrisGUI extends JFrame implements PropertyChangeListener {
         myBoard.addPropertyChangeListener(tetrominoPanel);
         final JPanel tetStretch = createStretchPanel();
 
+        final SoundEffects sFX = new SoundEffects();
+        myBoard.addPropertyChangeListener(sFX);
+
         final GridBagConstraints stretchConstraints = new GridBagConstraints();
         stretchConstraints.anchor = GridBagConstraints.CENTER;
         tetrisStretch.add(tetrisPanel, stretchConstraints);
         statStretch.add(statPanel, stretchConstraints);
         tetStretch.add(tetrominoPanel, stretchConstraints);
-
 
         final RootPanel root = new RootPanel();
 
@@ -237,14 +262,21 @@ public class TetrisGUI extends JFrame implements PropertyChangeListener {
 
     @Override
     public void propertyChange(final PropertyChangeEvent theEvt) {
-        BoardProp prop = BoardProp.valueOf(theEvt.getPropertyName());
+        final BoardProp prop = BoardProp.valueOf(theEvt.getPropertyName());
         if (prop == BoardProp.GEN_BOARD_UPDATE) {
             checkLevel();
         }
 
     }
 
-    //Nested Support Classes
+    private void checkLevel() {
+        if (myTickDelay * Score.INSTANCE.getMyLevel() > INITIAL_TICK_DELAY) {
+            myTickDelay = myTickDelay / 2;
+            myTickTimer.setDelay(myTickDelay);
+        }
+    }
+
+        //Nested Support Classes
 
     /**
      * The root GUI panel of the G4Tetris application.
@@ -269,17 +301,17 @@ public class TetrisGUI extends JFrame implements PropertyChangeListener {
         /**
          * The Input Map for when the game is in progress.
          */
-        ComponentInputMap myRunningMap;
+        private ComponentInputMap myRunningMap;
 
         /**
          * The Input Map for when the game is paused.
          */
-        ComponentInputMap myPausedMap;
+        private ComponentInputMap myPausedMap;
 
         /**
          * The Action Map, this always has bindable command -> Action.
          */
-        ActionMap myActionMap;
+        private ActionMap myActionMap;
 
         /**
          * Constructs to GUI root panel. Initializes code - command pairs.
@@ -298,7 +330,7 @@ public class TetrisGUI extends JFrame implements PropertyChangeListener {
         /**
          * Enables or Disables key binds from running.
          */
-        public void toggleKeyBinds(boolean theGameIsPaused) {
+        public void toggleKeyBinds(final boolean theGameIsPaused) {
             if (theGameIsPaused) {
                 setInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW, myPausedMap);
             } else {
@@ -350,17 +382,19 @@ public class TetrisGUI extends JFrame implements PropertyChangeListener {
             myActionMap = actions;
             myRunningMap = input;
             myPausedMap = pause;
+
         }
 
         /**
          * Creates a new Action which runs a given method when performed.
+         *
          * @param theFunc Method to perform on action.
          * @return new Action.
          */
         private Action makeAction(final Runnable theFunc) {
             return new AbstractAction() {
                 @Override
-                public void actionPerformed(final ActionEvent e) {
+                public void actionPerformed(final ActionEvent e0) {
                     theFunc.run();
                 }
             };
@@ -376,10 +410,12 @@ public class TetrisGUI extends JFrame implements PropertyChangeListener {
      * Look and Feel options for application.
      */
     public enum LookAndFeel {
+
         /**
          * Light mode.
          */
         LIGHT,
+
         /**
          * Dark mode.
          */
@@ -387,28 +423,45 @@ public class TetrisGUI extends JFrame implements PropertyChangeListener {
 
     }
 
-    /** The bindable actions available for key binds. */
+    /**
+     * The bindable actions available for key binds.
+     */
     private enum BindableAction {
-        /**Drop command. */
+        /**
+         * Drop command.
+         */
         DROP,
-        /**Down command. */
+
+        /**
+         * Down command.
+         */
         DOWN,
-        /**Left command. */
+
+        /**
+         * Left command.
+         */
         LEFT,
-        /**Right command. */
+
+        /**
+         * Right command.
+         */
         RIGHT,
-        /**Rotate CW command. */
+
+        /**
+         * Rotate CW command.
+         */
         ROTATE_CW,
-        /**Rotate CCW command. */
+
+        /**
+         * Rotate CCW command.
+         */
         ROTATE_CCW,
-        /**Pause/resume command. */
+
+        /**
+         * Pause/resume command.
+         */
         PAUSE
-    }
-    private void checkLevel() {
-        if (myTickDelay * Score.INSTANCE.getMyLevel() > INITIAL_TICK_DELAY) {
-            myTickDelay = myTickDelay / 2;
-            myTickTimer.setDelay(myTickDelay);
-        }
     }
 
 }
+

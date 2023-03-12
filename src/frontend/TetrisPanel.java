@@ -26,9 +26,7 @@ import resources.G4Logging;
 public class TetrisPanel extends JPanel implements PropertyChangeListener {
     //Constants
 
-    /**
-     * Logger for this class.
-     */
+    /** Logger for this class. */
     private final Logger myLogger = G4Logging.getLogger(getClass());
 
     /** The current in use block sprite. */
@@ -40,7 +38,7 @@ public class TetrisPanel extends JPanel implements PropertyChangeListener {
     /**Board size. */
     private final Dimension myBoardSize;
 
-/** Aspect ratio of this Board */
+    /** Aspect ratio of this Board. */
     private final int myBoardAspect;
 
     /** Latest received BoardData. */
@@ -51,7 +49,6 @@ public class TetrisPanel extends JPanel implements PropertyChangeListener {
      * Constructs a new panel to render the game board.
      */
     public TetrisPanel(final Dimension theBoardSize) {
-
         super();
         myBoardSize = new Dimension(theBoardSize);
         myBoardAspect = (int) Math.ceil(theBoardSize.getHeight() / theBoardSize.getWidth());
@@ -61,6 +58,7 @@ public class TetrisPanel extends JPanel implements PropertyChangeListener {
 
     /**
      * Gets the sprite object used by this board.
+     *
      * @return Reference to this board's sprite.
      */
     public BlockSprite getSprite() {
@@ -74,11 +72,11 @@ public class TetrisPanel extends JPanel implements PropertyChangeListener {
         final int nHeight;
 
         if (p.height >= p.width * myBoardAspect) {
-            nWidth = p.width;
+            nWidth = p.width - (p.width % myBoardSize.width);
             nHeight = nWidth * myBoardAspect;
         } else {
-            nHeight = p.height;
-            nWidth = p.height / myBoardAspect;
+            nHeight = p.height - (p.height % myBoardSize.height);
+            nWidth = nHeight / myBoardAspect;
         }
 
         myBlockSize = nWidth / myBoardSize.width;
@@ -144,7 +142,8 @@ public class TetrisPanel extends JPanel implements PropertyChangeListener {
                 for (TetrisBlock b : blocks) {
                     g2d.setPaint(b.getColor());
                     g2d.fill(b);
-                    RescaleOp rescale = new RescaleOp(1f, 0f, g2d.getRenderingHints());
+                    final RescaleOp rescale = new RescaleOp(1f, 0f,
+                            g2d.getRenderingHints());
                     g2d.drawImage(mySprite.getImage(), rescale, (int) b.x, (int) b.y);
                 }
                 y += myBlockSize;
@@ -162,7 +161,6 @@ public class TetrisPanel extends JPanel implements PropertyChangeListener {
                 || prop == BoardProp.MOVED_PIECE
         ) {
             final List<Block[]> boardData = (List<Block[]>) e0.getNewValue();
-
 
             if (boardData.equals(myBoardData)) {
                 myLogger.warning("New board data is equivalent to current");
@@ -187,9 +185,9 @@ public class TetrisPanel extends JPanel implements PropertyChangeListener {
         transferFocus();
     }
 
-    private class TetrisBlock extends Rectangle2D.Double {
-        /** Tetris block associated with this square */
-        private Block myBlock;
+    private static final class TetrisBlock extends Rectangle2D.Double {
+        /** Tetris block associated with this square. */
+        private final Block myBlock;
 
         private TetrisBlock(final int theX, final int theY,
                             final int theWidth, final int theHeight,

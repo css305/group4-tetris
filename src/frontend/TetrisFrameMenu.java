@@ -2,17 +2,24 @@ package frontend;
 
 import java.awt.event.ActionEvent;
 import java.util.logging.Logger;
-import javax.swing.*;
+import javax.swing.AbstractAction;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import resources.G4Logging;
 
 /**
  * The top level menu bar for the G4Tetris GUI.
+ *
  * @author Zac Andersen (anderzb@uw.edu)
  * @version 0.1
  */
 public final class TetrisFrameMenu extends JMenuBar {
 
-    /** TetrisGUI associated with this menu bar. */
+    /**
+     * TetrisGUI associated with this menu bar.
+     */
     private final TetrisGUI myTetrisGUI;
 
     /**
@@ -63,6 +70,14 @@ public final class TetrisFrameMenu extends JMenuBar {
             }
         }));
 
+        fileMenu.add(new JMenuItem(new AbstractAction("JukeBox") {
+            @Override
+            public void actionPerformed(final ActionEvent e0) {
+                myLogger.fine("JukeBox Opened");
+                myTetrisGUI.makeJBoxVisible();
+            }
+        }));
+
         fileMenu.add(new JMenuItem(new AbstractAction("Exit") {
             @Override
             public void actionPerformed(final ActionEvent e0) {
@@ -84,12 +99,10 @@ public final class TetrisFrameMenu extends JMenuBar {
     private JMenu createViewMenu() {
         final JMenu viewMenu = new JMenu("View");
 
-
         viewMenu.add(new JMenuItem(new AbstractAction("Light mode") {
             @Override
             public void actionPerformed(final ActionEvent e0) {
                 myTetrisGUI.setLaF(TetrisGUI.LookAndFeel.LIGHT);
-
             }
         }));
 
@@ -97,7 +110,6 @@ public final class TetrisFrameMenu extends JMenuBar {
             @Override
             public void actionPerformed(final ActionEvent e0) {
                 myTetrisGUI.setLaF(TetrisGUI.LookAndFeel.DARK);
-
             }
         }));
 

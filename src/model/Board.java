@@ -14,6 +14,8 @@ import java.util.LinkedList;
 import java.util.List;
 import model.wallkicks.WallKick;
 
+
+
 /**
  * Represents a Tetris board. Board objects communicate with clients via Observer pattern. 
  * <p>Clients can expect Board objects to call norifyObservers with four different 
@@ -36,61 +38,36 @@ import model.wallkicks.WallKick;
  * @version 1.3
  */
 public class Board implements TetrisBoard {
-
     // Class constants
-
-
-    /**
-     * Default width of a Tetris game board.
-     */
+    /** Default width of a Tetris game board. */
     private static final int DEFAULT_WIDTH = 10;
 
-    /**
-     * Default height of a Tetris game board.
-     */
+    /** Default height of a Tetris game board. */
     private static final int DEFAULT_HEIGHT = 20;
 
-
     // Instance fields
-
-    /**
-     * Width of the game board.
-     */
+    /** Width of the game board. */
     private final int myWidth;
 
-    /**
-     * Height of the game board.
-     */
+    /** Height of the game board. */
     private final int myHeight;
 
-    /**
-     * The frozen blocks on the board.
-     */
+    /** The frozen blocks on the board. */
     private final List<Block[]> myFrozenBlocks;
 
-    /**
-     * The game over state.
-     */
+    /** The game over state. */
     private boolean myGameOver;
 
-    /**
-     * Contains a non random sequence of TetrisPieces to loop through.
-     */
+    /** Contains a nonrandom sequence of TetrisPieces to loop through. */
     private List<TetrisPiece> myNonRandomPieces;
 
-    /**
-     * The current index in the non random piece sequence.
-     */
+    /** The current index in the non random piece sequence. */
     private int mySequenceIndex;
 
-    /**
-     * Piece that is next to play.
-     */
+    /** Piece that is next to play. */
     private TetrisPiece myNextPiece;
 
-    /**
-     * Piece that is currently movable.
-     */
+    /** Piece that is currently movable. */
     private MovableTetrisPiece myCurrentPiece;
 
     /**
@@ -100,13 +77,11 @@ public class Board implements TetrisBoard {
      */
     private boolean myDrop;
 
-    /**
-     * A property change support object that is used to add and remove Listeners.
-     */
+    /** A property change support object that is used to add and remove Listeners. */
     private final PropertyChangeSupport myPcs;
 
-    // Constructors
 
+    // Constructors
     /**
      * Default Tetris board constructor.
      * Creates a standard size tetris game board.
@@ -135,11 +110,10 @@ public class Board implements TetrisBoard {
          */
 
         myPcs = new PropertyChangeSupport(this);
+
     }
 
-
     // public queries
-
     /**
      * Get the width of the board.
      *
@@ -187,9 +161,9 @@ public class Board implements TetrisBoard {
     }
 
     /**
-     * Sets a non random sequence of pieces to loop through.
+     * Sets a nonrandom sequence of pieces to loop through.
      *
-     * @param thePieces the List of non random TetrisPieces.
+     * @param thePieces the List of nonrandom TetrisPieces.
      */
     @Override
     public void setPieceSequence(final List<TetrisPiece> thePieces) {
@@ -241,6 +215,7 @@ public class Board implements TetrisBoard {
      */
     @Override
     public void left() {
+
         if (myCurrentPiece != null) {
             move(myCurrentPiece.left());
         }
@@ -359,7 +334,6 @@ public class Board implements TetrisBoard {
 
 
     // private helper methods
-
     /**
      * Helper function to check if the current piece can be shifted to the
      * specified position.
@@ -578,36 +552,28 @@ public class Board implements TetrisBoard {
         myPcs.addPropertyChangeListener(theListener);
     }
 
-
     public void addPropertyChangeListener(final String thePropertyName,
                                           final PropertyChangeListener theListener) {
         myPcs.addPropertyChangeListener(thePropertyName, theListener);
     }
 
-
     public void removePropertyChangeListener(final PropertyChangeListener theListener) {
         myPcs.removePropertyChangeListener(theListener);
     }
-
 
     public void removePropertyChangeListener(final String thePropertyName,
                                              final PropertyChangeListener theListener) {
         myPcs.removePropertyChangeListener(thePropertyName, theListener);
     }
 
-
-
     // Inner classes
-
     /**
      * A class to describe the board data to registered Observers.
      * The board data includes the current piece and the frozen blocks.
      */
     protected final class BoardData {
 
-        /**
-         * The board data to pass to observers.
-         */
+        /** The board data to pass to observers. */
         private final List<Block[]> myBoardData;
 
         /**
@@ -642,31 +608,24 @@ public class Board implements TetrisBoard {
      * Defines properties of the Board class for PCS.
      */
     public enum BoardProp {
-        /**
-         * Name for move property.
-         */
+        /** Name for move property. */
         MOVED_PIECE,
-        /**
-         * Name for move property.
-         */
-        NEW_GAME,
-        /**
-         * Name for move property.
-         */
-        NEW_TETROMINO,
-        /**
-         * Piece moved and/or row cleared.
-         */
-        GEN_BOARD_UPDATE,
-        /**
-         * When the game has met fail condition.
-         */
-        GAME_OVER,
-        /**
-         * When one or more rows are cleared.
-         */
-        ROWS_CLEARED
-    }
 
+        /** Name for move property. */
+        NEW_GAME,
+
+        /** Name for move property. */
+        NEW_TETROMINO,
+
+        /** Piece moved and/or row cleared. */
+        GEN_BOARD_UPDATE,
+
+        /** When the game has met fail condition. */
+        GAME_OVER,
+
+        /** When one or more rows are cleared. */
+        ROWS_CLEARED
+
+    }
     
 }
