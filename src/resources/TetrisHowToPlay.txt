@@ -1,0 +1,14 @@
+How to Play:
+
+These are the Controls:
+
+1. WASD and arrow keys to control tetris pieces.
+
+2. Q and E to rotate pieces counter clockwise and clockwise.
+
+3. P to Pause the game.
+
+To Start a new game go to the file menu and select new game.
+To access the jukebox go to the file menu and select jukebox.
+
+Enjoy our group project.
