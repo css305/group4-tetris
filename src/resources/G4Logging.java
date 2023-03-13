@@ -39,8 +39,6 @@ public final class G4Logging {
         final String logLevel = System.getenv("LOG_LEVEL");
         final Level level = logLevel != null ? Level.parse(logLevel) : Level.FINE;
 
-        System.out.println("Setting logging to " + level);
-
         FILE_HANDLER.setLevel(level);
         CONSOLE_HANDLER.setLevel(level);
 
