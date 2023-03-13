@@ -453,6 +453,7 @@ public class TetrisGUI extends JFrame implements PropertyChangeListener {
             myKeyMap.put(KeyEvent.VK_Z, BindableAction.ROTATE_CCW);
             myKeyMap.put(KeyEvent.VK_Q, BindableAction.ROTATE_CW);
             myKeyMap.put(KeyEvent.VK_PAUSE, BindableAction.PAUSE);
+            myKeyMap.put(KeyEvent.VK_P, BindableAction.PAUSE);
         }
 
         /**
@@ -469,6 +470,8 @@ public class TetrisGUI extends JFrame implements PropertyChangeListener {
 
             pause.put(KeyStroke.getKeyStroke(KeyEvent.VK_PAUSE, 0),
                     BindableAction.PAUSE);
+            pause.put(KeyStroke.getKeyStroke(KeyEvent.VK_P, 0),
+                    BindableAction.PAUSE);
 
             actions.put(BindableAction.DROP, makeAction(myBoard::drop));
             actions.put(BindableAction.DOWN, makeAction(myBoard::down));
@@ -481,7 +484,6 @@ public class TetrisGUI extends JFrame implements PropertyChangeListener {
             myActionMap = actions;
             myRunningMap = input;
             myPausedMap = pause;
-
         }
 
         /**
