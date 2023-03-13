@@ -47,7 +47,7 @@ public final class TetrisFrameMenu extends JMenuBar {
                 if (opt == JOptionPane.YES_OPTION) {
                     myTetrisGUI.newGame();
                 } else {
-                    myTetrisGUI.toggleTimer();
+                    myTetrisGUI.toggleTimer(false);
                 }
             }
         }));

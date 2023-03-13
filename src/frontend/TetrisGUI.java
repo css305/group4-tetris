@@ -121,6 +121,10 @@ public class TetrisGUI extends JFrame implements PropertyChangeListener {
         }
     });
 
+    /**
+     * True if game has started.
+     */
+    private boolean myHasStarted;
 
     /**
      * Constructs a new Tetris GUI.
@@ -217,6 +221,7 @@ public class TetrisGUI extends JFrame implements PropertyChangeListener {
      */
     public void newGame() {
         myBoard.newGame();
+        myHasStarted = true;
         myTickTimer.setDelay(INITIAL_TICK_DELAY);
         myTickTimer.start();
         myRoot.toggleKeyBinds(false);
@@ -344,13 +349,15 @@ public class TetrisGUI extends JFrame implements PropertyChangeListener {
             myRoot.toggleKeyBinds(false);
         }
     }
-    public void toggleTimer(final Boolean theTurnOff) {
-        if (theTurnOff) {
-            myTickTimer.stop();
-            myRoot.toggleKeyBinds(true);
-        } else {
-            myTickTimer.start();
-            myRoot.toggleKeyBinds(false);
+    public void toggleTimer(final boolean theTurnOff) {
+        if (myHasStarted) {
+            if (theTurnOff) {
+                myTickTimer.stop();
+                myRoot.toggleKeyBinds(true);
+            } else {
+                myTickTimer.start();
+                myRoot.toggleKeyBinds(false);
+            }
         }
     }
 
@@ -430,10 +437,12 @@ public class TetrisGUI extends JFrame implements PropertyChangeListener {
          * Enables or Disables key binds from running.
          */
         public void toggleKeyBinds(final boolean theGameIsPaused) {
-            if (theGameIsPaused) {
-                setInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW, myPausedMap);
-            } else {
-                setInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW, myRunningMap);
+            if (myHasStarted) {
+                if (theGameIsPaused) {
+                    setInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW, myPausedMap);
+                } else {
+                    setInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW, myRunningMap);
+                }
             }
         }
 
