@@ -1,11 +1,23 @@
 package frontend;
 
-import java.awt.*;
+import java.awt.BasicStroke;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.GridLayout;
+import java.awt.RenderingHints;
 import java.awt.geom.Rectangle2D;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.logging.Logger;
-import javax.swing.*;
+import javax.swing.Box;
+import javax.swing.BoxLayout;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.SwingConstants;
 import javax.swing.border.Border;
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
@@ -28,6 +40,11 @@ public class StatPanel extends JPanel implements PropertyChangeListener {
 
     /** Font size. */
     private static final int MARGIN = 5;
+
+    /**
+     * String "o".
+     */
+    private static final String ZERO = "0";
 
     /** Logger for this class. */
     private final Logger myLogger = G4Logging.getLogger(getClass());
@@ -71,20 +88,18 @@ public class StatPanel extends JPanel implements PropertyChangeListener {
     //TODO: Implement stats area
     public StatPanel() {
         myHighScore = createLabel("High Score");
-        myHighScoreValue = createLabel("0");
+        myHighScoreValue = createLabel(ZERO);
 
         myScore =  createLabel("Score");
-        myScoreValue = createLabel("0");
+        myScoreValue = createLabel(ZERO);
 
         myLevel = createLabel("Level");
         myLevelValue = createLabel("1");
 
         myLines = createLabel("Lines");
-        myLinesValue = createLabel("0");
+        myLinesValue = createLabel(ZERO);
 
-        final Border borderElement = getBorder();
-        final Border margin = new EmptyBorder(MARGIN, MARGIN, MARGIN, MARGIN);
-        setBorder(new CompoundBorder(borderElement, margin));
+        createBorder();
     }
 
     @Override
@@ -212,5 +227,10 @@ public class StatPanel extends JPanel implements PropertyChangeListener {
         panel.add(scorePanel, BorderLayout.SOUTH);
         add(panel);
         repaint();
+    }
+    private void createBorder() {
+        final Border borderElement = getBorder();
+        final Border margin = new EmptyBorder(MARGIN, MARGIN, MARGIN, MARGIN);
+        setBorder(new CompoundBorder(borderElement, margin));
     }
 }

@@ -1,8 +1,12 @@
 package resources;
 
-public class Score {
+public final class Score {
 
     //constants
+    /**
+     * Creates a static class Score.
+     */
+    public static final Score INSTANCE = new Score();
     /**
      * Multiplicative constant for the score.
      */
@@ -11,6 +15,7 @@ public class Score {
      * Multiplicative constant for the score.
      */
     private static final int SCORE_THRESHOLD = 500;
+
 
     // instance fields
     /**
@@ -37,11 +42,6 @@ public class Score {
      * Total lines cleared.
      */
     private int myLines;
-
-    /**
-     * Creates a static class Score.
-     */
-    public static final Score INSTANCE = new Score();
 
     private Score() { }
     public void updateScore(final int theRowsCleared) {
