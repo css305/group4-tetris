@@ -50,19 +50,22 @@ Sprint 3
 =======
 ###### *Contributions:*
 - Group 1 | Sviatoslav Ruthovskyi, Zachary C Anderson | Levels and game state changes, stat panel, sprite image. 
-- Group 2 | Hariroop Singh, Zac Andersen | TetrisPanel draw game board, save game structure, sound effects and music.
+- Group 2 | Hariroop Singh, Zac Andersen | General GUI features and drawing, sound effects and music.
 
 ###### *Meetings:*
 - Link to meeting minutes:
 https://docs.google.com/document/d/1p2bRscX68EkTv-gLyV2z_zNubv3aU7kblcVNC6qj9Eg/edit
 - Alternate communication:
 We tend to communicate through discord text channel, also the discord voice channel if we are really stuck, and in person when we are all at campus. When we communicate its about issues we are having with the project, going over code and functions of said code, giving each other advice on coding and how to work together as a team and resolving issues with in the group in a respectful and positive manner.
+
 ###### *Special Features:*
 - Transparent sprite image over tetris blocks
 - Free resizing
 - Music and sound effects
 - High score tracking
 - Light and dark mode selection
+- Executable jar file
 
 ###### *Comments:*
-- Per OpenJDK bug JDK-8221452 the getMinimumSize method does not respect DPI scaled pixels, it therefore allows the application window to scale below the desired minimum size. When scaled small enough the resize method in the BlockSprite class fails due to window scale being too small to accommodate the minimum texture size.
+- Per Issue #14 HiDPI scaling may cause errors in some circumstances.
+- Jar file may not run from file explorer/finder in all environments, but consistently works when executed from a terminal.
