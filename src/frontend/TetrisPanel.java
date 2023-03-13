@@ -20,6 +20,7 @@ import resources.G4Logging;
 
 /**
  * Displays the tetris game board.
+ *
  * @version 0.1
  * @author Zac Andersen (anderzb@uw.edu)
  */

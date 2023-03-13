@@ -17,14 +17,10 @@ import resources.G4Logging;
  */
 public final class TetrisFrameMenu extends JMenuBar {
 
-    /**
-     * TetrisGUI associated with this menu bar.
-     */
+    /** TetrisGUI associated with this menu bar. */
     private final TetrisGUI myTetrisGUI;
 
-    /**
-     * Logger.
-     */
+    /** Logger. */
     private final Logger myLogger = G4Logging.getLogger(getClass());
 
     public TetrisFrameMenu(final TetrisGUI theTetrisGUI) {

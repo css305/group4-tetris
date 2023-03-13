@@ -34,7 +34,6 @@ public class TetrominoPanel extends JPanel implements PropertyChangeListener {
     /** Logger for this class. */
     private final Logger myLogger = G4Logging.getLogger(getClass());
 
-
     /** Current tetromino piece. */
     private TetrisPiece myTetrisPiece;
 

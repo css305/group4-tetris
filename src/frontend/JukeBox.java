@@ -20,121 +20,90 @@ import javax.swing.JPanel;
 import javax.swing.JSlider;
 
 /**
- * Simple Jukebox gui.
+ * Simple Jukebox GUI.
+ *
  * @author Hariroop Singh
  * @version 3/11/2023 Sprint 3
  */
 
 public class JukeBox extends JFrame implements ActionListener {
-    /**
-     * Constant String that holds file path to songs folder.
-     */
+    /** Constant String that holds file path to songs folder. */
     private static final String SONG_PATH_FILE_PATH = "src/sounds/songs/";
-    /**
-     * Constant String that holds file path to song image folder.
-     */
+
+    /** Constant String that holds file path to song image folder. */
     private static final String IMAGE_PATH_NAME = "src/sounds/songs/songimages/";
 
-    /**
-     * Constant int holds jukebox width.
-     */
+    /** Constant int holds jukebox width. */
     private static final int JUKEBOX_DIMENSION_1 = 600;
-    /**
-     * Constant int holds jukebox height.
-     */
+
+    /** Constant int holds jukebox height. */
     private static final int JUKEBOX_DIMENSION_2 = 100;
 
-    /**
-     * Constant int holds default slider volume.
-     */
+    /** Constant int holds default slider volume. */
     private static final int DEFAULT_VOLUME = -17;
-    /**
-     * Constant button size dimension.
-     */
+
+    /** Constant button size dimension. */
     private static final Dimension BUTTON_SIZE = new Dimension(50, 50);
-    /**
-     * Constant int value for slider width.
-     */
+
+    /** Constant int value for slider width. */
     private static final int SLIDER_WIDTH = 100;
-    /**
-     * Constant int for slider height.
-     */
+
+    /** Constant int for slider height. */
     private static final int SLIDER_HEIGHT = 50;
-    /**
-     * Constant int for minimum volume.
-     */
+
+    /** Constant int for minimum volume. */
     private static final int MIN_VOLUME = -80;
-    /**
-     * Constant int for minimum slider value.
-     */
+
+    /** Constant int for minimum slider value. */
     private static final int MIN_SLIDER_VALUE = -40;
-    /**
-     * Constant value for maximum slider value.
-     */
+
+    /** Constant value for maximum slider value. */
     private static final int MAX_SLIDER_VALUE = 6;
 
-    /**
-     * Arraylist of songs.
-     */
+    /** Arraylist of songs. */
     private final ArrayList<Song> mySongList = new ArrayList<>();
 
-    /**
-     * JukeBOx frame.
-     */
+    /** Jukebox frame. */
     private final JFrame myFrame;
-    /**
-     * Pause/Play button for jukebox.
-     */
+
+    /** Pause/Play button for jukebox. */
     private  JButton myPausePlayButton;
-    /**
-     * Previous button for jukebox.
-     */
+
+    /** Previous button for jukebox. */
     private  JButton myPreviousButton;
-    /**
-     * Nexte button for jukebox.
-     */
+
+    /** Next button for jukebox. */
     private  JButton myNextButton;
-    /**
-     * Volume Slider for jukebox.
-     */
+
+    /** Volume Slider for jukebox. */
     private  JSlider myVolumeSlider;
 
-    /**
-     * Clip object holds song being played.
-     */
+    /** Clip object holds song being played. */
     private Clip mySong;
 
-    /**
-     * Holds what time the song was paused at.
-     */
+    /** Holds what time the song was paused at. */
     private long myPauseTime;
-    /**
-     * String representation of last song's path.
-     */
+
+    /** String representation of last song's path. */
     private String myLastSong;
-    /**
-     * keeps track of where you are in the song array.
-     */
+
+    /** Keeps track of where you are in the song array. */
     private int mySongArrayStep;
-    /**
-     * keeps track of if you reach the max of the list.
-     */
+
+    /** Keeps track of if you reach the max of the list. */
     private final int mySongArrayMax;
-    /**
-     * Holds current volume value.
-     */
+
+    /** Holds current volume value. */
     private float myCurrentVol;
-    /**
-     * Controller for volume.
-     */
+
+    /** Controller for volume. */
     private FloatControl myFC;
-    /**
-     * Tells if song is off or being played.
-     */
+
+    /** Tells if song is off or being played. */
     private boolean mySongOff;
 
     /**
-     * Simple Constructor for JukeBox.
+     * Simple Constructor for Jukebox.
      */
     public JukeBox() {
         makeSongList();
@@ -209,7 +178,7 @@ public class JukeBox extends JFrame implements ActionListener {
     }
 
     /**
-     * JukeBox by definition is invisible until this method is called
+     * Jukebox by definition is invisible until this method is called
      * in the tetrisFrameMenu class and makes jukebox visible.
      */
     public void makeJukeBoxVisible() {
@@ -219,6 +188,7 @@ public class JukeBox extends JFrame implements ActionListener {
 
     /**
      * Sets clip up to play.
+     *
      * @param theSongLocation file path for song.
      */
     private void setFileName(final String theSongLocation) {
@@ -318,6 +288,7 @@ public class JukeBox extends JFrame implements ActionListener {
 
     /**
      * Based on Action Event it calls corresponding private method.
+     *
      * @param theEvt the event to be processed
      */
     @Override

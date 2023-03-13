@@ -27,6 +27,7 @@ import resources.Score;
 
 /**
  * Displays stats related to the currently running game of Tetris.
+ *
  * @version 0.1
  * @author Zac Andersen (anderzb@uw.edu)
  */

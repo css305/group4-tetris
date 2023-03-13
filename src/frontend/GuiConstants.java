@@ -4,6 +4,7 @@ import java.awt.Color;
 
 /**
  * Holds constant information for various GUI elements.
+ *
  * @author Zachary C Anderson (zca721@uw.edu)
  * @author Zac Andersen (anderzb@uw.edu)
  * @version 0.1

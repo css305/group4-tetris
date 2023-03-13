@@ -45,74 +45,49 @@ public class TetrisGUI extends JFrame implements PropertyChangeListener {
     //Constants
     // ----------------------------------------------------------------------------------------
 
-    /**
-     * Version Information.
-     */
+    /** Version Information. */
     private static final double VERSION = 0.1;
 
-    /**
-     * Toolkit!
-     */
+    /** Toolkit! */
     private static final Toolkit KIT = Toolkit.getDefaultToolkit();
 
-    /**
-     * Screen dimensions.
-     */
+    /** Screen dimensions. */
     private static final Dimension SCREEN_SIZE = KIT.getScreenSize();
 
-    /**
-     * Initial millisecond delay between ticks, 2 ticks per second.
-     */
+    /** Initial millisecond delay between ticks, 2 ticks per second. */
     private static final int INITIAL_TICK_DELAY = 2000;
 
-    /**
-     * Stores the millisecond delay between ticks.
-     */
+    /** Stores the millisecond delay between ticks. */
     private static int myTickDelay = INITIAL_TICK_DELAY;
-    /**
-     * Stores about menu info path.
-     */
+
+    /** Stores about menu info path. */
     private static final String ABOUT_PAGE_PATH = "src/resources/TetrisAbout.txt";
-    /**
-     * Stores how to play menu info path.
-     */
+
+    /** Stores how to play menu info path. */
     private static final String HOW_TO_PLAY_PATH = "src/resources/TetrisHowToPlay.txt";
 
     //Instance vars
     // ----------------------------------------------------------------------------------------
 
-    /**
-     * Logger for GUI.
-     */
+    /** Logger for GUI. */
     private final Logger myLogger = G4Logging.getLogger(getClass());
 
-    /**
-     * Board instance for the game.
-     */
+    /** Board instance for the game. */
     private final TetrisBoard myBoard;
 
-    /**
-     * The root content and listener pane for this GUI.
-     */
+    /** The root content and listener pane for this GUI. */
     private final RootPanel myRoot;
 
-    /**
-     * JukeBox object for music.
-     */
+    /** Jukebox object for music. */
     private JukeBox myJbox;
-    /**
-     * About menu option.
-     */
-    private JFrame myAboutMenu;
-    /**
-     * How to play Jframe.
-     */
 
+    /** About menu option. */
+    private JFrame myAboutMenu;
+
+    /** How to play JFrame. */
     private JFrame myHowToPlayOption;
 
-    /**
-     * Timer for game ticking.
-     */
+    /** Timer for game ticking. */
     private final Timer myTickTimer = new Timer(INITIAL_TICK_DELAY, new ActionListener() {
         @Override
         public void actionPerformed(final ActionEvent theE) {
@@ -121,9 +96,7 @@ public class TetrisGUI extends JFrame implements PropertyChangeListener {
         }
     });
 
-    /**
-     * True if game has started.
-     */
+    /** True if game has started. */
     private boolean myHasStarted;
 
     /**
@@ -179,6 +152,7 @@ public class TetrisGUI extends JFrame implements PropertyChangeListener {
     /**
      * Parses through file and returns String object representing
      * that file.
+     *
      * @param theFilePath File path of file that needs to be read.
      * @return String representation of file.
      */
@@ -394,29 +368,19 @@ public class TetrisGUI extends JFrame implements PropertyChangeListener {
      */
     private final class RootPanel extends JPanel {
 
-        /**
-         * Minimum size of the root content pane.
-         */
+        /** Minimum size of the root content pane. */
         private static final Dimension MIN_SIZE = new Dimension(480, 640);
 
-        /**
-         * Map of keys - command pairs.
-         */
+        /** Map of keys - command pairs. */
         private final Map<Integer, BindableAction> myKeyMap = new HashMap<>();
 
-        /**
-         * The Input Map for when the game is in progress.
-         */
+        /** The Input Map for when the game is in progress. */
         private ComponentInputMap myRunningMap;
 
-        /**
-         * The Input Map for when the game is paused.
-         */
+        /** The Input Map for when the game is paused. */
         private ComponentInputMap myPausedMap;
 
-        /**
-         * The Action Map, this always has bindable command -> Action.
-         */
+        /** The Action Map, this always has bindable command -> Action. */
         private ActionMap myActionMap;
 
         /**
@@ -521,14 +485,10 @@ public class TetrisGUI extends JFrame implements PropertyChangeListener {
      */
     public enum LookAndFeel {
 
-        /**
-         * Light mode.
-         */
+        /** Light mode. */
         LIGHT,
 
-        /**
-         * Dark mode.
-         */
+        /** Dark mode. */
         DARK
 
     }
@@ -537,39 +497,25 @@ public class TetrisGUI extends JFrame implements PropertyChangeListener {
      * The bindable actions available for key binds.
      */
     private enum BindableAction {
-        /**
-         * Drop command.
-         */
+        /** Drop command. */
         DROP,
 
-        /**
-         * Down command.
-         */
+        /** Down command. */
         DOWN,
 
-        /**
-         * Left command.
-         */
+        /** Left command. */
         LEFT,
 
-        /**
-         * Right command.
-         */
+        /** Right command. */
         RIGHT,
 
-        /**
-         * Rotate CW command.
-         */
+        /** Rotate CW command. */
         ROTATE_CW,
 
-        /**
-         * Rotate CCW command.
-         */
+        /** Rotate CCW command. */
         ROTATE_CCW,
 
-        /**
-         * Pause/resume command.
-         */
+        /** Pause/resume command. */
         PAUSE
     }
 

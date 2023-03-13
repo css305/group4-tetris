@@ -14,21 +14,18 @@ import model.Board;
 
 public class SoundEffects implements PropertyChangeListener {
 
-    /**
-     * Constant that holds new game sound effect sound file name.
-     */
+    /** Constant that holds new game sound effect sound file name. */
     private static final String NEW_GAME_SOUND_EFFECT = "src/sounds/sfx/TetrisNewGame.wav";
-    /**
-     * Constant that holds Game Over sound effect sound file name.
-     */
+
+    /** Constant that holds Game Over sound effect sound file name. */
     private static final String GAME_OVER_SOUND_EFFECT = "src/sounds/sfx/TetrisGameOver.wav";
-    /**
-     * Constant that holds break sound effect sound file name.
-     */
+
+    /** Constant that holds break sound effect sound file name. */
     private static final String BREAK_SOUND_EFFECT = "src/sounds/sfx/TetrisRowBreak.wav";
 
     /**
      * Calls play and gives sound path for individual events.
+     *
      * @param theEVT A PropertyChangeEvent object describing the event source
      *          and the property that has changed.
      */
@@ -46,6 +43,7 @@ public class SoundEffects implements PropertyChangeListener {
 
     /**
      * Plays given sound path.
+     *
      * @param theSoundName sound file path for sound that needs to be played.
      */
 
